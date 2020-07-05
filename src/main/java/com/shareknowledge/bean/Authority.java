@@ -1,26 +1,12 @@
 package com.shareknowledge.bean;
 
-
-import static com.shareknowledge.utils.MyConstants.AUTHORITY_USER;
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
+import java.sql.Timestamp;
 
 public class Authority extends Entity{
 
     private int userId;
-
     private int authority;
-
-    public Authority() { this(PK_NULL,PK_NULL,AUTHORITY_USER); }
-
-    public Authority(
-            int primaryKey,
-            int userId,
-            int authority)
-    {
-        super(primaryKey);
-        this.userId = userId;
-        this.authority = authority;
-    }
+    private Timestamp lastUpdatedTime;
 
     public int getUserId() {
         return userId;
@@ -36,5 +22,22 @@ public class Authority extends Entity{
 
     public void setAuthority(int authority) {
         this.authority = authority;
+    }
+
+    public Timestamp getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(Timestamp lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Authority{" +
+                "userId=" + userId +
+                ", authority=" + authority +
+                ", lastUpdatedTime=" + lastUpdatedTime +
+                '}';
     }
 }

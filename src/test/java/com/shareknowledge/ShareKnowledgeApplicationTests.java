@@ -15,7 +15,6 @@ class ShareKnowledgeApplicationTests {
 
     @Test
     void contextLoads() {
-        testUserMapper();
     }
 
     @Test
