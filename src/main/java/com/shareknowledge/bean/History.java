@@ -2,36 +2,18 @@ package com.shareknowledge.bean;
 
 import java.sql.Timestamp;
 
-import static com.shareknowledge.utils.MyConstants.FLAG_NULL;
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
 
-public class History extends Entity{
-    private Timestamp time;
+public class History {
+
+    private int id;
+    private Timestamp createdTime;
     private String detail;
     private int limit;
     private int userId;
 
-    public History() {
-        this(PK_NULL, new Timestamp(System.currentTimeMillis()), "", FLAG_NULL, PK_NULL);
-    }
+    public Timestamp getCreatedTime() { return createdTime; }
 
-    public History(
-            int primaryKey,
-            Timestamp time,
-            String detail,
-            int limit,
-            int userId
-    ) {
-        super(primaryKey);
-        this.time = time;
-        this.detail = detail;
-        this.limit = limit;
-        this.userId = userId;
-    }
-
-    public Timestamp getTime() { return time; }
-
-    public void setTime(Timestamp time) { this.time = time; }
+    public void setCreatedTime(Timestamp createdTime) { this.createdTime = createdTime; }
 
     public String getDetail() { return detail; }
 
@@ -44,4 +26,23 @@ public class History extends Entity{
     public int getUserId() { return userId; }
 
     public void setUserId(int userId) { this.userId = userId; }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "History{" +
+                "id=" + id +
+                ", createdTime=" + createdTime +
+                ", detail='" + detail + '\'' +
+                ", limit=" + limit +
+                ", userId=" + userId +
+                '}';
+    }
 }

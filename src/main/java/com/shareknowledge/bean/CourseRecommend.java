@@ -1,40 +1,40 @@
 package com.shareknowledge.bean;
 
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
 
-public class CourseRecommend extends Entity{
+import java.sql.Timestamp;
+
+public class CourseRecommend {
 
     private int courseId;
-
-    private boolean recommend;
-
-    private Course course;
-
-    public CourseRecommend() { this(PK_NULL,PK_NULL,false); }
-
-    public CourseRecommend(
-            int primaryKey,
-            int courseId,
-            boolean recommend)
-    {
-        super(primaryKey);
-        this.courseId = courseId;
-        this.recommend = recommend;
-    }
+    private int recommended;
+    private Timestamp lastUpdatedTime;
 
     public int getCourseId() { return courseId; }
 
     public void setCourseId(int courseId) { this.courseId = courseId; }
 
-    public boolean isRecommend() { return recommend; }
-
-    public void setRecommend(boolean recommend) { this.recommend = recommend; }
-
-    public Course getCourse() {
-        return course;
+    public int getRecommended() {
+        return recommended;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setRecommended(int recommended) {
+        this.recommended = recommended;
+    }
+
+    public Timestamp getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(Timestamp lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseRecommend{" +
+                "courseId=" + courseId +
+                ", recommended=" + recommended +
+                ", lastUpdatedTime=" + lastUpdatedTime +
+                '}';
     }
 }

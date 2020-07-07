@@ -1,30 +1,16 @@
 package com.shareknowledge.bean;
 
-import com.shareknowledge.utils.MyConstants;
+import java.sql.Timestamp;
 
-public class Resource extends Entity {
+public class Resource {
+
+    private int id;
     private String resourceName;
     private String fullName;
     private String type;
     private int size;
-
-    public Resource(
-            int primaryKey,
-            String resourceName,
-            String fullName,
-            String type,
-            int size
-    ) {
-        super(primaryKey);
-        this.resourceName = resourceName;
-        this.fullName = fullName;
-        this.type = type;
-        this.size = size;
-    }
-
-    public Resource() {
-        this(MyConstants.PK_NULL, "", "", "", MyConstants.NUM_NULL);
-    }
+    private int sectionId;
+    private Timestamp lastUpdatedTime;
 
     public String getResourceName() {
         return resourceName;
@@ -56,5 +42,42 @@ public class Resource extends Entity {
 
     public void setSize(int size) {
         this.size = size;
+    }
+
+    public Timestamp getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(Timestamp lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    public int getSectionId() {
+        return sectionId;
+    }
+
+    public void setSectionId(int sectionId) {
+        this.sectionId = sectionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Resource{" +
+                "id=" + id +
+                ", resourceName='" + resourceName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", type='" + type + '\'' +
+                ", size=" + size +
+                ", sectionId=" + sectionId +
+                ", lastUpdatedTime=" + lastUpdatedTime +
+                '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

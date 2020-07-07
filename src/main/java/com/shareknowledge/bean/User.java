@@ -61,14 +61,6 @@ public class User {
         this.age = age;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Timestamp getLastUpdatedTime() {
         return lastUpdatedTime;
     }
@@ -89,5 +81,13 @@ public class User {
                 ", registerTime=" + registerTime +
                 ", lastUpdatedTime=" + lastUpdatedTime +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

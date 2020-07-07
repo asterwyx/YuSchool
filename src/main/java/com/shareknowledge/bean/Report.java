@@ -1,34 +1,18 @@
 package com.shareknowledge.bean;
 
 
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
+import java.sql.Timestamp;
 
-public class Report extends Entity{
+public class Report {
+    private int id;
     private int reporterId;
     private String reportReason;
     private int reporteeId;
     private String detail;
     private String targetUrl;
+    private Timestamp reportedTime;
+    private int isHandled;
 
-    public Report() {
-        this(PK_NULL, PK_NULL, "", PK_NULL, "", "");
-    }
-
-    public Report(
-            int primaryKey,
-            int reporterId,
-            String reportReason,
-            int reporteeId,
-            String detail,
-            String targetUrl
-    ) {
-        super(primaryKey);
-        this.reporterId = reporterId;
-        this.reportReason = reportReason;
-        this.reporteeId = reporteeId;
-        this.detail = detail;
-        this.targetUrl = targetUrl;
-    }
 
     public int getReporterId() { return reporterId; }
 
@@ -49,4 +33,42 @@ public class Report extends Entity{
     public String getTargetUrl() { return targetUrl; }
 
     public void setTargetUrl(String targetUsl) { this.targetUrl = targetUsl; }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getReportedTime() {
+        return reportedTime;
+    }
+
+    public void setReportedTime(Timestamp reportedTime) {
+        this.reportedTime = reportedTime;
+    }
+
+    public int getIsHandled() {
+        return isHandled;
+    }
+
+    public void setIsHandled(int isHandled) {
+        this.isHandled = isHandled;
+    }
+
+    @Override
+    public String toString() {
+        return "Report{" +
+                "id=" + id +
+                ", reporterId=" + reporterId +
+                ", reportReason='" + reportReason + '\'' +
+                ", reporteeId=" + reporteeId +
+                ", detail='" + detail + '\'' +
+                ", targetUrl='" + targetUrl + '\'' +
+                ", reportedTime=" + reportedTime +
+                ", isHandled=" + isHandled +
+                '}';
+    }
 }

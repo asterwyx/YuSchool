@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
-import static com.shareknowledge.constant.StatusConstants.STATUS_ACTIVE;
-import static com.shareknowledge.constant.StatusConstants.STATUS_LOCKED;
+import static com.shareknowledge.constant.TypeConstants.STATUS_ACTIVE;
+import static com.shareknowledge.constant.TypeConstants.STATUS_LOCKED;
 
 @Component
 public interface AccountMapper {

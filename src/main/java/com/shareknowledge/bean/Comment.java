@@ -2,41 +2,15 @@ package com.shareknowledge.bean;
 
 import java.sql.Timestamp;
 
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
+public class Comment {
 
-public class Comment extends  Entity{
-
+    private int id;
     private String detail;
-    private Timestamp publishTime;
     private int likes;
     private int dislikes;
-    private String replyList;
+    private int publisherId;
     private int commentAreaId;
-    private int userId;
-
-    public Comment() {
-        this(PK_NULL, "", new Timestamp(System.currentTimeMillis()), 0, 0, "", PK_NULL,PK_NULL);
-    }
-
-    public Comment(
-            int primaryKey,
-            String detail,
-            Timestamp publishTime,
-            int likes,
-            int dislikes,
-            String replyList,
-            int commentAreaId,
-            int userId
-    ) {
-        super(primaryKey);
-        this.detail = detail;
-        this.publishTime = publishTime;
-        this.likes = likes;
-        this.dislikes = dislikes;
-        this.replyList = replyList;
-        this.commentAreaId = commentAreaId;
-        this.userId=userId;
-    }
+    private Timestamp publishedTime;
 
     public String getDetail() {
         return detail;
@@ -47,11 +21,11 @@ public class Comment extends  Entity{
     }
 
     public Timestamp getPublishTime() {
-        return publishTime;
+        return publishedTime;
     }
 
     public void setPublishTime(Timestamp publishTime) {
-        this.publishTime = publishTime;
+        this.publishedTime = publishTime;
     }
 
     public int getLikes() {
@@ -70,14 +44,6 @@ public class Comment extends  Entity{
         this.dislikes = dislikes;
     }
 
-    public String getReplyList() {
-        return replyList;
-    }
-
-    public void setReplyList(String replyList) {
-        this.replyList = replyList;
-    }
-
     public int getCommentAreaId() {
         return commentAreaId;
     }
@@ -86,12 +52,32 @@ public class Comment extends  Entity{
         this.commentAreaId = commentAreaId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getPublisherId() {
+        return publisherId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setPublisherId(int publisherId) {
+        this.publisherId = publisherId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", detail='" + detail + '\'' +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", publisherId=" + publisherId +
+                ", commentAreaId=" + commentAreaId +
+                ", publishedTime=" + publishedTime +
+                '}';
     }
 }
-

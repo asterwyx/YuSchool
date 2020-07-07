@@ -1,46 +1,8 @@
-package com.shareknowledge.utils;
+package com.shareknowledge.constant;
 
-public class MyConstants {
-    public static final String PROJECT_PATH = "/YuSchool";
-
-    public static final int PK_NULL = -1;
-    public static final int NUM_NULL = -1;
-    public static final String DEFAULT_USER_HEAD_PATH = "./static/image/head_black.png";
-    public static final int FLAG_NULL = -1;
-
-    // 错误码
-    public static final int SUCCESS = 0;
-    public static final int IO_ERROR = -1;
-    public static final int WRONG_OP = -2;
-    public static final int FAIL_OP = -3;
-
-
-
-    public static final int MSG_BACKLOG = 10000;
-    public static final int READ = 0;
-    public static final int UNREAD = 1;
-    public static final int LESS = -1;
-    public static final int EQUAL = 0;
-    public static final int GREATER = 1;
-
-
-    public static final int OP_ADD = 0;
-    public static final int OP_DEL = 1;
-
-    public static final int ACCESS_PUB = 0; // 公开访问权限
-    public static final int ACCESS_PRI = 1; // 私人访问权限
-
-
-    public static final int THREAD_POOL_SIZE = 10; // 线程池的大小
-    public static final int MSG_HANDLER_NUM = 5; // 消息处理器的线程数
-
-    // 评论区的类型
-    public static final int TYPE_ASSESS = 0;
-    public static final int TYPE_DISCUSSION = 1;
-
+public class ParamKey {
 
     // 存在request域中引用的key
-
     public static final String ALL_COURSE_IN_MAIN_PAGE = "all_course";
     public static final String RANK_COURSE_IN_MAIN_PAGE = "rank_course";
     public static final String RECOMMEND_COURSES_IN_MAIN_PAGE = "recommend_course";
@@ -93,15 +55,5 @@ public class MyConstants {
     public static final String P_LIMIT = "limit";
     public static final String P_METHOD = "method";
     public static final String P_USER_ID= "user_id";
-
-
-    public static final long ONE_DAY_MILLIS = 86400000;
-
-    //权限标识符
-    public static final int AUTHORITY_USER= 0;
-    public static final int AUTHORITY_ADMIN= 1;
-
-
-    public static final String RESOURCE_ROOT = "C:\\Repositories\\IdeaProjects\\YuSchool\\web\\Resources\\";
 
 }

@@ -2,42 +2,40 @@ package com.shareknowledge.bean;
 
 import java.sql.Timestamp;
 
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
 
-public class Notice extends Entity{
+public class Notice {
+
+    private int id;
     private int senderId;
-    private Timestamp sendTime;
     private String detail;
-
-    public Notice() {
-        super();
-        this.senderId = PK_NULL;
-        this.sendTime = null;
-        this.detail = null;
-    }
-
-    public Notice(
-            int primaryKey,
-            int senderId,
-            Timestamp sendTime,
-            String detail
-    ) {
-        super(primaryKey);
-        this.senderId = senderId;
-        this.sendTime = sendTime;
-        this.detail = detail;
-    }
+    private Timestamp sentTime;
+    private Timestamp lastUpdatedTime;
 
     public int getSenderId() { return senderId; }
 
     public void setSenderId(int senderId) { this.senderId = senderId; }
 
-    public Timestamp getSendTime() { return sendTime; }
+    public Timestamp getSentTime() { return sentTime; }
 
-    public void setSendTime(Timestamp sendTime) { this.sendTime = sendTime; }
+    public void setSentTime(Timestamp sentTime) { this.sentTime = sentTime; }
 
     public String getDetail() { return detail; }
 
     public void setDetail(String detail) { this.detail = detail; }
 
+    public Timestamp getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(Timestamp lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

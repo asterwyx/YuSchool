@@ -1,33 +1,16 @@
 package com.shareknowledge.bean;
 
-import java.util.Vector;
 
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
-import static com.shareknowledge.utils.MyConstants.TYPE_ASSESS;
+import java.sql.Timestamp;
 
-public class CommentArea extends Entity{
+public class CommentArea {
 
+    private int id;
     private String commentAreaName;
     private int commentAreaType;
     private int courseId;
-
-    private Vector<Comment> commentVec;
-
-    public CommentArea() {
-        this(PK_NULL, "", TYPE_ASSESS, PK_NULL);
-    }
-
-    public CommentArea(
-            int primaryKey,
-            String commentAreaName,
-            int commentAreaType,
-            int courseId
-    ) {
-        super(primaryKey);
-        this.commentAreaName = commentAreaName;
-        this.commentAreaType = commentAreaType;
-        this.courseId = courseId;
-    }
+    private Timestamp createdTime;
+    private Timestamp lastUpdatedTime;
 
     public String getCommentAreaName() {
         return commentAreaName;
@@ -51,5 +34,41 @@ public class CommentArea extends Entity{
 
     public void setCommentAreaType(int commentAreaType) {
         this.commentAreaType = commentAreaType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Timestamp createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public Timestamp getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(Timestamp lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentArea{" +
+                "id=" + id +
+                ", commentAreaName='" + commentAreaName + '\'' +
+                ", commentAreaType=" + commentAreaType +
+                ", courseId=" + courseId +
+                ", createdTime=" + createdTime +
+                ", lastUpdatedTime=" + lastUpdatedTime +
+                '}';
     }
 }

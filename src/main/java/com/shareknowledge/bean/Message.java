@@ -2,40 +2,16 @@ package com.shareknowledge.bean;
 
 import java.sql.Timestamp;
 
-import static com.shareknowledge.utils.MyConstants.FLAG_NULL;
-import static com.shareknowledge.utils.MyConstants.PK_NULL;
 
-public class Message extends Entity{
+public class Message {
+
+    private int id;
     private int senderId;
     private int receiverId;
-    private Timestamp sendTime;
+    private Timestamp sentTime;
     private String detail;
-    private int read;
-
-    public Message() {
-        super();
-        this.senderId = PK_NULL;
-        this.receiverId = PK_NULL;
-        this.sendTime = null;
-        this.detail = null;
-        this.read = FLAG_NULL;
-    }
-
-    public Message(
-            int primaryKey,
-            int senderId,
-            int receiverId,
-            Timestamp sendTime,
-            String detail,
-            int read
-    ) {
-        super(primaryKey);
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.sendTime = sendTime;
-        this.detail = detail;
-        this.read = read;
-    }
+    private int is_read;
+    private Timestamp lastUpdatedTime;
 
     public int getSenderId() { return senderId; }
 
@@ -45,15 +21,48 @@ public class Message extends Entity{
 
     public void setReceiverId(int receiverId) { this.receiverId = receiverId; }
 
-    public Timestamp getSendTime() { return sendTime; }
+    public Timestamp getSentTime() { return sentTime; }
 
-    public void setSendTime(Timestamp sendTime) { this.sendTime = sendTime; }
+    public void setSentTime(Timestamp sentTime) { this.sentTime = sentTime; }
 
     public String getDetail() { return detail; }
 
     public void setDetail(String detail) { this.detail = detail; }
 
-    public int getRead() { return read; }
+    public int getIs_read() {
+        return is_read;
+    }
 
-    public void setRead(int read) { this.read = read; }
+    public void setIs_read(int is_read) {
+        this.is_read = is_read;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getLastUpdatedTime() {
+        return lastUpdatedTime;
+    }
+
+    public void setLastUpdatedTime(Timestamp lastUpdatedTime) {
+        this.lastUpdatedTime = lastUpdatedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", sentTime=" + sentTime +
+                ", detail='" + detail + '\'' +
+                ", is_read=" + is_read +
+                ", lastUpdatedTime=" + lastUpdatedTime +
+                '}';
+    }
 }

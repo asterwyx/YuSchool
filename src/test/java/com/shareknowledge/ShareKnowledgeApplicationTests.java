@@ -2,7 +2,7 @@ package com.shareknowledge;
 
 import com.shareknowledge.bean.User;
 import com.shareknowledge.mapper.UserMapper;
-import com.shareknowledge.utils.MyConstants;
+import com.shareknowledge.constant.OperationCode;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +24,7 @@ class ShareKnowledgeApplicationTests {
         user.setUserName("asterwyx");
         user.setGender("男");
         user.setDetail("");
-        user.setHeadFilePath(MyConstants.DEFAULT_USER_HEAD_PATH);
+        user.setHeadFilePath(OperationCode.DEFAULT_USER_HEAD_PATH);
         userMapper.insert(user);
         System.out.println(user);
         user = userMapper.selectById(3);
