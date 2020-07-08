@@ -2,7 +2,6 @@ package com.shareknowledge.mapper;
 
 import com.shareknowledge.bean.User;
 import org.apache.ibatis.annotations.*;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component

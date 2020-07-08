@@ -5,19 +5,19 @@ import com.shareknowledge.mapper.AccountMapper;
 import com.shareknowledge.mapper.AuthorityMapper;
 import com.shareknowledge.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UserService {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    AccountMapper accountMapper;
+    private AccountMapper accountMapper;
 
     @Autowired
-    AuthorityMapper authorityMapper;
+    private AuthorityMapper authorityMapper;
 
     /**
      * 传入user的属性插入并且返回插入成功的user

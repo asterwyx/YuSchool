@@ -2,7 +2,7 @@ package com.shareknowledge.bean;
 
 import java.sql.Timestamp;
 
-public class Authority extends Entity{
+public class Authority {
 
     private int userId;
     private int authority;

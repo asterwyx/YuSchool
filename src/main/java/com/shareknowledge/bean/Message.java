@@ -10,7 +10,7 @@ public class Message {
     private int receiverId;
     private Timestamp sentTime;
     private String detail;
-    private int is_read;
+    private int isRead;
     private Timestamp lastUpdatedTime;
 
     public int getSenderId() { return senderId; }
@@ -29,12 +29,12 @@ public class Message {
 
     public void setDetail(String detail) { this.detail = detail; }
 
-    public int getIs_read() {
-        return is_read;
+    public int getIsRead() {
+        return isRead;
     }
 
-    public void setIs_read(int is_read) {
-        this.is_read = is_read;
+    public void setIsRead(int isRead) {
+        this.isRead = isRead;
     }
 
     public int getId() {
@@ -61,7 +61,7 @@ public class Message {
                 ", receiverId=" + receiverId +
                 ", sentTime=" + sentTime +
                 ", detail='" + detail + '\'' +
-                ", is_read=" + is_read +
+                ", is_read=" + isRead +
                 ", lastUpdatedTime=" + lastUpdatedTime +
                 '}';
     }
