@@ -1,6 +1,6 @@
 package com.yuschool.utils;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.yuschool.constants.enums.RetCode;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -9,27 +9,27 @@ public class Result implements Serializable {
 
     public final static long serialVersionUID = 1L;
 
-    private Code code;
+    private RetCode retCode;
     private String message;
     private Object data;
 
-    public Result(Code code, String message, Object data) {
-        this.code = code;
+    public Result(RetCode retCode, String message, Object data) {
+        this.retCode = retCode;
         this.message = message;
         this.data = data;
     }
 
     // 默认成功构造函数
     public Result() {
-        this(Code.SUCCESS, "", "");
+        this(RetCode.SUCCESS, "", "");
     }
 
-    public Code getCode() {
-        return code;
+    public RetCode getRetCode() {
+        return retCode;
     }
 
-    public void setCode(Code code) {
-        this.code = code;
+    public void setRetCode(RetCode retCode) {
+        this.retCode = retCode;
     }
 
     public String getMessage() {
@@ -52,8 +52,8 @@ public class Result implements Serializable {
         return new ResultBuilder();
     }
 
-    public static ResultBuilder withCode(Code code) {
-        return builder().code(code);
+    public static ResultBuilder withCode(RetCode retCode) {
+        return builder().code(retCode);
     }
 
     public static ResultBuilder withMessage(String message) {
@@ -69,19 +69,19 @@ public class Result implements Serializable {
      */
     public static class ResultBuilder {
 
-        private Code code;
+        private RetCode retCode;
         private String message;
         private Object data;
 
         public ResultBuilder() {
-            this.code = Code.SUCCESS;
+            this.retCode = RetCode.SUCCESS;
             this.message = "";
             this.data = "";
         }
 
-        public ResultBuilder code(Code code) {
-            Assert.notNull(code, "返回码不能够为空");
-            this.code = code;
+        public ResultBuilder code(RetCode retCode) {
+            Assert.notNull(retCode, "返回码不能够为空");
+            this.retCode = retCode;
             return this;
         }
 
@@ -98,36 +98,14 @@ public class Result implements Serializable {
         }
 
         public Result build() {
-            return new Result(this.code, this.message, this.data);
-        }
-    }
-
-    /**
-     * 返回值的枚举
-     */
-    public enum Code {
-        SUCCESS(0),
-        IO_ERROR(-1),
-        WRONG_OP(-2),
-        FAIL_OP(-3),
-        DUP_VALUE(-4);
-
-        private final int value;
-
-        Code(int value) {
-            this.value = value;
-        }
-
-        @JsonValue
-        public int getValue() {
-            return this.value;
+            return new Result(this.retCode, this.message, this.data);
         }
     }
 
     @Override
     public String toString() {
         return "Result{" +
-                "code=" + code +
+                "retCode=" + retCode +
                 ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';

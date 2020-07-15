@@ -2,7 +2,7 @@ package com.yuschool.service.impl;
 
 import com.yuschool.bean.Account;
 import com.yuschool.bean.Authority;
-import com.yuschool.factory.AuthorityFactory;
+import com.yuschool.bean.factory.AuthorityFactory;
 import com.yuschool.mapper.AccountMapper;
 import com.yuschool.mapper.UserAuthorityMapper;
 import org.slf4j.Logger;
@@ -22,28 +22,15 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements UserDetailsService {
 
+    public static final Logger logger = LoggerFactory.getLogger("AccountServiceLogger");
     @Autowired
     AccountMapper accountMapper;
-
     @Autowired
     UserAuthorityMapper userAuthorityMapper;
-
     @Autowired
     PasswordEncoder encoder;
 
-    public static final Logger logger = LoggerFactory.getLogger("AccountServiceLogger");
-    /**
-     * Locates the user based on the username. In the actual implementation, the search
-     * may possibly be case sensitive, or case insensitive depending on how the
-     * implementation instance is configured. In this case, the <code>UserDetails</code>
-     * object that comes back may have a username that is of a different case than what
-     * was actually requested..
-     *
-     * @param username the username identifying the user whose data is required.
-     * @return a fully populated user record (never <code>null</code>)
-     * @throws UsernameNotFoundException if the user could not be found or the user has no
-     *                                   GrantedAuthority
-     */
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountMapper.selectByUsername(username);
@@ -57,9 +44,6 @@ public class AccountServiceImpl implements UserDetailsService {
 
     /**
      * 添加普通账户，这里包括创建账户，创建账户权限记录
-     * @param user 已经创建好的用户基本信息
-     * @param password 传过来的密码
-     * @return 创建好的账户信息
      */
     public boolean addNormalAccount(com.yuschool.bean.User user, String password) {
         // 创建账户

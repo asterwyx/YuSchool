@@ -1,6 +1,6 @@
 package com.yuschool.config;
 
-import com.yuschool.interceptor.GenerateTimeInterceptor;
+import com.yuschool.utils.interceptor.GenerateTimeInterceptor;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 

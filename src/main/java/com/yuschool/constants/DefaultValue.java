@@ -1,4 +1,4 @@
-package com.yuschool.constant;
+package com.yuschool.constants;
 
 public class DefaultValue {
 
@@ -16,5 +16,4 @@ public class DefaultValue {
     public static final int MSG_HANDLER_NUM = 5; // 消息处理器的线程数
 
     public static final String COURSE_ROOT = "/static/image/classes/";
-
 }

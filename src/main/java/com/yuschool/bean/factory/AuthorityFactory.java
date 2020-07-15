@@ -1,4 +1,4 @@
-package com.yuschool.factory;
+package com.yuschool.bean.factory;
 
 import com.yuschool.bean.Authority;
 import com.yuschool.mapper.AuthorityMapper;

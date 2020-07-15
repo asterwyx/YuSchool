@@ -1,13 +1,14 @@
 package com.yuschool.bean;
 
+import com.yuschool.bean.factory.AuthorityFactory;
 import com.yuschool.annotation.UpdatedTime;
-import com.yuschool.factory.AuthorityFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 存储用户账号的实体，非自增主键，使用user_id作为主键并和用户进行关联
@@ -23,7 +24,7 @@ public class Account extends User {
     private Timestamp lastUpdatedTime;
 
     public Account() {
-        this("111", "", Arrays.asList(AuthorityFactory.getInstanceByName(Authority.ROLE_USER)));
+        this("111", "", Collections.singletonList(AuthorityFactory.getInstanceByName(Authority.ROLE_USER)));
     }
 
     public Account(String username, String password, Collection<? extends GrantedAuthority> authorities) {

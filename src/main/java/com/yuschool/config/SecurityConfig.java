@@ -2,6 +2,7 @@ package com.yuschool.config;
 
 import com.yuschool.bean.Authority;
 import com.yuschool.bean.User;
+import com.yuschool.constants.enums.RetCode;
 import com.yuschool.mapper.UserMapper;
 import com.yuschool.service.impl.AccountServiceImpl;
 import com.yuschool.utils.ResUtil;
@@ -76,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     ResUtil.writeObjectToResp(httpServletResponse, Result.builder().data(user).message("登录成功").build());
                 })
                 .failureHandler((httpServletRequest, httpServletResponse, e) -> {
-                    ResUtil.writeObjectToResp(httpServletResponse, Result.withCode(Result.Code.FAIL_OP).message("登录验证失败").build());
+                    ResUtil.writeObjectToResp(httpServletResponse, Result.withCode(RetCode.FAIL_OP).message("登录验证失败").build());
                 })
                 .permitAll()
                 .and()

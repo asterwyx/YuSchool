@@ -2,7 +2,7 @@ package com.yuschool.bean;
 
 import com.yuschool.annotation.CreatedTime;
 import com.yuschool.annotation.UpdatedTime;
-import com.yuschool.constant.DefaultValue;
+import com.yuschool.constants.DefaultValue;
 
 import java.sql.Timestamp;
 

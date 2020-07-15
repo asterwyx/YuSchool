@@ -1,4 +1,4 @@
-package com.yuschool.interceptor;
+package com.yuschool.utils.interceptor;
 
 import com.yuschool.annotation.CreatedTime;
 import com.yuschool.annotation.UpdatedTime;

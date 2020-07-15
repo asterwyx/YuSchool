@@ -1,4 +1,4 @@
-package com.yuschool.constant;
+package com.yuschool.constants;
 
 public class ParamKey {
 

@@ -1,7 +1,7 @@
-package com.yuschool.utils;
+package com.yuschool.utils.comparator;
 
 import com.yuschool.bean.Message;
-import com.yuschool.constant.TypeConstants;
+import com.yuschool.constants.TypeConstants;
 
 import java.util.Comparator;
 
