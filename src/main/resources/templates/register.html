@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="./static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./static/css/register.css"/>
+    <script src="./static/js/jquery-3.4.1.min.js"></script>
+    <script src="./static/js/jsencrypt.min.js"></script>
+    <script>
+        var domain = 123;
+        $(function () {
+            domain = 'http://' + document.domain + '/YuSchool';
+            var img = document.getElementById("checkCode");
+            img.src = domain + "/tool/getCheckCode?" + new Date().getTime();
+            get_pub_key();
+            $("#registerForm").submit(function () {
+                let password = encrypt_password($("#passwordInput").val());
+                let email = encrypt_password($("#emailInput").val());
+                if (check()) {
+                    $.ajax({
+                    url:domain + "/users",
+                    type:"POST",
+                    data:{'email': email, 'password': password},
+                    success:function (data) {
+                        if (data.flag) {
+                            let check_code =  window.prompt("已向邮箱发送验证码,请输入:")
+                            verify_check_code(check_code);
+                        } else {
+                            x = $("#errorMsg");
+                            x.css("color", "red");
+                            x.html(data.errorMsg);
+                        }
+                    },
+                    error:function (data) {
+                        alert("未知错误!请重试或反馈");
+                    },
+                    dataType:"json"
+                    });
+                }
+                return false;
+            });
+        });
+        function flashChackCode() {
+            var img = document.getElementById("checkCode");
+            img.src = domain + "/tool/getCheckCode?" + new Date().getTime();
+        }
+        function checkCheckCode() {
+            var flag = false;
+            $.get(domain + "/tool/checkCheckCode", {'checkCode':$("#checkCodeInput").val()}, function (data) {
+                flag = data.flag;
+                if (flag) {
+                    set(1);
+                } else {
+                    set(2);
+                    flashChackCode();
+                }
+            });
+            return flag;
+        }
+        function check(){
+            if($("#emailInput").val() == ""){
+                changeStyle($("#emailInput"), 1);
+                alert("用户名不能为空");
+                return false;
+            } else if($("#passwordInput").val() == ""){
+                changeStyle($("#passwordInput"), 1);
+                alert("密码不能为空");
+                return false;
+            } else if($("#passwordInput").val() != $("#repeatPasswordInput").val()){
+                changeStyle($("#repeatPasswordInput"), 1);
+                alert("两次输入的密码不一致");
+                return false;
+            // } else if($("#checkCodeInput").val() == ""){
+            //     changeStyle($("#checkCodeInput"), 1);
+            //     alert("验证码不能为空");
+            //     return false;
+            } else {
+                return true;
+            }
+        }
+        function changeStyle(o, t){
+            if (t === 1) {
+                o.css("border", "2px solid red");
+            } else if (t === 2) {
+                o.css("border", "");
+            }
+        }
+        function set(t) {
+            var $icon = $("#icon");
+            var $checkInput = $("#checkCodeInput");
+            if (t === 1) {
+                $icon.attr("class", "fa fa-check");
+                $icon.css("color", "green");
+            } else if (t === 2) {
+                $icon.attr("class", "fa fa-close");
+                $icon.css("color", "red");
+                $checkInput.css("border", "2px solid red");
+            } else if (t === 3) {
+                $icon.attr("class", "1");
+                $icon.css("color", "");
+                $checkInput.css("border", "");
+            }
+        }
+        function verify_check_code(s) {
+            $.ajax({
+                url:domain + "/users/verify",
+                type:"POST",
+                data:{'check_code': s},
+                success:function(data) {
+                    if(data.flag) {
+                        alert("注册成功");
+                        window.location = domain + "/mainPage.jsp";
+                    }else {
+                        alert("注册失败");
+                        window.location = window.location;
+                    }
+                },
+                error:function(data) {
+                    alert("未知错误");
+                }
+            })
+        }
+        function get_pub_key() {
+            $.ajax({
+                url:domain + "/pub_key",
+                type:"POST",
+                data:{},
+                success:function (data) {
+                    if (data.flag) {
+                        $("#pub_key").val(data.data);
+                    }
+                }
+            });
+        }
+        function encrypt_password(s) {
+            let encrypt = new JSEncrypt();
+            encrypt.setPublicKey($("#pub_key").val());
+            let encrypted = encrypt.encrypt(s);
+            return encrypted;
+        }
+    </script>
+</head>
+<body>
+<div id="register-box">
+    <p style="font-size: 50px; color: #00b0ff;">注册</p>
+    <form id="registerForm" method="post">
+        <table>
+            <tr>
+                <td>
+                    <label>邮箱:</label>
+                </td>
+                <td>
+                    <input type="email" onfocus="changeStyle($(this), 2);" class="input" name="email" id="emailInput" required/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>密码:</label>
+                </td>
+                <td>
+                    <input type="password" maxlength="16" onfocus="changeStyle($(this), 2);" class="input" name="password" id="passwordInput" onpaste="return false" ondragenter="return false" required/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>重复密码:</label>
+                </td>
+                <td>
+                    <input type="password" maxlength="16" onfocus="changeStyle($(this), 2);" class="input" name="r_password" id="repeatPasswordInput" onpaste="return false" ondragenter="return false" required/><br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>验证码:</label>
+                </td>
+                <td style="float: left;">
+                    <input type="text" maxlength="4" onfocus="set(3)" onblur="checkCheckCode();" class="input" id="checkCodeInput" name="checkCode"/><img id="checkCode" onclick="flashChackCode()">
+                </td>
+                <td>
+                    <i class="" id="icon" aria-hidden="true"></i>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" class="input" id="pub_key" name="token">
+        <input type="submit" class="input" id="submit" value="确认"/>
+    </form>
+</div>
+</body>
+</html>

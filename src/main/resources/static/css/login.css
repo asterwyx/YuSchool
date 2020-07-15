@@ -1,0 +1,42 @@
+body{
+    background-color: #757575;
+    box-sizing: border-box;
+}
+#login-div{
+    background-color: #ffffff;
+    width: 370px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 15%;
+    border: 1px solid white;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+}
+#login-div p {
+    margin: 10px 0;
+}
+#login-div input{
+    padding-left: 5px;
+    outline: none;
+    font-size: 20px;
+    margin: 10px 10px;
+    border: 2px solid #00b0ff;
+    border-radius: 6px;
+}
+.btn{
+    outline: none;
+    color: white;
+    font-size: 20px;
+    margin: 10px 10px;
+    border: 2px solid #00b0ff;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 40px;
+    width: 185px; 
+    background-color: #00b0ff;
+    left: 50%;
+}
+#loginForm label{
+    font-size: 20px;
+}

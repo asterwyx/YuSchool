@@ -1,0 +1,452 @@
+body {
+    background-color: white;
+}
+#header {
+    width: 100%;
+    height: 80px;
+    background-color: #53c9ff;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+#header .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#header .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#header .table_cell:hover a {
+    color: white;
+}
+#header .table_cell i {
+    display: inline-block;
+}
+#header_left {
+    left: 10%;
+}
+#header_right {
+    right: 5%;
+}
+#header a {
+    background-color: #00000000;
+    cursor: pointer;
+}
+.left_list {
+    width: 20%;
+    height: 940px;
+    padding: 0 7px;
+    background-color: #E9E9E9;
+}
+.left_list .head {
+    width: 100%;
+    height: 150px;
+    padding-top: 20px;
+    line-height: 35px;
+    border-bottom: 1px solid black;
+}
+.lists {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
+.lists .bgc-d-blue > label {
+    color: white;
+}
+.lists .list:nth-child(4):hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+    transition: ease 0.5s;
+}
+.lists .list:nth-child(4):hover label{
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+    transition: ease 0.5s;
+}
+.lists .list:last-child {
+    border-bottom: none;
+}
+.lists .list:last-child:hover {
+    cursor: pointer;
+    background-color: red;
+    transition: ease 0.5s;
+}
+.lists .list:last-child:hover label{
+    cursor: pointer;
+    color: white;
+    transition: ease 0.5s;
+}
+.lists .list:last-child:hover i{
+    cursor: pointer;
+    color: white;
+    transition: ease 0.5s;
+}
+.list {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    border-bottom: 1px solid #E9E9E9;
+    position: relative;
+    transition: ease 0.5s;
+}
+.list:hover[ondrag] {
+    cursor: pointer;
+    background-color: #E9E9E9;
+    
+}
+.list:hover[ondrag] label {
+    color: #53c9ff;
+}
+.list label {
+    height: 25px;
+    margin-left: 40px;
+}
+.list label:hover {
+    cursor: pointer;
+    transition: ease 0.5s;
+}
+.list i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+}
+#right {
+    width: 77%;
+    height: 940px;
+    padding-left: 15px;
+}
+.panel {
+    padding: 10px;
+}
+.class-info {
+    width: 100%;
+    font-size: 20px;
+}
+.class-info tr {
+    width: 100%;
+    height: 50px;
+}
+.class-info td {
+    text-align: left;
+}
+.class-info tr td:first-child {
+    vertical-align: top;
+}
+.class-info textarea {
+    width: 600px;
+    height: 100px;
+    padding: 5px;
+    resize: none;
+    text-align: left;
+}
+.class-info input {
+    width: 600px;
+    text-align: left;
+    padding-left: 5px;
+    font-size: 20px;
+    line-height: 20px;
+}
+.class-info img {
+    width: 300px;
+    height: 200px;
+    object-fit: contain;
+    margin-left: 0;
+}
+.class-info tr:last-child td:last-child > * {
+    float: left;
+}
+#upload_class_cover_btn {
+    width: 80px;
+    height: 28px;
+    margin-left: 10px;
+    line-height: 28px;
+    font-size: 20px;
+    border-radius: 3px;
+    color: white;
+    background-color: #53c9ff;
+    transition: ease 0.25s;
+}
+#upload_class_cover_btn:hover {
+    cursor: pointer;
+    background-color: #83d8ff;
+}
+.head .table {
+    width: 120px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    transition: ease 0.5s;
+    color: white;
+    background-color: #53c9ff;
+}
+.head .table:hover {
+    cursor: pointer;
+    color: black;
+    background-color: #83d8ff;
+}
+.divider {
+    width: 10px;
+    height: 40px;
+}
+.divider-flat {
+    width: 100%;
+    height: 5px;
+    top: 45px;
+    background-color: #53c9ff;
+}
+.chapters {
+    margin-top: 70px;
+}
+.chapters .chapter:first-child .c-head .up-chapter {
+    color: #BBB6B6;
+    pointer-events: none;
+}
+.chapters .chapter:last-child .c-head .down-chapter {
+    color: #BBB6B6;
+    pointer-events: none;
+}
+.chapter {
+    width: 100%;
+    margin: 10px 0;
+    justify-content: left;
+}
+.chapter .c-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: lighter;
+    text-align: left;
+    border-radius: 3px;
+    background-color: #c2ecff;
+    position: relative;
+}
+.chapter .c-head:hover {
+    cursor: pointer;
+    background-color: #83d8ff;
+}
+.chapter .c-head[ondrag] {
+    background-color: #83d8ff;
+}
+.chapter .c-head i {
+    font-size: 18px;
+    margin: 0 5px;
+    transition: ease 0.25s;
+}
+.chapter .c-head i:nth-child(n+2):nth-child(-n+3) {
+    font-size: 25px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.chapter .c-head .add-sub-chapter {
+    right: 25px;
+    color: #53c9ff;
+}
+.chapter .c-head .add-sub-chapter:hover {
+    cursor: pointer;
+
+}
+.chapter .c-head .remove-chapter {
+    font-size: 25px;
+    right: 0;
+    color: red;
+}
+.chapter .c-head i:nth-child(n+4) {
+    font-size: 17px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.chapter .c-head .rename-chapter {
+    font-style: normal;
+    right: 160px;
+}
+.chapter .chapter-name {
+    font-style: normal;
+}
+.chapter .c-body .sub-chapter:first-child .up-sub-chapter {
+    color: #BBB6B6;
+    pointer-events: none;
+}
+.chapter .c-body .sub-chapter:last-child .down-sub-chapter {
+    color: #BBB6B6;
+    pointer-events: none;
+}
+.sub-chapter {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 15px;
+    border-radius: 3px;
+    text-align: left;
+    border-bottom: 1px solid #e9e9e9;
+    position: relative;
+}
+.sub-chapter:hover {
+    cursor: pointer;
+    background-color: #faf4f4;
+}
+.sub-chapter .sub-chapter-name {
+    font-style: normal;
+}
+.sub-chapter i {
+    font-size: 15px;
+    margin: 0 5px;
+}
+.sub-chapter .remove-sub-chapter {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 5px;
+    font-size: 22px;
+    color: red;
+}
+.sub-chapter i:nth-child(n+3) {
+    font-size: 17px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.sub-chapter .rename-sub-chapter {
+    font-style: normal;
+    right: 140px;
+}
+.sub-chapter .upload-file {
+    font-style: normal;
+    right: 200px;
+}
+#right .heads {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+}
+.heads .table {
+    width: 145px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    transition: ease 0.5s;
+}
+.heads .table[ondrag] {
+    color: white;
+    background-color: #53c9ff;
+}
+.heads .table:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+.sub-panel div:first-child {
+    margin-top: 10px;
+}
+.sub-panel .sub-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+}
+.sub-panel .sub-head .table {
+    width: auto;
+    float: left;
+    border-radius: 3px;
+    margin: 0 10px;
+    transition: ease 0.25s;
+}
+.sub-panel .sub-head .table:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+.massages {
+    width: 100%;
+    height: 100%;
+    margin: 10px 0;
+}
+.massages .massage {
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    margin: 20px 0;
+    padding: 2px 0;
+    position: relative;
+}
+.massages .massage[ondrag] {
+    background-color: #00000020;
+}
+.massages .massage * {
+    float: left;
+}
+.massages .massage input {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-40%);
+}
+.massages .massage .massage-body {
+    left: 30px;
+}
+.new {
+    display: none;
+}
+.new[ondrag] {
+    color: red;
+    right: -15px;
+    top: -15px;
+    position: absolute;
+    display: inline;
+}
+.partners {
+    width: 100%;
+    height: 100%;
+}
+.partners .partner {
+    width: 100%;
+    height: 70px;
+    padding-left: 10px;
+    line-height: 25px;
+    border-radius: 5px;
+    margin: 10px 0;
+    clear: left;
+}
+.partners .partner:hover {
+    cursor: pointer;
+    background-color: #e9e9e9;
+}
+.partners .partner > * {
+    float: left;
+}
+.normal-user-head {
+    width: 50px;
+    height: 50px;
+}
+.p-body {
+    margin-left: 10px;
+    text-align: left;
+}
+#release_note_btn {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #53c9ff;
+    border-radius: 5px;
+    float: left;
+    transition: color ease 0.25s;
+}
+#release_note_btn:hover {
+    cursor: pointer;
+    color: white;
+}

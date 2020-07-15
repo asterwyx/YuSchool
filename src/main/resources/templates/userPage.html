@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="./static/css/userPage.css"/>
+    <link rel="stylesheet" href="./static/css/common.css"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/font-awesome.min.css">
+    <script src="./static/js/jquery-3.4.1.min.js"></script>
+    <script>
+        var is_select_mode = false;
+        var is_user_select_mode = false;
+        var domain = 123;
+        $(function() {
+            domain = 'http://' + document.domain + ':5500/';
+        })
+        //显示面板
+        function display(key) {
+            $(".panel").each((index, e) => {
+                if(index === key) {
+                    $(e).css("display", "inline");
+                    let o = $(e).children(".head").children(".table").eq(0)
+                    change_style_2(0, o);
+                    $(e).children(".sub-panel").each((index, e) => {
+                        if(index === 0) {
+                            $(e).css("display", "inline");
+                        }else {
+                            $(e).css("display", "none");
+                        }
+                    })
+                }else {
+                    $(e).css("display", "none");
+                }
+            })
+        }
+        //显示分面板
+        function display_sub(key, o) {
+            $(o).parent().siblings(".sub-panel").each((index, e) => {
+                if(index === key) {
+                    $(e).css("display", "inline");
+                }else {
+                    $(e).css("display", "none");
+                }
+            })
+        }
+        //设置侧边栏的样式
+        function change_style_1(key) {
+            $(".list").each((index, e) => {
+                if(index === key) {
+                    $(e).addClass("bgc-d-blue color-white");
+                    $(e).removeAttr("ondrag");
+                }else {
+                    $(e).removeClass("bgc-d-blue color-white");
+                    $(e).attr("ondrag", "void(0)");
+                }
+            })
+        }
+        //设置面板选项样式
+        function change_style_2(key, o) {
+            $(o).attr("ondrag", "void(0)");
+            $(o).siblings(".table").each((index, e) => {
+                $(e).removeAttr("ondrag");
+            })
+        }
+        //课程选择部分
+        function change_select_mode(o) {
+            //重置选择的课程
+            reset_select();
+
+            if(is_select_mode) {
+                $(o).parent().css("display", "none");
+                $(o).parent().siblings(".select-start").css("display", "inline");
+                $(".select").css("display", "none");
+                is_select_mode = false;
+            }else {
+                $(o).css("display", "none");
+                $(o).siblings(".select-choose").css("display", "inline");
+                $(".select").css("display", "inline");
+                is_select_mode = true;
+            }
+        }
+        //改变选择课程的样式
+        function change_select(o) {
+            if (!is_select_mode) return;
+            let $o = $(o);
+            let is_select = $o.attr("is_select");
+            if(is_select === "true") is_select = true;
+            if(is_select === "false") is_select = false;
+            if(typeof(is_select) == undefined || (!is_select)) {
+                $o.children(".select").attr("ondrag", "void(0)");
+                $o.attr("is_select", "true");
+            }else {
+                $o.children(".select").removeAttr("ondrag");
+                $o.attr("is_select", "false");
+            }
+        }
+        function reset_select() {
+            $(".select").each((index, e) => {
+                $(e).parent(".class").attr("is_select", "false");
+                $(e).removeAttr("ondrag");
+            })
+        }
+        function reverse_selection(o) {
+            $(o).parent().parent().siblings(".grup").children(".classes").children(".class").each((index, e) => {
+                change_select(e);
+            })
+        }
+        function select_all(o) {
+            $(o).parent().parent().siblings(".grup").children(".classes").children(".class").each((index, e) => {
+                $(e).children(".select").attr("ondrag", "void(0)");
+                $(e).attr("is_select", "true");
+            })
+        }
+        //消息部分
+        function swicth_massage_state(o) {
+            let $o = $(o).parent(".massage");
+            let is_select = $o.attr("is_select");
+            if(is_select === "true") is_select = true;
+            if(is_select === "false") is_select = false;
+            if(!is_select) {
+                $o.attr({"ondrag":"void(0)", "is_select":"true"});
+            }else {
+                $o.removeAttr("ondrag");
+                $o.attr("is_select", "false");
+            }
+        }
+        function select_all_massage(o) {
+            $(o).parent().siblings(".massages").children(".massage").each((index, e) => {
+                $(e).attr({"ondrag":"void(0)", "is_select":"true"});
+                $(e).children(".massage-check").prop("checked", true);
+            })
+        }
+        function reverse_selection_massage(o) {
+            $(o).parent().siblings(".massages").children(".massage").children(".massage-check").each((index, e) => {
+                swicth_massage_state(e);
+                let $e = $(e);
+                if($e.prop("checked")) {
+                    $e.prop("checked", false);
+                }else {
+                    $e.prop("checked", true);
+                }
+            })
+        }
+        function reset_select_massage(o) {
+            $(o).parent().siblings(".massages").children(".massage").each((index, e) => {
+                let $e = $(e);
+                $e.removeAttr("ondrag");
+                $e.attr("is_select", "false");
+                $e.children(".massage-check").prop("checked", false);
+            })
+        }
+        function flag_read(o, key) {
+            $(o).parent().siblings(".massages").children(".massage").each((index, e) => {
+                let $e = $(e);
+                let is_select = $e.attr("is_select");
+                if(is_select === "true") is_select = true;
+                if(is_select === "false") is_select = false;
+                if(is_select) {
+                    if(key) {
+                        $e.children(".massage-body").children(".new").removeAttr("ondrag");
+                    }else {
+                        $e.children(".massage-body").children(".new").attr("ondrag", "void(0)");
+                    }
+                }
+            })
+            reset_select_massage(o);
+        }
+        function everyday_check_in() {
+            // $.ajax({
+            //     url:"",
+            //     data:{},
+            //     success:(data) => {
+            //         window.alert("签到成功,您今天是第" + data.massage + "位签到用户!");
+            //     },
+            //     error:(data) => {
+
+            //     },
+            //     dataType:"json"
+            // })
+            let data = {massage: 1};
+            window.alert("签到成功,您今天是第" + data.massage + "位签到用户!");
+        }
+        function user_logout() {
+            if(window.confirm("您确定要登出吗?")) {
+                window.location = domain + 'mainPage.html';
+                // $.ajax({
+                // url:"",
+                // data:{},
+                // success:(data) => {
+                    
+                // },
+                // error:(data) => {
+
+                // },
+                // dataType:"json"
+                // })
+            }
+        }
+
+        //用户关注部分
+        function show_options(o, key) {
+            let $o = $(o);
+            if(key == true) {
+                is_user_select_mode = true;
+                reset_select($o.siblings(".options").children(".table").eq(0));
+                $o.css("display", "none");
+                $o.siblings(".options").css("display", "inline");
+                $o.parent().siblings(".users").children(".user").each((index ,e) => {
+                    $(e).children(".checke-box").css("display", "inline");
+                })
+            }else {
+                is_user_select_mode = false;
+                reset_select(o);
+                $o = $o.parent();
+                $o.css("display", "none");
+                $o.siblings(".table").css("display", "inline");
+                $o.parent().siblings(".users").children(".user").each((index ,e) => {
+                    $(e).children(".checke-box").css("display", "none");
+                })
+            }
+        }
+        function swicth_select_state(o) {
+            let $o = $(o);
+            let is_select = $o.attr("is_select");
+            if(is_select === "true") is_select = true;
+            if(is_select === "false") is_select = false;
+            if(!is_select) {
+                $o.attr({"ondrag":"void(0)", "is_select":"true"});
+            }else {
+                $o.removeAttr("ondrag");
+                $o.attr("is_select", "false");
+            }
+        }
+        function select_all(o) {
+            $(o).parent().parent().siblings(".users").children(".user").each((index, e) => {
+                $(e).attr({"ondrag":"void(0)", "is_select":"true"});
+            })
+        }
+        function reverse_selection(o) {
+            $(o).parent().parent().siblings(".users").children(".user").each((index, e) => {
+                swicth_select_state(e);
+            })
+        }
+        function reset_select(o) {
+            $(o).parent().parent().siblings(".users").children(".user").each((index, e) => {
+                let $e = $(e);
+                $e.removeAttr("ondrag");
+                $e.attr("is_select", "false");
+            })
+        }
+        function cancle_follow(o, key) {
+            reset_select(o);
+        }
+     </script>
+</head>
+<body>
+    <div id="header" class="located font-20">
+        <div id="header_left" class="flow">
+            <table cellspacing="0" cellpadding="0" style="height: 80px;">
+                <tr>
+                    <td><div class="table_cell bgc-d-blue"><a href="http://127.0.0.1:5500/mainPage.html" class="bgc-black">首页</a></div></td>
+                    <td><div class="table_cell"><a href="javascript:void(0)" class="bgc-black">我的课程</a></div></td>
+                    <td><div class="table_cell"><a href="javascript:void(0)" class="bgc-black">社区</a></div></td>
+                </tr>
+            </table>
+        </div>
+        <div id="header_right" class="flow">
+            <table cellspacing="0" cellpadding="0" style="height: 80px;">
+                <tr>
+                    <td><div class="table_cell"><a href="javascript:void(0)" class="bgc-black">欢迎XXX</a></div></td>
+                    <td><div class="table_cell"><a href="javascript:void(0)" class="bgc-black"><i class="fa fa-cog fa-fw"></i>我的</a></div></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div id="img" style="margin-top: 80px;">
+        <img src="./static/image/bg_1.png">
+    </div>
+    <div class="located" style="width: 80%; margin: 0 auto;">
+        <div class="left_list float">
+            <div class="head">
+                <div><img class="head_img" /><i class="fa fa-user-circle" style="font-size: 80px;"></i></div>
+                <div class="font-20">${User.userName}</div>
+                <div class="located" style="justify-content: center;">
+                    <div class="color-black font-20" style="display: inline; margin: 5px;" onclick="display(5)">关注我的</div>
+                    <div class="color-black font-20" style="display: inline; margin: 5px;" onclick="display(4)">我的关注</div>
+                </div>
+            </div>
+            <div class="lists">
+                <div class="list bgc-d-blue color-white" onclick="change_style_1(0); display(0)">
+                    <i class="fa fa-book"></i>
+                    <label class="color-black float">课程</label>
+                </div>
+                <div class="list" onclick="change_style_1(1); display(1)" ondrag="">
+                    <i class="fa fa-list-ol"></i>
+                    <label class="color-black float">学习计划</label>
+                </div>
+                <div class="list" onclick="change_style_1(2); display(2)" ondrag="">
+                    <i class="fa fa-envelope"></i>
+                    <label class="color-black float">消息</label>
+                </div>
+                <div class="list" onclick="change_style_1(3); display(3)" ondrag="">
+                    <i class="fa fa-cog fa-fw" style="left: 5px;"></i>
+                    <label class="color-black float">个人设置</label>
+                </div>
+                <div class="list" onclick="change_style_1(4); everyday_check_in()" ondrag="">
+                    <i class="fa fa-circle"></i>
+                    <label class="color-black float">每日签到</label>
+                </div>
+                <div class="list" onclick="user_logout()">
+                    <i class="fa fa-share-square-o"></i>
+                    <label class="color-black float">退出登录</label>
+                </div>
+            </div>
+        </div>
+        <div id="right" class="float">
+            <div class="located panel" style="">
+                <div class="head located">
+                    <div class="flow font-20 table" style="left: 0;" onclick="change_style_2(0, this); display_sub(0, this)" ondrag="">我参与的课程</div>
+                    <div class="flow font-20 table" style="left: 165px;" onclick="change_style_2(1, this); display_sub(1, this)">我发布的课程</div>
+                    <div class="flow font-20 table" style="left: 330px;" onclick="change_style_2(2, this); display_sub(2, this)">我收藏的课程</div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 150px;"></div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 315px;"></div>
+                    <div class="divider-flat flow"></div>
+                </div>
+                <div class="sub-panel" style="display: none;">
+                    <div class="classes">
+                        <div class="class">
+                            <div>
+                                <img src="./static/image/classes/1.jpg" />
+                            </div>
+                            <div>
+                                操作系统原理
+                            </div>
+                        </div>
+                        <div class="class">
+                            <div>
+                                <img src="./static/image/classes/1.jpg" />
+                            </div>
+                            <div>
+                                操作系统原理
+                            </div>
+                        </div>
+                        <div class="class">
+                            <div>
+                                <img src="./static/image/classes/1.jpg" />
+                            </div>
+                            <div>
+                                操作系统原理
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-panel" style="display: none;">
+                    <div class="grup" style="margin-top: 0;">
+                        <div class="classes">
+                            <div class="class located">
+                                <div>
+                                    <img src="./static/image/classes/1.jpg" />
+                                </div>
+                                <div>
+                                    操作系统原理
+                                </div>
+                                <div class="warming">
+                                    审核中
+                                </div>
+                            </div>
+                            <div class="class">
+                                <div>
+                                    <img src="./static/image/classes/1.jpg" />
+                                </div>
+                                <div>
+                                    操作系统原理
+                                </div>
+                            </div>
+                            <div class="class">
+                                <div>
+                                    <img src="./static/image/classes/1.jpg" />
+                                </div>
+                                <div>
+                                    操作系统原理
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grup">
+                        <div class="classes">
+                            <div class="class located class-plus">
+                                <div style="width: 270px;height: 190px;border: 2px solid black;line-height: 190px;">
+                                    <i class="fa fa-plus-square-o" style="font-size: 70px;margin-top: 60px;"></i>
+                                </div>
+                                <div>
+                                    添加课程
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-panel" style="display: none;">
+                    <div class="sub-head">
+                        <div class="font-15 table select-start" onclick="change_select_mode(this)">批量操作</div>
+                        <div class="select-choose" style="display: none;">
+                            <div class="font-15 table" onclick="change_select_mode(this)">返回</div>
+                            <div class="font-15 table" onclick="select_all(this)">全选</div>
+                            <div class="font-15 table" onclick="reverse_selection(this)">反选</div>
+                            <div class="font-15 table" onclick="reset_select()">取消选择</div>
+                            <div class="font-15 table">取消收藏</div>
+                        </div>
+                    </div>
+                    <div class="grup" style="margin-top: 0;">
+                        <div class="classes">
+                            <div class="class located" onclick="change_select(this)">
+                                <div><img src="./static/image/classes/1.jpg" /></div>
+                                <div>操作系统原理</div>
+                                <div class="select"><i class="fa fa-check-square-o"></i></div>
+                            </div>
+                            <div class="class located" onclick="change_select(this)">
+                                <div><img src="./static/image/classes/1.jpg" /></div>
+                                <div>操作系统原理</div>
+                                <div class="select"><i class="fa fa-check-square-o"></i></div>
+                            </div>
+                            <div class="class located" onclick="change_select(this)">
+                                <div><img src="./static/image/classes/1.jpg" /></div>
+                                <div>操作系统原理</div>
+                                <div class="select"><i class="fa fa-check-square-o"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grup" style="margin-top: 0;">
+                        <div class="classes">
+                            <div class="class located" onclick="change_select(this)">
+                                <div><img src="./static/image/classes/1.jpg" /></div>
+                                <div>操作系统原理</div>
+                                <div class="select"><i class="fa fa-check-square-o"></i></div>
+                            </div>
+                            <div class="class located" onclick="change_select(this)">
+                                <div><img src="./static/image/classes/1.jpg" /></div>
+                                <div>操作系统原理</div>
+                                <div class="select"><i class="fa fa-check-square-o"></i></div>
+                            </div>
+                            <div class="class located" onclick="change_select(this)">
+                                <div><img src="./static/image/classes/1.jpg" /></div>
+                                <div>操作系统原理</div>
+                                <div class="select"><i class="fa fa-check-square-o"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="located panel" style="display: none;">
+                <div class="head located">
+                    <div class="flow font-20 table" style="left: 0;" ondrag="">学习计划表</div>
+                    <div class="divider-flat flow"></div>
+                </div>
+            </div>
+            <div class="located panel" style="display: none;">
+                <div class="head located">
+                    <div class="flow font-20 table" style="left: 0;" onclick="change_style_2(0, this); display_sub(0, this)" ondrag="">动态</div>
+                    <div class="flow font-20 table" style="left: 165px;" onclick="change_style_2(1, this); display_sub(1, this)">系统消息</div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 150px;"></div>
+                    <div class="divider-flat flow"></div>
+                </div>
+                <div class="sub-panel" style="">
+                    <div class="sub-head">
+                        <div class="font-15 table" onclick="select_all_massage(this)">全选</div>
+                        <div class="font-15 table" onclick="reverse_selection_massage(this)">反选</div>
+                        <div class="font-15 table" onclick="reset_select_massage(this)">取消选择</div>
+                        <div class="font-15 table" onclick="flag_read(this, true)">标记为已读</div>
+                        <div class="font-15 table" onclick="flag_read(this, false)">标记为未读</div>
+                    </div>
+                    <div class="massages">
+                        <div class="massage">
+                            <input type="checkbox" class="massage-check" onclick="swicth_massage_state(this)"/>
+                            <div class="flow massage-body">
+                                <label>用户</label>
+                                <a class="remote-url">第一个mt</a>
+                                <label>给您的视频</label>
+                                <a class="remote-url">第二个mt的观察日记</a>
+                                <label>点了个赞</label>
+                                <div class="new" ondrag="">新</div>
+                            </div>
+                        </div>
+                        <div class="massage">
+                            <input type="checkbox" class="massage-check" onclick="swicth_massage_state(this)"/>
+                            <div class="flow massage-body">
+                                <label>用户</label>
+                                <a class="remote-url">第一个mt</a>
+                                <label>给您的视频</label>
+                                <a class="remote-url">第二个mt的观察日记</a>
+                                <label>点了个赞</label>
+                                <div class="new" ondrag="">新</div>
+                            </div>
+                        </div>
+                        <div class="massage">
+                            <input type="checkbox" class="massage-check" onclick="swicth_massage_state(this)"/>
+                            <div class="flow massage-body">
+                                <label>用户</label>
+                                <a class="remote-url">第一个mt</a>
+                                <label>给您的视频</label>
+                                <a class="remote-url">第二个mt的观察日记</a>
+                                <label>点了个赞</label>
+                                <div class="new" ondrag="">新</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sub-panel" style="display: none;">
+                    <div class="sub-head">
+                        <div class="font-15 table" onclick="select_all_massage(this)">全选</div>
+                        <div class="font-15 table" onclick="reverse_selection_massage(this)">反选</div>
+                        <div class="font-15 table" onclick="reset_select_massage(this)">取消选择</div>
+                        <div class="font-15 table" onclick="flag_read(this, true)">标记为已读</div>
+                        <div class="font-15 table" onclick="flag_read(this, false)">标记为未读</div>
+                    </div>
+                    <div class="massages">
+                        <div class="massage">
+                            <input type="checkbox" class="massage-check" onclick="swicth_massage_state(this)"/>
+                            <div class="flow massage-body">
+                                <label>您的课程</label>
+                                <a class="remote-url">操作系统原理1</a>
+                                <label>被管理员锁定</label>
+                                <div class="new" ondrag="">新</div>
+                            </div>
+                        </div>
+                        <div class="massage">
+                            <input type="checkbox" class="massage-check" onclick="swicth_massage_state(this)"/>
+                            <div class="flow massage-body">
+                                <label>您的课程</label>
+                                <a class="remote-url">操作系统原理2</a>
+                                <label>审核通过，已发布</label>
+                                <div class="new" ondrag="">新</div>
+                            </div>
+                        </div>
+                        <div class="massage">
+                            <input type="checkbox" class="massage-check" onclick="swicth_massage_state(this)"/>
+                            <div class="flow massage-body">
+                                <label>用户</label>
+                                <a class="remote-url">第一个mt</a>
+                                <label>关注了您</label>
+                                <div class="new" ondrag="">新</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="located panel" style="display: none;">
+                <div class="head located">
+                    <div class="flow font-20 table" style="left: 0;" onclick="change_style_2(0, this); display_sub(0, this)" ondrag="">基本资料</div>
+                    <div class="flow font-20 table" style="left: 165px;" onclick="change_style_2(1, this); display_sub(1, this)">修改头像</div>
+                    <div class="flow font-20 table" style="left: 330px;" onclick="change_style_2(2, this); display_sub(2, this)">密码安全</div>
+                    <div class="flow font-20 table" style="left: 495px;" onclick="change_style_2(3, this); display_sub(3, this)">其他设置</div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 150px;"></div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 315px;"></div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 480px;"></div>
+                    <div class="divider-flat flow"></div>
+                </div>
+                <div class="sub-panel" style="">
+                    <div style="width: 100%; height: 500px;">
+                        <form id="user-info-form">
+                            <table class="user-table">
+                                <tr>
+                                    <td>用户名</td>
+                                    <td><input type="text" name="user_name" class="input" required value="第一个mt"/></td>
+                                </tr>
+                                <tr>
+                                    <td>性别</td>
+                                    <td>
+                                        <input type="radio" name="gender" value="男"/>男
+                                        <input type="radio" name="gender" value="女"/>女
+                                        <input type="radio" name="gender" value="其他"/>其他
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>生日</td>
+                                    <td><input type="date" name="birth_day" class="input"/></td>
+                                </tr>
+                                <tr>
+                                    <td>个人主页</td>
+                                    <td><input type="text" name="main_page" class="input"/></td>
+                                </tr>
+                                <tr>
+                                    <td>QQ</td>
+                                    <td><input type="text" name="qq" class="input"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><input type="text" name="email" class="input"/></td>
+                                </tr>
+                                <tr style="height: 100px;">
+                                    <td style="vertical-align: top;">个人简介</td>
+                                    <td><textarea class="input" name="detail" style="resize: none;"></textarea></td>
+                                </tr>
+                                <tr style="height: 30px;">
+                                    <td></td>
+                                    <td><input type="submit" class="submit" value="提交"/></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div class="sub-panel" style="float: left; display: none;">
+                    <div class="font-20">当前我的头像</div>
+                    <div>
+                        <img src="./static/image/head_black.png" style="width: 200px; height: 200px;"/>
+                    </div>
+                    <div style="height: 30px;">
+                        <form id="head_url">
+                            <label>外链地址:<input type="text" name="head_url" style="width: 300px; margin-left: 10px;" /></label> 
+                            <input type="submit" class="submit" value="更新">
+                        </form>
+                    </div>
+                    <div class="color-red font-25 flow">由于服务器压力,本站暂时不支持上传用户头像,请使用外链!</div>
+                </div>
+                <div class="sub-panel" style="display: none;">
+                    <div style="width: 100%; height: 500px;">
+                        <form id="user-password-form" >
+                            <table class="user-table">
+                                <tr>
+                                    <td>旧密码</td>
+                                    <td><input type="password" name="old_password" minlength="8" maxlength="16" class="input" placeholder="您必须先填入此项才能进行下列修改" required onkeyup="value=value.replace(/[/W]/g,'')"/></td>
+                                </tr>
+                                <tr>
+                                    <td>新密码</td>
+                                    <td><input type="password" name="new_password" minlength="8" maxlength="16" class="input" placeholder="如不修改请留空" onkeyup="value=value.replace(/[/W]/g,'')"/></td>
+                                </tr>
+                                <tr>
+                                    <td>重复密码</td>
+                                    <td><input type="password" name="repeat_password" minlength="8" maxlength="16" class="input" placeholder="如不修改请留空" onkeyup="value=value.replace(/[/W]/g,'')"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><input type="text" name="email" class="input" /><a style="cursor: pointer;">(进行验证)</a></td>
+                                </tr>
+                                <tr>
+                                    <td>安全问题</td>
+                                    <td><input type="text" name="security_question" class="input" /></td>
+                                </tr>
+                                <tr>
+                                    <td>回答</td>
+                                    <td><input type="text" name="security_answer" class="input" /></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input type="submit" value="提交" class="submit" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <div class="sub-panel" style="display: none;">
+                    <div style="width: 100%; height: 500px;">
+                        <form id="user-setting-form">
+                            <table id="user-setting-table" class="user-table">
+                                <tr>
+                                    <td style="width: 220px;">不可通过搜索找到我</td>
+                                    <td>
+                                        <input type="radio" name="search_setting"/>是
+                                        <input type="radio" name="search_setting" ${search_setting}/>否
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>允许他人查看我的课程</td>
+                                    <td>
+                                        <input type="radio" name="class_setting"/>是
+                                        <input type="radio" name="class_setting" ${search_setting}/>否
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>允许他人查看我的关注</td>
+                                    <td>
+                                        <input type="radio" name="follow_setting"/>是
+                                        <input type="radio" name="follow_setting" ${search_setting}/>否
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>允许他人查看我的收藏</td>
+                                    <td>
+                                        <input type="radio" name="star_setting"/>是
+                                        <input type="radio" name="star_setting" ${search_setting}/>否
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>允许他人查看我参与的课程</td>
+                                    <td>
+                                        <input type="radio" name="attend_setting"/>是
+                                        <input type="radio" name="attend_setting" ${search_setting}/>否
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input type="submit" value="提交" class="submit" /></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="located panel" style="display: none;">
+                <div class="head located">
+                    <div class="flow font-20 table" style="left: 15px;" ondrag="">我的关注</div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 0;"></div>
+                    <div class="divider-flat flow"></div>
+                </div>
+                <div class="sub-head">
+                    <div class="font-15 table" style="float: right;" onclick="show_options(this, true)">批量操作</div>
+                    <div class="options" style="display: none;">
+                        <div class="font-15 table" onclick="select_all(this)">全选</div>
+                        <div class="font-15 table" onclick="reverse_selection(this)">反选</div>
+                        <div class="font-15 table" onclick="reset_select(this)">取消选择</div>
+                        <div class="font-15 table" onclick="cancle_follow(this, true)">取消关注</div>
+                        <div class="font-15 table" style="float: right;" onclick="show_options(this, false)">返回</div>
+                    </div>
+                </div>
+                <div class="users">
+                    <div class="user" onclick="swicth_select_state(this)">
+                        <div class="checke-box" style="display: none;"><i class="fa fa-check-square-o"></i></div>
+                        <div class="u-head"><img class="normal-user-head" src="./static/image/head_black.png" /></div>
+                        <div class="u-body">
+                            <div style="text-align: left;">第一个mt</div>
+                            <div>个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介</div>
+                        </div>
+                    </div>
+                    <div class="user" onclick="swicth_select_state(this)">
+                        <div class="checke-box" style="display: none;"><i class="fa fa-check-square-o"></i></div>
+                        <div class="u-head"><img class="normal-user-head" src="./static/image/head_black.png" /></div>
+                        <div class="u-body">
+                            <div style="text-align: left;">第五个mt</div>
+                            <div>个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介</div>
+                        </div>
+                    </div>
+                    <div class="user" onclick="swicth_select_state(this)">
+                        <div class="checke-box" style="display: none;"><i class="fa fa-check-square-o"></i></div>
+                        <div class="u-head"><img class="normal-user-head" src="./static/image/head_black.png" /></div>
+                        <div class="u-body">
+                            <div style="text-align: left;">第六个mt</div>
+                            <div>个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="located panel" style="display: none;">
+                <div class="head located">
+                    <div class="flow font-20 table" style="left: 15px;" ondrag="">关注我的</div>
+                    <div class="divider flow bgc-l-blue-2" style="left: 0;"></div>
+                    <div class="divider-flat flow"></div>
+                </div>
+                <div class="users">
+                    <div class="user">
+                        <div class="u-head"><img class="normal-user-head" src="./static/image/head_black.png" /></div>
+                        <div class="u-body">
+                            <div style="text-align: left;">第一个mt</div>
+                            <div>个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介</div>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="u-head"><img class="normal-user-head" src="./static/image/head_black.png" /></div>
+                        <div class="u-body">
+                            <div style="text-align: left;">第五个mt</div>
+                            <div>个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介</div>
+                        </div>
+                    </div>
+                    <div class="user">
+                        <div class="u-head"><img class="normal-user-head" src="./static/image/head_black.png" /></div>
+                        <div class="u-body">
+                            <div style="text-align: left;">第六个mt</div>
+                            <div>个人简介个人简介个人简介个人简介个人简介个人简介个人简介个人简介</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+</body>
+</html>

@@ -1,0 +1,46 @@
+body{
+    background-color: #757575;
+    box-sizing: border-box;
+}
+#register-box {
+    background-color: white;
+    width: 400px;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 10%;
+    text-align: center;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 10px;
+}
+.input{
+    padding-left: 5px;
+    outline: none;
+    font-size: 20px;
+    margin: 10px 10px;
+    border: 2px solid #00b0ff;
+    border-radius: 6px;
+}
+#submit{
+    outline: none;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+    width: 120px;
+    background-color: #00b0ff;
+    left: 50%;
+}
+#registerForm label{
+    font-size: 20px;
+}
+#checkCodeInput{
+    vertical-align: middle;
+    width: 120px;
+}
+#checkCode{
+    vertical-align: middle;
+}
+#icon{
+    margin-left: 5px;
+    font-size: 25px;
+}

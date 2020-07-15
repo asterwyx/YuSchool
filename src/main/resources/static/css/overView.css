@@ -1,0 +1,342 @@
+body {
+    background-color: white;
+}
+#header {
+    width: 100%;
+    height: 80px;
+    background-color: #53c9ff;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+#header .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#header .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#header .table_cell:hover a {
+    color: white;
+}
+#header .table_cell i {
+    display: inline-block;
+}
+#header_left {
+    left: 10%;
+}
+#header_right {
+    right: 5%;
+}
+#header a {
+    background-color: #00000000;
+    cursor: pointer;
+}
+#head_overview {
+    width: 80%;
+    height: 400px;
+    margin: 0 auto;
+    padding-top: 55px;
+    padding-bottom: 35px;
+}
+#head_overview_img {
+    width: 575px;
+    height: 310px;
+    position: absolute;
+    
+}
+#head_overview_img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+}
+#head_overview_body {
+    width: 180px;
+    height: 310px;
+    position: absolute;
+    left: 52%;
+}
+#head_overview_body .font-30 {
+    width: 180px;
+    height: 35px;
+    line-height: 35px;
+    position: absolute;
+    top: 0;
+}
+#head_overview_body .bottom {
+    width: 200px;
+    height: 70px;
+    position: absolute;
+    bottom: 20px;
+}
+#head_overview_body .font-12 {
+    width: 200px;
+    text-align: left;
+}
+#head_overview_body .font-25 {
+    width: 200px;
+    height: 55px;
+    line-height: 55px;
+    margin-top: 10px;
+    color: white;
+    background-color: #53c9ff;
+    position: absolute;
+}
+#head_overview_body .font-25:hover {
+    cursor: pointer;
+    background-color: #53c9ff90;
+}
+#head_overview_share {
+    width: 150px;
+    height: 20px;
+    line-height: 20px;
+    right: 0;
+    position: absolute;
+}
+#head_overview_share i {
+    margin-left: 10px;
+    font-size: 20px;
+    transition: ease 0.25s;
+}
+#head_overview_share i:nth-child(1):hover {
+    color: red;
+    cursor: pointer;
+}
+#head_overview_share i:nth-child(2):hover {
+    color: green;
+    cursor: pointer;
+}
+#head_overview_share i:nth-child(3):hover {
+    color: red;
+    cursor: pointer;
+}
+.head {
+    width: 100%;
+    height: 50px;
+}
+.head .table {
+    width: 145px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    transition: ease 0.5s;
+}
+.head .table[ondrag] {
+    color: white;
+    background-color: #53c9ff;
+}
+.head .table:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+.divider {
+    width: 10px;
+    height: 40px;
+}
+.divider-flat {
+    width: 100%;
+    height: 5px;
+    top: 45px;
+    background-color: #53c9ff;
+}
+#backgrand {
+    background-color: #e6e6e6; 
+    width: 80%; 
+    height: 820px; 
+    margin: 0 auto; 
+    border-radius: 3px;
+    padding: 40px ;
+}
+#body {
+    width: 67%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+#body .sub-panel {
+    width: 100%;
+}
+.sub-panel .sub-head {
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    justify-content: left;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.sub-panel .sub-head:nth-child(n+2) {
+    margin-top: 40px;
+}
+.sub-panel .sub-head i {
+    color: #53c9ff;
+}
+.sub-panel .textarea {
+    font-size: 15px;
+    line-height: 30px;
+    text-align: left;
+}
+.chapter {
+    font-size: 16px;
+    text-align: left;
+    justify-content: left;
+}
+.chapter div{
+    text-align: left;
+    justify-content: left;
+}
+.chapter .sub-chapter {
+    font-size: 13px;
+    color: #BBB6B6;
+}
+.normal-user-head {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+#teachers {
+    width: 23%;
+    height: 360px;
+    right: 40px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+.teacher {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+.teacher > * {
+    float: left;
+}
+.teacher:hover {
+    background-color: #BBB6B6;
+    cursor: pointer;
+}
+#attend_class_modify {
+    width: 140px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    color: white;
+    background-color: #53c9ff;
+    float: left;
+}
+#attend_class_modify:hover {
+    cursor: pointer;
+    background-color: #53c9ff90;
+}
+#relative {
+    width: 23%;
+    height: 360px;
+    right: 40px;
+    top: 420px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+.class_overview {
+    width: 100%;
+    height: 70px;
+    margin: 10px 0;
+    position: relative;
+}
+.class_overview > * {
+    float: left;
+}
+.class_overview img {
+    width: 100px;
+    height: 70px;
+    object-fit: cover;
+}
+.class_overview div {
+    position: absolute;
+    left: 110px;
+}
+.class_overview .font-12 {
+    color: #BBB6B6;
+    bottom: 0;
+}
+#comment_form {
+    width: 100%;
+    height: 60px;
+}
+#comment_form textarea {
+    width: 100%;
+    height: 60px;
+    resize: none;
+    text-align: left;
+    border-radius: 3px;
+    padding: 5px;
+}
+#comment_form input {
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    float: right;
+    outline: none;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    background-color: #53c9ff;
+}
+#comment_form input:hover {
+    cursor: pointer;
+    background-color: #90dcff;
+}
+.comments {
+    width: 100%;
+}
+.comment {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+}
+.comment img {
+    width: 50px;
+    height: 50px;
+}
+.comment > * {
+    position: absolute;
+    text-align: left;
+}
+.comment-body {
+    width: 100%;
+    padding-left: 60px;
+}
+.comment-body > * {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: left;
+}
+.comment-body .user-body:hover {
+    cursor: pointer;
+    color: #53c9ff;
+}
+.comment-body .time {
+    font-size: 12px;
+    position: absolute;
+    left: 0;
+    color: #a0a0a0;
+}
+.comment-body .thumbs {
+    font-size: 13px;
+    position: absolute;
+    right: 0;
+    color: #a0a0a0;
+    transition: ease 0.25s;
+}
+.comment-body .thumbs:hover {
+    cursor: pointer;
+    color: #53c9ff;
+}

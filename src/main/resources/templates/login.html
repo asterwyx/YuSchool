@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>登录</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/login.css"/>
+    <script src="/static/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/js/jsencrypt.min.js"></script>
+    <script>
+        var domain = 123;
+        $(function () {
+            domain = 'http://' + document.domain + '/YuSchool';
+            get_pub_key();
+            // document.cookie.replace(/(?:(?:^|.*;\s*)csrf_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+            $("#loginForm").submit(function () {
+                let email = encrypt_password($("#email_input").val());
+                let password = encrypt_password($("#password_input").val());
+                if(check()){
+                    $.ajax({
+                    url:domain + "/login",
+                    type:"POST",
+                    data:{'email': email, 'password': password},
+                    success:function (data) {
+                        if (data.flag) {
+                            window.location = domain + "/mainPage";
+                        } else {
+                            $x = $("#errorMsg");
+                            $x.css("color", "red");
+                            $x.html(data.errorMsg);
+                        }
+                    },
+                    error:function (data) {
+                        alert("未知错误!请重试或反馈");
+                    },
+                    dataType:"json"
+                    });
+                }
+                return false;
+            });
+        });
+        function get_pub_key() {
+            $.ajax({
+                url:domain + "/pub_key",
+                type:"POST",
+                data:{},
+                success:function (data) {
+                    if (data.flag) {
+                        $("#pub_key").val(data.data);
+                    }
+                }
+            });
+        }
+        function encrypt_password(s) {
+            let encrypt = new JSEncrypt();
+            encrypt.setPublicKey($("#pub_key").val());
+            let encrypted = encrypt.encrypt(s);
+            return encrypted;
+        }
+        function check(){
+            if($("#nameInput").val() == ""){
+                changeStyle($("#nameInput"), 1);
+                alert("用户名不能为空");
+                return false;
+            } else if($("#passwordInput").val() == ""){
+                changeStyle($("#passwordInput"), 1);
+                alert("密码不能为空");
+                return false;
+            } else {
+                return true;
+            }
+        }
+        function changeStyle(o, t){
+            if (t === 1) {
+                o.css("border", "2px solid red");
+            } else if (t === 2) {
+                o.css("border", "");
+            }
+        }
+        function register() {
+            window.location = domain + "/register.html";
+        }
+    </script>
+</head>
+<body>
+<div id="login-div">
+    <div>
+        <p style="font-size: 50px; color: #00b0ff;">登录</p>
+        <p id="errorMsg" style="color: #ffd74000;text-align: center">s</p>
+    </div>
+    <div>
+        <form id="loginForm" method="post">
+            <table>
+                <tr>
+                    <td><label>邮箱:</label></td>
+                    <td><input type="email" id="email_input" name="email" onfocus="changeStyle($(this), 2);" required/><br/></td>
+                </tr>
+                <tr>
+                    <td><label>密码:</label></td>
+                    <td><input type="password" id="password_input" name="password" onfocus="changeStyle($(this), 2);" required/><br/></td>
+                </tr>
+            </table>
+            <input type="submit" class="btn" value="登录"/>
+            <input type="hidden" id="pub_key" value="" />
+        </form>
+        <button class="btn" onclick="register();">注册</button>
+    </div>
+</div>
+</body>
+</html>

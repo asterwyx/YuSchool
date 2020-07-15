@@ -1,0 +1,385 @@
+body {
+    background-color: white;
+}
+#header {
+    width: 100%;
+    height: 80px;
+    background-color: #53c9ff;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+#header .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#header .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#header .table_cell:hover a {
+    color: white;
+}
+#header .table_cell i {
+    display: inline-block;
+}
+#header_left {
+    left: 10%;
+}
+#header_right {
+    right: 5%;
+}
+#header a {
+    background-color: #00000000;
+    cursor: pointer;
+}
+.left_list {
+    width: 20%;
+    height: 940px;
+    padding: 0 7px;
+    background-color: #E9E9E9;
+}
+.left_list .head {
+    width: 100%;
+    height: 210px;
+    padding-top: 20px;
+    line-height: 35px;
+    border-bottom: 1px solid black;
+}
+.lists {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
+.lists .bgc-d-blue > label {
+    color: white;
+}
+.lists .list:last-child {
+    border-bottom: none;
+}
+.lists .list:last-child:hover {
+    cursor: pointer;
+    background-color: red;
+    transition: ease 0.5s;
+}
+.lists .list:last-child:hover label{
+    cursor: pointer;
+    color: white;
+    transition: ease 0.5s;
+}
+.lists .list:last-child:hover i{
+    cursor: pointer;
+    color: white;
+    transition: ease 0.5s;
+}
+.list {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    border-bottom: 1px solid #E9E9E9;
+    position: relative;
+    transition: ease 0.5s;
+}
+.list:hover[ondrag] {
+    cursor: pointer;
+    background-color: #E9E9E9;
+    
+}
+.list:hover[ondrag] label {
+    color: #53c9ff;
+}
+.list label {
+    height: 25px;
+    margin-left: 40px;
+}
+.list label:hover {
+    cursor: pointer;
+    transition: ease 0.5s;
+}
+.list i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 25px;
+}
+#right {
+    width: 80%;
+    height: 940px;
+    padding-left: 15px;
+}
+#right .head {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+}
+.head .table {
+    width: 145px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    transition: ease 0.5s;
+}
+.head .table[ondrag] {
+    color: white;
+    background-color: #53c9ff;
+}
+.head .table:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+.divider {
+    width: 10px;
+    height: 40px;
+}
+.divider-flat {
+    width: 100%;
+    height: 5px;
+    top: 45px;
+    background-color: #53c9ff;
+}
+.class-info {
+    width: 100%;
+    font-size: 20px;
+}
+.class-info tr {
+    width: 100%;
+    height: 50px;
+}
+.class-info td {
+    text-align: left;
+}
+.class-info tr td:first-child {
+    vertical-align: top;
+}
+.class-info textarea {
+    width: 600px;
+    height: 100px;
+    padding: 5px;
+    resize: none;
+    text-align: left;
+}
+.class-info input {
+    width: 600px;
+    text-align: left;
+    padding-left: 5px;
+    font-size: 20px;
+    line-height: 20px;
+}
+.class-info img {
+    width: 300px;
+    height: 200px;
+    object-fit: contain;
+    margin-left: 0;
+}
+.class-info tr:last-child td:last-child > * {
+    float: left;
+}
+.btn {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #53c9ff;
+    border-radius: 5px;
+    float: left;
+    transition: color ease 0.25s;
+}
+.btn:hover {
+    cursor: pointer;
+    color: white;
+}
+.search-head {
+    margin-top: 10px;
+}
+.sub-panel .search-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+}
+.sub-panel .search-head > * {
+    height: 30px;
+    float: left;
+    margin-left: 10px;
+}
+.sub-panel .search-head input {
+    width: 600px;
+    height: auto;
+    padding-left: 5px;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: left;
+}
+/* 以下是推荐课程部分 */
+.classes {
+    width: 100%;
+    height: 150px;
+    margin-top: 15px;
+}
+.classes .class:first-child {
+    margin-left: 0;
+}
+.classes .class:last-child {
+    margin-right: 0;
+}
+.class {
+    width: 270px;
+    height: 215px;
+    float: left;
+    margin: 0 20px;
+    transition: ease 0.5s;
+}
+.class img {
+    width: 270px;
+    height: 190px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+.class:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 5px #BBB6B6;
+}
+.grup {
+    width: 100%;
+    height: 215px;
+    margin: 30px 0;
+}
+.class .warming {
+    width: 65px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 3px;
+    opacity: 0.9;
+    background-color: red;
+}
+.class .select {
+    left: 0;
+    top: 0;
+    width: 270px;
+    height: 215px;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+.class .select i{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    color: white;
+    font-size: 30px;
+    transition: ease 0.25s;
+}
+.class .select[ondrag] {
+    background-color: #00000020;
+}
+.class .select[ondrag] i{
+    color: #53c9ff;
+}
+.class .select:hover i{
+    cursor: pointer;
+}
+.sub-panel .sub-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    margin-top: 10px;
+}
+.sub-panel .sub-head .table {
+    width: auto;
+    float: left;
+    border-radius: 3px;
+    margin: 0 10px;
+    transition: ease 0.25s;
+}
+.sub-panel .sub-head .table:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+.users {
+    width: 100%;
+    height: 100%;
+}
+.normal-user-head {
+    width: 50px;
+    height: 50px;
+}
+.users .user {
+    width: 100%;
+    height: 70px;
+    padding-left: 10px;
+    padding-top: 10px;
+    line-height: 25px;
+    border-radius: 5px;
+    margin: 10px 0;
+    clear: left;
+}
+.users .user:hover {
+    cursor: pointer;
+    background-color: #e9e9e9;
+}
+.users .user > * {
+    float: left;
+}
+.massages {
+    width: 100%;
+    height: 100%;
+    margin: 10px 0;
+}
+.massages .massage {
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    margin: 20px 0;
+    padding: 2px 0;
+    position: relative;
+}
+.massages .massage[ondrag] {
+    background-color: #00000020;
+}
+.massages .massage * {
+    float: left;
+}
+.massages .massage input {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-40%);
+}
+.massages .massage .massage-body {
+    left: 30px;
+}
+.remote-url {
+    color: #01579b;
+    margin: 0 3px;
+    cursor: pointer;
+}
+.remote-url:hover {
+    margin: 0 3px;
+    cursor: pointer;
+    color: #53c9ff;
+}
+.new {
+    display: none;
+}
+.new[ondrag] {
+    color: red;
+    right: -15px;
+    top: -15px;
+    position: absolute;
+    display: inline;
+}

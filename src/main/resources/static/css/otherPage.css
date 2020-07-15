@@ -1,0 +1,168 @@
+body {
+    background-color: white;
+}
+#header {
+    width: 100%;
+    height: 80px;
+    background-color: #53c9ff;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+#header .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#header .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#header .table_cell:hover a {
+    color: white;
+}
+#header .table_cell i {
+    display: inline-block;
+}
+#header_left {
+    left: 10%;
+}
+#header_right {
+    right: 5%;
+}
+#header a {
+    background-color: #00000000;
+    cursor: pointer;
+}
+#img {
+    width: 80%;
+    height: 200px;
+    margin: 0 auto;
+}
+#img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+#head_in_img {
+    width: 100%;
+    height: 60px;
+    bottom: 0;
+    position: absolute;
+
+}
+#follow_btn {
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    background-color: #53c9ff;
+    border-radius: 5px;
+    border: 1px solid white;
+    position: absolute;
+    right: 10px;
+    bottom: 30px;
+    transition: ease 0.25s;
+}
+#follow_btn:hover {
+    box-shadow: 10px 5px 5px #00000050;
+    color: white;
+    cursor: pointer;
+}
+#left {
+    width: 72.1%;
+    height: 100%;
+}
+#right {
+    width: 27.9%;
+    height: 100%;
+    padding-left: 20px;
+}
+.head {
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+}
+.head .divider {
+    width: 10px;
+    height: 40px;
+}
+.head .divider-flat {
+    width: 100%;
+    height: 5px;
+    top: 45px;
+    background-color: #53c9ff;
+}
+.more {
+    width: 65px;
+    height: 28px;
+    line-height: 28px;
+    top: 30%;
+    transform: translateY(-30%);
+}
+.more a:link {
+    color: black;
+}
+.more a:hover {
+    color: white;
+}
+.classes {
+    width: 100%;
+    height: 150px;
+}
+.classes .class:first-child {
+    margin-left: 0;
+}
+.classes .class:last-child {
+    margin-right: 0;
+}
+.class {
+    width: 180px;
+    height: 145px;
+    float: left;
+    margin: 0 20px;
+    font-size: 15px;
+    transition: ease 0.5s;
+}
+.class img {
+    width: 180px;
+    height: 120px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+.class:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 5px #BBB6B6;
+}
+.grup {
+    width: 100%;
+    height: 150px;
+    margin: 10px 0;
+}
+.actions {
+    width: 100%;
+    height: 100%;
+}
+.action {
+    width: 100%;
+    height: 40px;
+    margin: 10px 0;
+}
+.action .action-body {
+    height: 25px;
+    line-height: 25px;
+    font-size: 18px;
+    overflow: hidden;
+    text-align: left;
+}
+.action .action-time {
+    height: 15px;
+    line-height: 15px;
+    font-size: 12px;
+    text-align: right;
+}
+.action a {
+    cursor: pointer;
+}

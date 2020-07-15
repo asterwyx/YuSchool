@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./static/js/jquery-3.4.1.min.js"></script>
+    <script>
+        $("#123").click(function () {
+            $.ajax({
+                url:window.domain.concat('/YuSchool/test'),
+                method:"post",
+                data:{"asd":"123", "method":"PUT"}
+            })
+        })
+    </script>
+</head>
+<body>
+<button id="123">测试</button>
+</body>
+</html>

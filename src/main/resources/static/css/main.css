@@ -1,0 +1,82 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+    justify-content: center;
+    outline: none;
+}
+body {
+    background-color: #00000030;
+}
+#head {
+    text-align: center;
+    height: 80px;
+    background-color: #53c9ff;
+    font-size: 20px;
+    position: relative;
+}
+#head .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#head .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#head .table_cell i {
+    display: inline-block;
+}
+.head_flow {
+    position: absolute;
+}
+#head #head_left {
+    left: 25%;
+}
+#head #head_right {
+    right: 10%;
+}
+#head a {
+    background-color: #00000000;
+    border: none;
+    cursor: pointer;
+}
+a {
+    text-decoration: none;
+}
+/* a:link {
+    color: white;
+} */
+/*包含以下五种的链接*/
+a {
+    text-decoration: none;
+}
+/*正常的未被访问过的链接*/
+a:link {
+    text-decoration: none;
+    color: white;
+}
+/*已经访问过的链接*/
+a:visited {
+    text-decoration: none;
+    color: white;
+}
+/*鼠标划过(停留)的链接*/
+a:hover {
+    text-decoration: none;
+    color: white;
+}
+/* 正在点击的链接，鼠标在元素上按下还没有松开*/
+a:active {
+    text-decoration: none;
+    color: white;
+}
+/* 获得焦点的时候 鼠标松开时显示的颜色*/
+a:focus {
+    text-decoration: none;
+    color: white;
+}

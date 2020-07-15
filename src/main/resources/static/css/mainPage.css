@@ -1,0 +1,173 @@
+body {
+    background-color: white;
+}
+#header {
+    width: 100%;
+    height: 80px;
+    background-color: #53c9ff;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+#header .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#header .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#header .table_cell:hover a {
+    color: white;
+}
+#header .table_cell i {
+    display: inline-block;
+}
+#header_left {
+    left: 10%;
+}
+#header_right {
+    right: 5%;
+}
+#header a {
+    background-color: #00000000;
+    cursor: pointer;
+}
+#img {
+    width: 100%;
+    height: 300px;
+}
+#img img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+.head {
+    width: 100%;
+    height: 50px;
+}
+.divider {
+    width: 15px;
+    height: 40px;
+}
+.more {
+    width: 65px;
+    height: 28px;
+    line-height: 28px;
+    top: 30%;
+    transform: translateY(-30%);
+}
+.more a:hover {
+    color: black;
+}
+.classes {
+    width: 100%;
+    height: 150px;
+}
+.classes .class:first-child {
+    margin-left: 0;
+}
+.classes .class:last-child {
+    margin-right: 0;
+}
+.class {
+    width: 180px;
+    height: 145px;
+    float: left;
+    margin: 0 20px;
+    transition: ease 0.5s;
+}
+.class img {
+    width: 180px;
+    height: 120px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+.class:hover {
+    cursor: pointer;
+    box-shadow: 0px 10px 5px #BBB6B6;
+}
+.notice {
+    float: left;
+    margin: 5px 0;
+}
+.notice a {
+    color: black;
+}
+.notice a:link {
+    color: black;
+}
+.notice a:hover {
+    color: #53c9ff;
+}
+.grup {
+    width: 100%;
+    height: 150px;
+    margin: 30px 0;
+}
+.ranks .rank:first-child {
+    margin: 0;
+}
+.ranks .rank:nth-child(-n+3) label {
+    border: 1px solid #53c9ff;
+    border-radius: 3px;
+    background-color: #53c9ff;
+}
+.rank {
+    clear: both;
+}
+.rank label {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    margin: 10px 0;
+    display: inline-block;
+    vertical-align: middle;
+    color: black;
+}
+.rank a {
+    color: black;
+}
+.rank a:link {
+    color: black;
+}
+.rank a:hover {
+    color: #53c9ff;
+}
+#recommend {
+    width: 73%;
+    height: 100%;
+}
+#announcement {
+    width: 27%;
+    height: 100%;
+    right: 0;
+}
+#all {
+    width: 73%;
+    height: 100%;
+}
+#list {
+    width: 27%;
+    height: 100%;
+    right: 0;
+}
+/* #content {
+    width: 600px;
+    height: 300px;
+    overflow: hidden;
+}
+#imgs {
+    width: 5000px;
+    height: 300px
+}
+#imgs img {
+    width: 600px;
+    height: 300px;
+    object-fit: cover;
+    display: inline-block;
+} */

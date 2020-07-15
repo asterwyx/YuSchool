@@ -1,0 +1,521 @@
+body {
+    background-color: white;
+}
+#header {
+    width: 100%;
+    height: 80px;
+    background-color: #53c9ff;
+    z-index: 999;
+    position: fixed;
+    top: 0;
+}
+#header .table_cell {
+    height: 100%;
+    width: 105px;
+    padding-top: 25px;
+    white-space: nowrap;
+    display: block;
+    transition: ease-in 0.25s;
+}
+#header .table_cell:hover {
+    cursor: pointer;
+    background-color: #01579b;
+}
+#header .table_cell:hover a {
+    color: white;
+}
+#header .table_cell i {
+    display: inline-block;
+}
+#header_left {
+    left: 10%;
+}
+#header_right {
+    right: 5%;
+}
+#header a {
+    background-color: #00000000;
+    cursor: pointer;
+}
+.left_list {
+    width: 23%;
+    height: 940px;
+    padding: 0 7px;
+    background-color: #E9E9E9;
+}
+.left_list .head {
+    width: 100%;
+    height: 160px;
+    padding-top: 20px;
+}
+.left_list .head img{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+}
+.lists {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
+.lists .bgc-d-blue > label {
+    color: white;
+}
+.list {
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    font-size: 25px;
+    border-bottom: 1px solid #E9E9E9;
+    position: relative;
+    transition: ease 0.5s;
+}
+.list:hover[ondrag] {
+    cursor: pointer;
+    background-color: #E9E9E9;
+    
+}
+.list:hover[ondrag] label {
+    color: #53c9ff;
+}
+.list label {
+    height: 25px;
+    margin-left: 10px;
+}
+.list label:hover {
+    cursor: pointer;
+    transition: ease 0.5s;
+}
+#right {
+    width: 77%;
+    height: 940px;
+    padding-left: 15px;
+}
+.panel .head-head {
+    width: 100%;
+    height: 80px;
+    line-height: 30px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #faf4f4;
+    border-radius: 5px;
+    font-size: 20px;
+}
+.panel .head-head > div {
+    float: left;
+}
+.panel .head-head a {
+    color: #53c9ff;
+    transition: ease 0.25s;
+}
+.panel .head-head a:hover {
+    cursor: pointer;
+    color: #2cb2f0;
+}
+.a-btn {
+    width: 140px;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    background-color: #ff6d00;
+    border-radius: 5px;
+    right: 10px;
+    transition: ease 0.25s;
+}
+.a-btn:hover {
+    cursor: pointer;
+    background-color: #ff882d;
+}
+.head {
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+}
+.head .table {
+    width: 145px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    transition: ease 0.5s;
+}
+.head .table:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+.divider {
+    width: 10px;
+    height: 40px;
+}
+.divider-flat {
+    width: 100%;
+    height: 5px;
+    bottom: 0;
+    background-color: #53c9ff;
+}
+.announcements {
+    width: 100%;
+}
+.announcement {
+    width: 100%;
+    height: 100px;
+    margin: 10px 0;
+}
+.announcement > div {
+    float: left;
+}
+.announcement .a-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.announcement .a-body {
+    width: 100%;
+    line-height: 25px;
+    font-size: 16px;
+    color: #a0a0a0;
+    text-align: left;
+    margin-bottom: 10px;
+}
+.announcement .a-time {
+    width: 100%;
+    text-align: right;
+    font-size: 12px;
+}
+.chapters .chapter {
+    width: 100%;
+    margin: 10px 0;
+    justify-content: left;
+}
+.chapters .chapter .c-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: lighter;
+    text-align: left;
+    border-radius: 3px;
+    background-color: #c2ecff;
+}
+.chapters .chapter .c-head:hover {
+    cursor: pointer;
+    background-color: #83d8ff;
+}
+.chapters .chapter .c-head i {
+    font-size: 18px;
+    margin: 0 10px;
+}
+.chapters .chapter .c-body .sub-chapter {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 15px;
+    border-radius: 3px;
+    text-align: left;
+    border-bottom: 1px solid #e9e9e9;
+}
+.chapters .chapter .c-body .sub-chapter:hover {
+    cursor: pointer;
+    color: #83d8ff;
+    background-color: #faf4f4;
+}
+.chapters .chapter .c-body .sub-chapter i {
+    font-size: 15px;
+    margin: 0 5px;
+}
+.discussions {
+    width: 100%;
+}
+.discussion {
+    width: 100%;
+    height: 70px;
+    margin: 10px 0;
+}
+.d-head {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 22px;
+    text-align: left;
+    transition: ease 0.25s;
+}
+.d-head:hover {
+    cursor: pointer;
+    color: #53c9ff;
+}
+.d-response {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    left: 0;
+}
+.d-response div {
+    margin-right: 5px;
+    float: left;
+}
+.d-response .divider {
+    width: 5px;
+    height: 20px;
+    transform: translateY(50%);
+    background-color: #83d8ff;
+}
+.d-response a {
+    color: #53c9ff;
+    transition: ease 0.25s;
+}
+.d-response a:hover {
+    cursor: pointer;
+    color: #2cb2f0;
+}
+.discussion .divider-flat {
+    background-color: #c2ecff;
+}
+#back {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    margin-top: 20px;
+    justify-content: left;
+}
+#back .ssd {
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+    left: 15px;
+    transition: ease 0.5s;
+}
+#back .ssd:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #53c9ff;
+}
+#back .divider-flat {
+    width: 100%;
+    height: 5px;
+    top: 45px;
+}
+#discussion_panel .main-head {
+    width: 100%;
+    line-height: 30px;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #faf4f4;
+    border-radius: 5px;
+    font-size: 20px;
+    text-align: left;
+}
+#discussion_panel .main-head > div {
+    float: left;
+}
+#discussion_panel .main-head a {
+    color: #53c9ff;
+    transition: ease 0.25s;
+}
+#discussion_panel .main-head a:hover {
+    cursor: pointer;
+    color: #2cb2f0;
+}
+#discussion_panel .main-head p{
+    width: 100%;
+    margin: 10px 0;
+}
+#discussion_main_user {
+    float: left;
+    text-align: left;
+}
+#discussion_panel .main-head .options{
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    float: right;
+}
+#discussion_panel .main-head .options > div {
+    margin-right: 5px;
+    float: right;
+    font-size: 15px;
+}
+#discussion_panel .main-head .options .divider {
+    width: 5px;
+    height: 20px;
+    background-color: #a0a0a0;
+}
+#discussion_panel .main-head .options i {
+    color: #a0a0a0;
+    transition: ease 0.25s;
+}
+#discussion_panel .main-head .options i:hover {
+    cursor: pointer;
+    color: black;
+}
+#report_btn {
+    transition: ease 0.25s;
+}
+#report_btn:hover {
+    color: #53c9ff;
+    cursor: pointer;
+}
+.responses {
+    width: 100%;
+}
+.response {
+    width: 100%;
+    font-size: 13px;
+    margin: 10px 0;
+}
+.response p {
+    margin-bottom: 10px;
+}
+.response .divider-flat {
+    margin-top: 35px;
+    background-color: #83d8ff;
+}
+.r-body {
+    width: 100%;
+    text-align: left;
+}
+.r-info {
+    float: left;
+    text-align: left;
+}
+.r-info a {
+    color: #53c9ff;
+    transition: ease 0.25s;
+}
+.r-info a:hover {
+    cursor: pointer;
+    color: #2cb2f0;
+}
+.r-options {
+    width: 200px;
+    height: 20px;
+    line-height: 20px;
+    float: right;
+}
+.r-options > div {
+    float: right;
+    margin-right: 5px;
+}
+.r-options .divider {
+    width: 5px;
+    height: 20px;
+    background-color: #a0a0a0;
+}
+.r-options i {
+    color: #a0a0a0;
+    transition: ease 0.25s;
+}
+.r-options i:hover {
+    cursor: pointer;
+    color: black;
+}
+.report_response_btn {
+    transition: ease 0.25s;
+}
+.report_response_btn:hover {
+    color: #53c9ff;
+    cursor: pointer;
+}
+#comment_form {
+    width: 100%;
+    height: 60px;
+}
+#comment_form textarea {
+    width: 100%;
+    height: 60px;
+    resize: none;
+    text-align: left;
+    border-radius: 3px;
+    padding: 5px;
+}
+#comment_form input {
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    float: right;
+    outline: none;
+    border: none;
+    color: white;
+    border-radius: 3px;
+    background-color: #53c9ff;
+}
+#comment_form input:hover {
+    cursor: pointer;
+    background-color: #90dcff;
+}
+#post_new_discuss_panel {
+    width: 500px;
+    height: 400px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    z-index: 999;
+    background-color: #53c9ff;
+}
+
+#closeBtn {
+    width: 27px;
+    height: 27px;
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 3px;
+    top: 0;
+    right: -50px;
+    color: #53c9ff;
+}
+#closeBtn:hover {
+    cursor: pointer;
+    color: red;
+}
+#closeBtn span {
+    line-height: 25px;
+    font-size: 20px;
+}
+.class-info {
+    width: 100%;
+    font-size: 20px;
+}
+.class-info tr {
+    width: 100%;
+}
+.class-info td {
+    text-align: left;
+}
+.class-info tr td:first-child {
+    vertical-align: top;
+}
+.class-info textarea {
+    width: 425px;
+    height: 200px;
+    padding: 5px;
+    resize: none;
+    text-align: left;
+}
+.class-info input {
+    width: 425px;
+    text-align: left;
+    padding-left: 5px;
+    font-size: 20px;
+    line-height: 20px;
+}
+.class-info tr:last-child td:last-child > * {
+    float: left;
+}
+#post_new_discuss_btn {
+    position: inherit;
+    float: right;
+}
