@@ -10,7 +10,7 @@ public interface CourseService {
 
     List<Course> getAllStarCourses(int userId);
 
-    RetCode updateStarCourse(int useId, int courseId, Operation operation);
+    RetCode updateStarCourse(int userId, int courseId, Operation operation);
 
     List<Course> getAllOwnCourses(int userId);
 

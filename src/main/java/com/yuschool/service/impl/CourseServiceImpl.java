@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.yuschool.constants.enums.RetCode.*;
+
 @Service
 public class CourseServiceImpl implements CourseService {
 
@@ -30,8 +32,56 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public RetCode updateStarCourse(int useId, int courseId, Operation operation) {
-        return null;
+    public RetCode updateStarCourse(int userId, int courseId, Operation operation) {
+        RetCode rc = SUCCESS;
+        UserCourseRelation relation = userCourseRelationMapper.selectBy2Id(userId, courseId);
+        switch (operation) {
+            case OP_ADD:
+            {
+                if (relation == null) {
+                    relation = new UserCourseRelation();
+                    relation.setUserId(userId);
+                    relation.setCourseId(courseId);
+                    relation.setHasStarred(true);
+                    relation.setOwns(false);
+                    relation.setManages(false);
+                    int infNum = userCourseRelationMapper.insert(relation);
+                    if (infNum < 0) {
+                        logger.error("插入用户课程关系失败");
+                        rc = FAIL_OP;
+                    }
+                } else {
+                    if (relation.isHasStarred()) {
+                        logger.error("重复收藏");
+                        rc = DUP_VALUE;
+                    } else {
+                        relation.setHasStarred(true);
+                        int infNum = userCourseRelationMapper.update(relation);
+                        if (infNum < 0) {
+                            logger.error("更新用户收藏课程失败");
+                            rc = FAIL_OP;
+                        }
+                    }
+                }
+                break;
+            }
+            case OP_DEL:
+            {
+                if (relation == null || !relation.isHasStarred()) {
+                    logger.error("用户未收藏该课程");
+                    rc = WRONG_OP;
+                } else {
+                    relation.setHasStarred(true);
+                    int infNum = userCourseRelationMapper.update(relation);
+                    if (infNum < 0) {
+                        logger.error("更新用户收藏课程失败");
+                        rc = FAIL_OP;
+                    }
+                }
+                break;
+            }
+        }
+        return rc;
     }
 
     @Override
@@ -41,11 +91,13 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public RetCode publishCourse(int userId, Course course, String plan) {
+        // TODO
         return null;
     }
 
     @Override
     public RetCode deletePubCourse(int userId, int courseId) {
+        // TODO
         return null;
     }
 
@@ -56,7 +108,55 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public RetCode updateManageCourse(int userId, int courseId, Operation operation) {
-        return null;
+        RetCode rc = SUCCESS;
+        UserCourseRelation relation = userCourseRelationMapper.selectBy2Id(userId, courseId);
+        switch (operation) {
+            case OP_ADD:
+            {
+                if (relation == null) {
+                    relation = new UserCourseRelation();
+                    relation.setUserId(userId);
+                    relation.setCourseId(courseId);
+                    relation.setHasStarred(false);
+                    relation.setOwns(false);
+                    relation.setManages(true);
+                    int infNum = userCourseRelationMapper.insert(relation);
+                    if (infNum < 0) {
+                        logger.error("插入用户课程关系失败");
+                        rc = FAIL_OP;
+                    }
+                } else {
+                    if (relation.isManages()) {
+                        logger.error("重复添加管理");
+                        rc = DUP_VALUE;
+                    } else {
+                        relation.setManages(true);
+                        int infNum = userCourseRelationMapper.update(relation);
+                        if (infNum < 0) {
+                            logger.error("更新用户收藏课程失败");
+                            rc = FAIL_OP;
+                        }
+                    }
+                }
+                break;
+            }
+            case OP_DEL:
+            {
+                if (relation == null || !relation.isManages()) {
+                    logger.error("用户未管理该课程");
+                    rc = WRONG_OP;
+                } else {
+                    relation.setManages(true);
+                    int infNum = userCourseRelationMapper.update(relation);
+                    if (infNum < 0) {
+                        logger.error("更新用户收藏课程失败");
+                        rc = FAIL_OP;
+                    }
+                }
+                break;
+            }
+        }
+        return rc;
     }
 
     @Override
