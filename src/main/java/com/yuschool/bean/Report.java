@@ -1,6 +1,8 @@
 package com.yuschool.bean;
 
 
+import com.yuschool.annotation.CreatedTime;
+
 import java.sql.Timestamp;
 
 public class Report {
@@ -10,6 +12,7 @@ public class Report {
     private int reporteeId;
     private String detail;
     private String targetUrl;
+    @CreatedTime
     private Timestamp reportedTime;
     private int isHandled;
 

@@ -1,11 +1,14 @@
 package com.yuschool.bean;
 
+import com.yuschool.annotation.CreatedTime;
+
 import java.sql.Timestamp;
 
 
 public class History {
 
     private int id;
+    @CreatedTime
     private Timestamp createdTime;
     private String detail;
     private int limit;

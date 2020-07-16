@@ -1,5 +1,8 @@
 package com.yuschool.bean;
 
+import com.yuschool.annotation.CreatedTime;
+import com.yuschool.annotation.UpdatedTime;
+
 import java.sql.Timestamp;
 
 
@@ -8,7 +11,9 @@ public class Notice {
     private int id;
     private int senderId;
     private String detail;
+    @CreatedTime
     private Timestamp sentTime;
+    @UpdatedTime
     private Timestamp lastUpdatedTime;
 
     public int getSenderId() { return senderId; }

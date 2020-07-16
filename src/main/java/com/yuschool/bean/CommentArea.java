@@ -1,6 +1,9 @@
 package com.yuschool.bean;
 
 
+import com.yuschool.annotation.CreatedTime;
+import com.yuschool.annotation.UpdatedTime;
+
 import java.sql.Timestamp;
 
 public class CommentArea {
@@ -9,7 +12,9 @@ public class CommentArea {
     private String commentAreaName;
     private int commentAreaType;
     private int courseId;
+    @CreatedTime
     private Timestamp createdTime;
+    @UpdatedTime
     private Timestamp lastUpdatedTime;
 
     public String getCommentAreaName() {

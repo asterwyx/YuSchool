@@ -1,24 +1,23 @@
 package com.yuschool.controller;
 
-import com.yuschool.mapper.CourseMapper;
+import com.yuschool.service.CourseService;
 import com.yuschool.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-
-@Controller
+@RequestMapping("/courses")
+@RestController
 public class CourseController {
 
     @Autowired
-    CourseMapper courseMapper;
+    CourseService courseService;
 
-    @ResponseBody
-    @GetMapping("/courses")
+    @GetMapping
     public Result getAllCourses() {
         return Result.builder()
-                .data(courseMapper.selectAll())
+                .data(courseService.getAllCourses())
                 .build();
     }
 }

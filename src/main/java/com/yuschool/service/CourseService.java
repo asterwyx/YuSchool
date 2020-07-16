@@ -28,4 +28,6 @@ public interface CourseService {
 
     boolean checkManage(int userId, int courseId);
 
+    List<Course> getAllCourses();
+
 }

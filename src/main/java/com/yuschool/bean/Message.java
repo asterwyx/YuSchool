@@ -1,5 +1,7 @@
 package com.yuschool.bean;
 
+import com.yuschool.annotation.UpdatedTime;
+
 import java.sql.Timestamp;
 
 
@@ -11,6 +13,7 @@ public class Message {
     private Timestamp sentTime;
     private String detail;
     private int isRead;
+    @UpdatedTime
     private Timestamp lastUpdatedTime;
 
     public int getSenderId() { return senderId; }

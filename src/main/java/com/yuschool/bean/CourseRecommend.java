@@ -1,12 +1,15 @@
 package com.yuschool.bean;
 
 
+import com.yuschool.annotation.UpdatedTime;
+
 import java.sql.Timestamp;
 
 public class CourseRecommend {
 
     private int courseId;
     private int recommended;
+    @UpdatedTime
     private Timestamp lastUpdatedTime;
 
     public int getCourseId() { return courseId; }

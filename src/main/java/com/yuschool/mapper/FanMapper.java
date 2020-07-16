@@ -12,6 +12,12 @@ public interface FanMapper {
     @Select("SELECT * FROM fans WHERE id=#{id};")
     FanRelation selectById(int id);
 
+    @Select("SELECT * FROM fans WHERE user_id=#{userId};")
+    List<FanRelation> selectByUserId(int userId);
+
+    @Select("SELECT fan_id FROM fans WHERE user_id=#{userId};")
+    List<Integer> selectAllFansByUserId(int userId);
+
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO fans (user_id, fan_id, created_time, last_updated_time) VALUES (#{userId}, #{fanId}, #{createdTime}, #{lastUpdatedTime});")
     int insert(FanRelation fanRelation);
@@ -22,9 +28,6 @@ public interface FanMapper {
     @Delete("DELETE FROM fans WHERE id=#{id}")
     int deleteById(int id);
 
-    @Select("SELECT * FROM fans WHERE user_id=#{userId};")
-    List<FanRelation> selectByUserId(int userId);
-
-    @Select("SELECT fan_id FROM fans WHERE user_id=#{userId};")
-    List<Integer> selectAllFansByUserId(int userId);
+    @Delete("DELETE FROM fans WHERE user_id=#{userId} AND fan_id=#{fanId};")
+    int deleteBy2Id(int userId, int fanId);
 }

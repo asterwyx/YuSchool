@@ -26,8 +26,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AccountMapper accountMapper;
     @Autowired
-    private AuthorityMapper authorityMapper;
-    @Autowired
     private FanMapper fanMapper;
     @Autowired
     private FollowMapper followMapper;
@@ -65,6 +63,7 @@ public class UserServiceImpl implements UserService {
         RetCode rc = SUCCESS;
         switch (operation) {
             case OP_ADD:
+            {
                 if (checkFollow(userId, followingId)) {
                     rc = DUP_VALUE;
                     break;
@@ -85,12 +84,36 @@ public class UserServiceImpl implements UserService {
                 infNum = fanMapper.insert(fanRelation);
                 if (infNum < 0) {
                     logger.error("插入粉丝关系失败");
+                    followMapper.deleteBy2Id(userId, followingId);
                     rc = FAIL_OP;
                     break;
                 }
                 break;
+            }
             case OP_DEL:
+            {
+                if (checkFollow(userId, followingId)) {
+                    int infNum = followMapper.deleteBy2Id(userId, followingId);
+                    if (infNum < 0) {
+                        logger.error("删除关注关系失败");
+                        rc = FAIL_OP;
+                        break;
+                    }
+                    infNum = fanMapper.deleteBy2Id(followingId, userId);
+                    if (infNum < 0) {
+                        logger.error("删除粉丝关系失败");
+                        FollowRelation followRelation = new FollowRelation();
+                        followRelation.setUserId(userId);
+                        followRelation.setFollowingUserId(followingId);
+                        followMapper.insert(followRelation);
+                        rc = FAIL_OP;
+                        break;
+                    }
+                } else {
+                    rc = WRONG_OP;
+                }
                 break;
+            }
         }
         return rc;
     }

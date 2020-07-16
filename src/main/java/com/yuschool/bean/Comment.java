@@ -1,5 +1,7 @@
 package com.yuschool.bean;
 
+import com.yuschool.annotation.CreatedTime;
+
 import java.sql.Timestamp;
 
 public class Comment {
@@ -10,6 +12,7 @@ public class Comment {
     private int dislikes;
     private int publisherId;
     private int commentAreaId;
+    @CreatedTime
     private Timestamp publishedTime;
 
     public String getDetail() {
