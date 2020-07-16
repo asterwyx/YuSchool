@@ -52,7 +52,7 @@ public class Result implements Serializable {
         return new ResultBuilder();
     }
 
-    public static ResultBuilder withCode(RetCode retCode) {
+    public static ResultBuilder withRetCode(RetCode retCode) {
         return builder().code(retCode);
     }
 

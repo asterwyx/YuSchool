@@ -47,5 +47,5 @@ public class ParamKey {
     public static final String P_LIMIT = "limit";
     public static final String P_METHOD = "method";
     public static final String P_USER_ID= "user_id";
-
+    public static final String P_LIST = "list";
 }

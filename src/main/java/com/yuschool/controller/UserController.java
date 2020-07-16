@@ -2,16 +2,23 @@ package com.yuschool.controller;
 
 import com.yuschool.bean.User;
 import com.yuschool.constants.ParamKey;
+import com.yuschool.constants.enums.RetCode;
 import com.yuschool.service.UserService;
 import com.yuschool.service.impl.AccountServiceImpl;
+import com.yuschool.utils.ListUtil;
 import com.yuschool.utils.Result;
-import static com.yuschool.constants.enums.RetCode.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.yuschool.constants.ParamKey.P_LIST;
+import static com.yuschool.constants.enums.RetCode.*;
+import static com.yuschool.constants.enums.Operation.*;
+
+
 @RequestMapping("/users")
-@Controller
+@RestController
 public class UserController {
 
     @Autowired
@@ -27,7 +34,6 @@ public class UserController {
      * @param admin 是否是管理员
      * @return json数据串
      */
-    @ResponseBody
     @PostMapping
     public Result register(@RequestParam(name = ParamKey.P_USERNAME) String username, @RequestParam(name = ParamKey.P_PASSWORD) String password, @RequestParam(name = ParamKey.P_ADMIN) boolean admin) {
         Result result = new Result();
@@ -65,5 +71,44 @@ public class UserController {
      */
     public String decryptPassword(String password) {
         return password;
+    }
+
+    @GetMapping("/{user_id}/follows")
+    public Result getAllFollows(@PathVariable(value = "user_id") int userId) {
+        return Result.builder()
+                .data(userService.getAllFollows(userId))
+                .build();
+    }
+
+    @GetMapping("/{user_id}/fans")
+    public Result getAllFans(@PathVariable(value = "user_id") int userId) {
+        return Result.builder()
+                .data(userService.getAllFans(userId))
+                .build();
+    }
+
+    @PostMapping("/{user_id}/follows/{follow_id}")
+    public Result addFollow(@PathVariable(value = "user_id") int userId, @PathVariable(value = "follow_id") int followId) {
+        RetCode rc = userService.updateFollow(userId, followId, OP_ADD);
+        return Result.withRetCode(rc)
+                .build();
+    }
+
+    @DeleteMapping("/{user_id}/follows")
+    public Result cancelFollow(@PathVariable(value = "user_id") int userId, @RequestParam(value = P_LIST) String list) {
+        Result result = new Result();
+        List<Integer> idList = ListUtil.parseIntList(list);
+        int succeedNum = 0;
+        for (int followId : idList) {
+            if (userService.updateFollow(userId, followId, OP_DEL) == SUCCESS) {
+                succeedNum++;
+            }
+        }
+        if (succeedNum == idList.size()) {
+            result.setRetCode(SUCCESS);
+        } else {
+            result.setRetCode(INCOMPLETE_OP);
+        }
+        return result;
     }
 }

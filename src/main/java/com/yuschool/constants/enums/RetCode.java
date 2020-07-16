@@ -11,7 +11,9 @@ public enum RetCode {
     WRONG_OP(-2),
     FAIL_OP(-3),
     DUP_VALUE(-4),
-    MATCH_ERROR(-5);
+    MATCH_ERROR(-5),
+    INCOMPLETE_OP(-6)
+    ;
 
     private final int value;
 

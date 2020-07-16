@@ -77,7 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     ResUtil.writeObjectToResp(httpServletResponse, Result.builder().data(user).message("登录成功").build());
                 })
                 .failureHandler((httpServletRequest, httpServletResponse, e) -> {
-                    ResUtil.writeObjectToResp(httpServletResponse, Result.withCode(RetCode.FAIL_OP).message("登录验证失败").build());
+                    ResUtil.writeObjectToResp(httpServletResponse, Result.withRetCode(RetCode.FAIL_OP).message("登录验证失败").build());
                 })
                 .permitAll()
                 .and()

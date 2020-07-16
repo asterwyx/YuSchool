@@ -5,10 +5,10 @@ import com.yuschool.annotation.UpdatedTime;
 
 import java.sql.Timestamp;
 
-public class FanRelation {
+public class FollowRelation {
     private int id;
     private int userId;
-    private int fanId;
+    private int followingUserId;
     @CreatedTime
     private Timestamp createdTime;
     @UpdatedTime
@@ -30,12 +30,12 @@ public class FanRelation {
         this.userId = userId;
     }
 
-    public int getFanId() {
-        return fanId;
+    public int getFollowingUserId() {
+        return followingUserId;
     }
 
-    public void setFanId(int fanId) {
-        this.fanId = fanId;
+    public void setFollowingUserId(int followingUserId) {
+        this.followingUserId = followingUserId;
     }
 
     public Timestamp getCreatedTime() {
@@ -56,13 +56,12 @@ public class FanRelation {
 
     @Override
     public String toString() {
-        return "FanRelation{" +
+        return "FollowRelation{" +
                 "id=" + id +
                 ", userId=" + userId +
-                ", followingUserId=" + fanId +
+                ", followingUserId=" + followingUserId +
                 ", createdTime=" + createdTime +
                 ", lastUpdatedTime=" + lastUpdatedTime +
                 '}';
     }
-
 }
