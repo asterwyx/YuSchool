@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="/static/js/jquery-3.4.1.min.js"></script>
+  <script src="/static/js/axios.js"></script>
+  <script src="/static/js/vue.js"></script>
+  <script>
+    var domain = 123;
+    $(function () {
+      domain = 'http://' + document.domain + ':8080';
+    })
+    $("#form").submit(function () {
+      axios.put(domain.concat('/users/1'), {})
+          .then(function (data) {
+            alert(data.refCode);
+          })
+          .catch(function (err) {
+            alert('err');
+          })
+      alert(123);
+      return false;
+    })
+    function ssd() {
+      axios.put(domain.concat('/users/1'), $("#form").serialize())
+          .then(function (data) {
+            alert(data.refCode);
+          })
+          .catch(function (err) {
+            alert('err');
+          })
+      alert(123);
+      return false;
+    }
+  </script>
+</head>
+<body>
+<form id="form" onsubmit="return ssd()">
+  <input type="text" value="18" name="age">
+  <input type="text" value="这个人很懒" name="detail">
+  <input type="submit">
+</form>
+</body>
+</html>
