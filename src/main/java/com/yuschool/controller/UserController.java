@@ -127,5 +127,6 @@ public class UserController {
         return Result.withRetCode(rc)
                 .message(rc == SUCCESS ? "" : "更新用户信息失败")
                 .build();
+
     }
 }
