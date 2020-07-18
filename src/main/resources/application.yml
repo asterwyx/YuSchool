@@ -19,3 +19,5 @@ spring:
 #        enabled: true # 是否开启 StatViewServlet
 #        login-username: admin # 账号
 #        login-password: 123456 # 密码
+server:
+  port: 80

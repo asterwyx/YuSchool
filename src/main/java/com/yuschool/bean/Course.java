@@ -12,6 +12,8 @@ public class Course {
     private String introduction;
     private String coverFilePath;
     private int starNum;
+    private boolean isReviewed;
+    private boolean isLocked;
     @CreatedTime
     private Timestamp createdTime;
     @UpdatedTime
@@ -58,6 +60,22 @@ public class Course {
         this.id = id;
     }
 
+    public boolean isReviewed() {
+        return isReviewed;
+    }
+
+    public void setReviewed(boolean reviewed) {
+        isReviewed = reviewed;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -66,6 +84,8 @@ public class Course {
                 ", introduction='" + introduction + '\'' +
                 ", coverFilePath='" + coverFilePath + '\'' +
                 ", starNum=" + starNum +
+                ", isReviewed=" + isReviewed +
+                ", isLocked=" + isLocked +
                 ", createdTime=" + createdTime +
                 ", lastUpdatedTime=" + lastUpdatedTime +
                 '}';

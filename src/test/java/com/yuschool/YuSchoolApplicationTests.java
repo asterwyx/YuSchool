@@ -9,6 +9,7 @@ import com.yuschool.mapper.AccountMapper;
 import com.yuschool.mapper.CourseMapper;
 import com.yuschool.mapper.FanMapper;
 import com.yuschool.mapper.UserMapper;
+import com.yuschool.service.AccountService;
 import com.yuschool.service.impl.AccountServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ class YuSchoolApplicationTests {
     UserMapper userMapper;
 
     @Autowired
-    AccountServiceImpl accountService;
+    AccountService accountService;
 
     @Autowired
     AccountMapper accountMapper;
@@ -118,5 +119,10 @@ class YuSchoolApplicationTests {
     void testFanRelationSelect() {
         List<FanRelation> fanRelations = fanMapper.selectByUserId(1);
         System.out.println(fanRelations);
+    }
+
+    @Test
+    void testChangeUsername() {
+        assert accountMapper.updateUsername(1, "aster") > 0;
     }
 }

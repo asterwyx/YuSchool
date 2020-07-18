@@ -46,6 +46,9 @@ public class UserServiceImpl implements UserService {
         if (infNum <= 0) {
             return FAIL_OP;
         }
+        User user = userMapper.selectById(prepUser.getId());
+        assert user != null;
+        prepUser.clone(user);
         return SUCCESS;
     }
 

@@ -20,31 +20,34 @@ public class Result implements Serializable {
     }
 
     public Result() {
-        this(RetCode.SUCCESS, "", "");
+        this(RetCode.SUCCESS, null, null);
     }
 
     public RetCode getRetCode() {
         return retCode;
     }
 
-    public void setRetCode(RetCode retCode) {
+    public Result setRetCode(RetCode retCode) {
         this.retCode = retCode;
+        return this;
     }
 
     public String getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public Result setMessage(String message) {
         this.message = message;
+        return this;
     }
 
     public Object getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public Result setData(Object data) {
         this.data = data;
+        return this;
     }
 
     public static ResultBuilder builder() {
@@ -74,8 +77,8 @@ public class Result implements Serializable {
 
         public ResultBuilder() {
             this.retCode = RetCode.SUCCESS;
-            this.message = "";
-            this.data = "";
+            this.message = null;
+            this.data = null;
         }
 
         public ResultBuilder retCode(RetCode retCode) {
@@ -85,13 +88,11 @@ public class Result implements Serializable {
         }
 
         public ResultBuilder message(String message) {
-            Assert.notNull(message, "消息不能够为空");
             this.message = message;
             return this;
         }
 
         public ResultBuilder data(Object data) {
-            Assert.notNull(data, "数据不能够为空");
             this.data = data;
             return this;
         }

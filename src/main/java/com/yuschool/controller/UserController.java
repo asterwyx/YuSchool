@@ -3,8 +3,8 @@ package com.yuschool.controller;
 import com.yuschool.bean.User;
 import com.yuschool.constants.ParamKey;
 import com.yuschool.constants.enums.RetCode;
+import com.yuschool.service.AccountService;
 import com.yuschool.service.UserService;
-import com.yuschool.service.impl.AccountServiceImpl;
 import com.yuschool.utils.ListUtil;
 import com.yuschool.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    AccountServiceImpl accountService;
+    AccountService accountService;
 
     /**
      * 根据传入的参数
@@ -121,12 +121,22 @@ public class UserController {
             @RequestParam(value = P_HEAD_FILE_PATH, required = false) String headFilePath,
             @RequestParam(value = P_DETAIL, required = false) String detail
             ) {
+        Result result = new Result();
         User user = new User(userId, username, gender, age, headFilePath, detail);
         System.out.println(user);
+        if (username != null) {
+            if (userService.checkExistence(username)) {
+                return result.setRetCode(DUP_VALUE)
+                        .setMessage("用户名已存在");
+            } else {
+                RetCode rc = accountService.changeUsername(userId, username);
+                if (rc != SUCCESS) {
+                    result.setRetCode(rc).setMessage("更改用户名失败");
+                    return result;
+                }
+            }
+        }
         RetCode rc = userService.updateUserInfo(user);
-        return Result.withRetCode(rc)
-                .message(rc == SUCCESS ? "" : "更新用户信息失败")
-                .build();
-
+        return result;
     }
 }

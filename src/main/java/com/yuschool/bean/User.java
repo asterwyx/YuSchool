@@ -4,6 +4,7 @@ import com.yuschool.annotation.CreatedTime;
 import com.yuschool.annotation.UpdatedTime;
 import com.yuschool.constants.DefaultValue;
 
+import java.lang.reflect.Field;
 import java.sql.Timestamp;
 
 import static com.yuschool.constants.DefaultValue.AGE_NULL;
@@ -125,5 +126,16 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void clone(User user) {
+        this.id = user.id;
+        this.username = user.username;
+        this.gender = user.gender;
+        this.age = user.age;
+        this.headFilePath = user.headFilePath;
+        this.detail = user.detail;
+        this.registerTime = user.registerTime;
+        this.lastUpdatedTime = user.lastUpdatedTime;
     }
 }

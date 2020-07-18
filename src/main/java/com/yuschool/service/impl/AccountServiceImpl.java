@@ -3,14 +3,15 @@ package com.yuschool.service.impl;
 import com.yuschool.bean.Account;
 import com.yuschool.bean.Authority;
 import com.yuschool.bean.factory.AuthorityFactory;
+import com.yuschool.constants.enums.RetCode;
 import com.yuschool.mapper.AccountMapper;
 import com.yuschool.mapper.UserAuthorityMapper;
+import com.yuschool.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.yuschool.constants.enums.RetCode.*;
+
 @Service
-public class AccountServiceImpl implements UserDetailsService {
+public class AccountServiceImpl implements AccountService {
 
     public static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
     @Autowired
@@ -41,9 +44,7 @@ public class AccountServiceImpl implements UserDetailsService {
         }
     }
 
-    /**
-     * 添加普通账户，这里包括创建账户，创建账户权限记录
-     */
+    @Override
     public boolean addNormalAccount(com.yuschool.bean.User user, String password) {
         // 创建账户
         Authority authority = AuthorityFactory.getInstanceByName(Authority.ROLE_USER);
@@ -64,6 +65,7 @@ public class AccountServiceImpl implements UserDetailsService {
         return true;
     }
 
+    @Override
     public boolean addAdminAccount(com.yuschool.bean.User user, String password) {
         // 创建账户
         List<Authority> authorities = Arrays.asList(
@@ -87,5 +89,15 @@ public class AccountServiceImpl implements UserDetailsService {
             }
         }
         return true;
+    }
+
+    @Override
+    public RetCode changeUsername(int userId, String username) {
+        int infNum = accountMapper.updateUsername(userId, username);
+        if (infNum <= 0) {
+            return FAIL_OP;
+        } else {
+            return SUCCESS;
+        }
     }
 }
