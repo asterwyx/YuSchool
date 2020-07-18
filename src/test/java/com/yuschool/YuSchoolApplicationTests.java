@@ -4,6 +4,7 @@ import com.yuschool.bean.Account;
 import com.yuschool.bean.Course;
 import com.yuschool.bean.FanRelation;
 import com.yuschool.bean.User;
+import com.yuschool.constants.DefaultValue;
 import com.yuschool.mapper.AccountMapper;
 import com.yuschool.mapper.CourseMapper;
 import com.yuschool.mapper.FanMapper;
@@ -59,13 +60,13 @@ class YuSchoolApplicationTests {
 
     @Test
     void testUserMapperUpdate() {
-        User user = new User("cecil");
+        User user = new User("aster");
         user.setId(1);
-        user.setGender("男");
-        user.setAge(20);
-        user.setHeadFilePath("default.jpg");
-        user.setDetail("你好");
-        assert userMapper.update(user) > 0;
+        user.setAge(DefaultValue.AGE_NULL);
+        user.setDetail(null);
+        user.setGender(null);
+        user.setHeadFilePath(null);
+        assert userMapper.updateSelective(user) > 0;
         System.out.println(user);
     }
 

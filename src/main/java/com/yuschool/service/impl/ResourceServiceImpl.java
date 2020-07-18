@@ -23,7 +23,7 @@ public class ResourceServiceImpl implements com.yuschool.service.ResourceService
 
     @Override
     public RetCode addResource(Resource prepResource, File file) {
-        prepResource.setSectionId(PK_NULL);
+        prepResource.setCourseId(PK_NULL);
         MagicMatch match; // 获取MimeType
         try {
             match = Magic.getMagicMatch(file, true, true);
@@ -33,6 +33,11 @@ public class ResourceServiceImpl implements com.yuschool.service.ResourceService
         }
         assert match != null;
         prepResource.setType(match.getMimeType());
+        int infNum = resourceMapper.insert(prepResource);
+        if (infNum <= 0) {
+            logger.error("插入资源失败");
+            return FAIL_OP;
+        }
         return SUCCESS;
     }
 }

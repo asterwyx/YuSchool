@@ -6,6 +6,9 @@ import com.yuschool.constants.DefaultValue;
 
 import java.sql.Timestamp;
 
+import static com.yuschool.constants.DefaultValue.AGE_NULL;
+import static com.yuschool.constants.DefaultValue.PK_NULL;
+
 public class User {
 
     private int id;
@@ -38,7 +41,7 @@ public class User {
     }
 
     public User(String username) {
-        this(DefaultValue.PK_NULL, username, "", 0, DefaultValue.DEFAULT_USER_HEAD_PATH, "");
+        this(PK_NULL, username, "", AGE_NULL, DefaultValue.DEFAULT_USER_HEAD_PATH, "");
     }
 
     public User() {

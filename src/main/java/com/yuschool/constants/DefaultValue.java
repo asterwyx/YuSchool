@@ -5,7 +5,7 @@ public class DefaultValue {
     public static final String PROJECT_PATH = "/YuSchool";
 
     public static final int PK_NULL = 0;
-    public static final int NUM_NULL = -1;
+    public static final int AGE_NULL = -1;
     public static final String DEFAULT_USER_HEAD_PATH = "./static/image/head_black.png";
     public static final int FLAG_NULL = -1;
     public static final String RESOURCE_ROOT = "C:\\Repositories\\IdeaProjects\\YuSchool\\web\\Resources\\";

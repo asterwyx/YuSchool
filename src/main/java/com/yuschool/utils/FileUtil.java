@@ -1,17 +1,11 @@
 package com.yuschool.utils;
 
-import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
-import javax.activation.MimetypesFileTypeMap;
 import java.io.*;
 
 public class FileUtil {
 
+    public static final String DATA_ROOT = FileUtil.class.getResource("/data").getPath();
 
-    public static DiskFileItemFactory factory = new DiskFileItemFactory();
-    public static ServletFileUpload uploader = new ServletFileUpload(factory);
-    public static MimetypesFileTypeMap mapper = new MimetypesFileTypeMap();
     /**
      * 将某个文件的全部内容读入一个缓冲区
       * @param buffer 存储缓冲区
@@ -43,5 +37,23 @@ public class FileUtil {
         StringBuffer sb = new StringBuffer();
         FileUtil.readToBuffer(sb, resourceName);
         return sb.toString();
+    }
+
+    /**
+     * 根据常用文件名生成唯一绝对path
+     * @param raw 常用文件名，不带路径
+     * @return 唯一绝对path
+     */
+    public static String getAppropriateFilePath(String raw) {
+        if (raw == null || "".equals(raw)) {
+            return "";
+        }
+        String[] names = raw.split("\\.");
+        if (names.length < 2) {
+            // 没有扩展名
+            return DATA_ROOT + "/" + CodeUtil.generateUniqueCode();
+        } else {
+            return DATA_ROOT + "/" + CodeUtil.generateUniqueCode() + "." + names[names.length - 1];
+        }
     }
 }

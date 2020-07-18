@@ -15,6 +15,7 @@ public interface UserService {
      */
     boolean addUser(User prepUser);
 
+    RetCode updateUserInfo(User prepUser);
     /**
      * 检查用户名是否已经被注册
      * @param username 要检查的用户名

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.yuschool.constants.ParamKey.P_LIST;
+import static com.yuschool.constants.ParamKey.*;
 import static com.yuschool.constants.enums.RetCode.*;
 import static com.yuschool.constants.enums.Operation.*;
 
@@ -110,5 +110,22 @@ public class UserController {
             result.setRetCode(INCOMPLETE_OP);
         }
         return result;
+    }
+
+    @PutMapping("/{user_id}")
+    public Result updateUserInfo(
+            @PathVariable("user_id") int userId,
+            @RequestParam(value = P_USERNAME, required = false) String username,
+            @RequestParam(value = P_GENDER, required = false) String gender,
+            @RequestParam(value = P_AGE, required = false, defaultValue = "-1") int age,
+            @RequestParam(value = P_HEAD_FILE_PATH, required = false) String headFilePath,
+            @RequestParam(value = P_DETAIL, required = false) String detail
+            ) {
+        User user = new User(userId, username, gender, age, headFilePath, detail);
+        System.out.println(user);
+        RetCode rc = userService.updateUserInfo(user);
+        return Result.withRetCode(rc)
+                .message(rc == SUCCESS ? "" : "更新用户信息失败")
+                .build();
     }
 }

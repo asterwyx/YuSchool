@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface CourseService {
 
+    boolean addCourse(Course prepCourse);
+
     List<Course> getAllStarCourses(int userId);
 
     RetCode updateStarCourse(int userId, int courseId, Operation operation);

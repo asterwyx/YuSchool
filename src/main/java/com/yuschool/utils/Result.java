@@ -19,7 +19,6 @@ public class Result implements Serializable {
         this.data = data;
     }
 
-    // 默认成功构造函数
     public Result() {
         this(RetCode.SUCCESS, "", "");
     }
@@ -53,7 +52,7 @@ public class Result implements Serializable {
     }
 
     public static ResultBuilder withRetCode(RetCode retCode) {
-        return builder().code(retCode);
+        return builder().retCode(retCode);
     }
 
     public static ResultBuilder withMessage(String message) {
@@ -79,7 +78,7 @@ public class Result implements Serializable {
             this.data = "";
         }
 
-        public ResultBuilder code(RetCode retCode) {
+        public ResultBuilder retCode(RetCode retCode) {
             Assert.notNull(retCode, "返回码不能够为空");
             this.retCode = retCode;
             return this;

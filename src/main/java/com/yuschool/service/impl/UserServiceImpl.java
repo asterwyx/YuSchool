@@ -41,6 +41,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public RetCode updateUserInfo(User prepUser) {
+        int infNum = userMapper.updateSelective(prepUser);
+        if (infNum <= 0) {
+            return FAIL_OP;
+        }
+        return SUCCESS;
+    }
+
+    @Override
     public boolean checkExistence(String username) {
         User find = userMapper.selectByUsername(username);
         return find != null;

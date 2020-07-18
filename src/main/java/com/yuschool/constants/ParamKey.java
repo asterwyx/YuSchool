@@ -39,7 +39,7 @@ public class ParamKey {
     public static final String P_ACCOUNT = "account";
     public static final String P_OLD_PASSWORD = "old_password";
     public static final String P_COURSE_NAME = "course_name";
-    public static final String P_COURSE_INTRODUCTION = "course_introduction";
+    public static final String P_COURSE_INTRODUCTION = "introduction";
     public static final String P_COURSE_COVER_PATH = "course_cover_path";
     public static final String P_SENDER = "sender";
     public static final String P_RECEIVER = "receiver";
@@ -48,4 +48,5 @@ public class ParamKey {
     public static final String P_METHOD = "method";
     public static final String P_USER_ID= "user_id";
     public static final String P_LIST = "list";
+    public static final String P_FILE = "file";
 }

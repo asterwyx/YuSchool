@@ -10,8 +10,8 @@ public class Resource {
     private String resourceName;
     private String fullName;
     private String type;
-    private int size;
-    private int sectionId;
+    private long size;
+    private int courseId;
     @UpdatedTime
     private Timestamp lastUpdatedTime;
 
@@ -39,11 +39,11 @@ public class Resource {
         this.type = type;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(long size) {
         this.size = size;
     }
 
@@ -55,12 +55,12 @@ public class Resource {
         this.lastUpdatedTime = lastUpdatedTime;
     }
 
-    public int getSectionId() {
-        return sectionId;
+    public int getCourseId() {
+        return courseId;
     }
 
-    public void setSectionId(int sectionId) {
-        this.sectionId = sectionId;
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
     }
 
     @Override
@@ -71,7 +71,7 @@ public class Resource {
                 ", fullName='" + fullName + '\'' +
                 ", type='" + type + '\'' +
                 ", size=" + size +
-                ", sectionId=" + sectionId +
+                ", sectionId=" + courseId +
                 ", lastUpdatedTime=" + lastUpdatedTime +
                 '}';
     }

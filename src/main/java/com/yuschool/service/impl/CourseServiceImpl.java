@@ -27,6 +27,16 @@ public class CourseServiceImpl implements CourseService {
     UserCourseRelationMapper userCourseRelationMapper;
 
     @Override
+    public boolean addCourse(Course prepCourse) {
+        int infNum = courseMapper.insert(prepCourse);
+        if (infNum <= 0) {
+            logger.error("插入用户失败");
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public List<Course> getAllStarCourses(int userId) {
         return this.getCoursesByIds(userCourseRelationMapper.selectAllStarsByUserId(userId));
     }
@@ -46,7 +56,7 @@ public class CourseServiceImpl implements CourseService {
                     relation.setOwns(false);
                     relation.setManages(false);
                     int infNum = userCourseRelationMapper.insert(relation);
-                    if (infNum < 0) {
+                    if (infNum <= 0) {
                         logger.error("插入用户课程关系失败");
                         rc = FAIL_OP;
                     }
@@ -57,7 +67,7 @@ public class CourseServiceImpl implements CourseService {
                     } else {
                         relation.setHasStarred(true);
                         int infNum = userCourseRelationMapper.update(relation);
-                        if (infNum < 0) {
+                        if (infNum <= 0) {
                             logger.error("更新用户收藏课程失败");
                             rc = FAIL_OP;
                         }
@@ -73,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
                 } else {
                     relation.setHasStarred(true);
                     int infNum = userCourseRelationMapper.update(relation);
-                    if (infNum < 0) {
+                    if (infNum <= 0) {
                         logger.error("更新用户收藏课程失败");
                         rc = FAIL_OP;
                     }
@@ -121,7 +131,7 @@ public class CourseServiceImpl implements CourseService {
                     relation.setOwns(false);
                     relation.setManages(true);
                     int infNum = userCourseRelationMapper.insert(relation);
-                    if (infNum < 0) {
+                    if (infNum <= 0) {
                         logger.error("插入用户课程关系失败");
                         rc = FAIL_OP;
                     }
@@ -132,7 +142,7 @@ public class CourseServiceImpl implements CourseService {
                     } else {
                         relation.setManages(true);
                         int infNum = userCourseRelationMapper.update(relation);
-                        if (infNum < 0) {
+                        if (infNum <= 0) {
                             logger.error("更新用户收藏课程失败");
                             rc = FAIL_OP;
                         }
@@ -148,7 +158,7 @@ public class CourseServiceImpl implements CourseService {
                 } else {
                     relation.setManages(true);
                     int infNum = userCourseRelationMapper.update(relation);
-                    if (infNum < 0) {
+                    if (infNum <= 0) {
                         logger.error("更新用户收藏课程失败");
                         rc = FAIL_OP;
                     }

@@ -175,7 +175,7 @@
             let i_4 = $('<i class="fa fa-level-down down-sub-chapter" style="right: 35px;" onclick="down_sub_chapter(event, this)">下移</i>');
             let i_5 = $('<i class="fa fa-level-up up-sub-chapter" style="right: 85px;" onclick="up_sub_chapter(event, this)">上移</i>');
             let i_6 = $('<i class="rename-sub-chapter" onclick="rename_sub_chapter(event, this)">重命名</i>');
-            let i_7 = $('<i class="upload-file" onclick="upload_file(event, this)">上传资源</i>');
+            let i_7 = $('<i class="upload-data" onclick="upload_file(event, this)">上传资源</i>');
             sub_chapter.append(i_1, i_2, i_3, i_4, i_5, i_6, i_7);
             $t = $(o).parent().siblings(".c-body");
             let index = $t.children(".sub-chapter").length;
