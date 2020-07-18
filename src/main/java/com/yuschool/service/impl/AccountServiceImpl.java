@@ -16,13 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 public class AccountServiceImpl implements UserDetailsService {
 
-    public static final Logger logger = LoggerFactory.getLogger("AccountServiceLogger");
+    public static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
     @Autowired
     AccountMapper accountMapper;
     @Autowired
@@ -48,7 +47,7 @@ public class AccountServiceImpl implements UserDetailsService {
     public boolean addNormalAccount(com.yuschool.bean.User user, String password) {
         // 创建账户
         Authority authority = AuthorityFactory.getInstanceByName(Authority.ROLE_USER);
-        Account account = new Account(user.getUsername(), encoder.encode(password), Collections.singletonList(authority));
+        Account account = new Account(user.getUsername(), encoder.encode(password));
         account.setUserId(user.getId());
         account.setPhoneNum("");
         int rc = accountMapper.insert(account);
@@ -71,7 +70,7 @@ public class AccountServiceImpl implements UserDetailsService {
                 AuthorityFactory.getInstanceByName(Authority.ROLE_USER),
                 AuthorityFactory.getInstanceByName(Authority.ROLE_ADMIN)
         );
-        Account account = new Account(user.getUsername(), encoder.encode(password), authorities);
+        Account account = new Account(user.getUsername(), encoder.encode(password));
         account.setUserId(user.getId());
         account.setPhoneNum("");
         int rc = accountMapper.insert(account);

@@ -64,6 +64,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login").permitAll() // 登录界面和登录接口允许任何人访问
+                .antMatchers("/login.html").permitAll()
+                .antMatchers("/register.html").permitAll()
+                .antMatchers("/mainPage.html").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll() // 允许所有人注册
                 .antMatchers("/static/**").permitAll() // 静态资源允许任何人访问
                 .anyRequest().hasRole(Authority.USER)

@@ -21,7 +21,6 @@ public interface UserMapper {
     @UpdateProvider(type = UserMapperProvider.class, method = "updateSelective")
     int updateSelective(@Param("user") User user);
 
-
     @Delete("DELETE FROM users WHERE id=#{id}")
     int deleteById(int id);
 
