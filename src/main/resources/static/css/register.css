@@ -2,7 +2,7 @@ body{
     background-color: #757575;
     box-sizing: border-box;
 }
-#register-box {
+#app {
     background-color: white;
     width: 400px;
     height: auto;
@@ -18,15 +18,14 @@ body{
     outline: none;
     font-size: 20px;
     margin: 10px 10px;
-    border: 2px solid #00b0ff;
     border-radius: 6px;
 }
-#submit{
+.submit{
     outline: none;
     color: white;
     cursor: pointer;
     height: 40px;
-    width: 120px;
+    width: 160px;
     background-color: #00b0ff;
     left: 50%;
 }
@@ -43,4 +42,10 @@ body{
 #icon{
     margin-left: 5px;
     font-size: 25px;
+}
+.error {
+    border: 2px solid red;
+}
+.normal {
+    border: 2px solid #00b0ff;
 }

@@ -1,115 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>登录</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="/static/css/login.css"/>
-    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script> -->
-    <script src="/static/js/jquery-3.4.1.min.js"></script>
-    <script src="/static/js/axios.js"></script>
-    <script>
-        var domain = 123;
-        $(function () {
-            domain = 'http://' + document.domain + ':8080';
-            get_pub_key();
-            // document.cookie.replace(/(?:(?:^|.*;\s*)csrf_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-            $("#loginForm").submit(function () {
-                let username = $("#name_input").val();
-                let password = $("#password_input").val();
-                if(check()){
-                    $.ajax({
-                    url:domain + "/login",
-                    type:"POST",
-                    data:{'username': username, 'password': password},
-                    success:function (data) {
-                        if (data.retCode == 0) {
-                            window.location = domain + "/mainPage";
-                        } else {
-                            $x = $("#errorMsg");
-                            $x.css("color", "red");
-                            $x.html(data.message);
-                        }
-                    },
-                    error:function (data) {
-                        alert("未知错误!请重试或反馈");
-                    },
-                    dataType:"json"
-                    });
-                }
-                return false;
-            });
-        });
-        function get_pub_key() {
-            $.ajax({
-                url:domain + "/pub_key",
-                type:"POST",
-                data:{},
-                success:function (data) {
-                    if (data.flag) {
-                        $("#pub_key").val(data.data);
-                    }
-                }
-            });
-        }
-        function encrypt_password(s) {
-            let encrypt = new JSEncrypt();
-            encrypt.setPublicKey($("#pub_key").val());
-            let encrypted = encrypt.encrypt(s);
-            return encrypted;
-        }
-        function check(){
-            if($("#nameInput").val() == ""){
-                changeStyle($("#nameInput"), 1);
-                alert("用户名不能为空");
-                return false;
-            } else if($("#passwordInput").val() == ""){
-                changeStyle($("#passwordInput"), 1);
-                alert("密码不能为空");
-                return false;
-            } else {
-                return true;
-            }
-        }
-        function changeStyle(o, t){
-            if (t === 1) {
-                o.css("border", "2px solid red");
-            } else if (t === 2) {
-                o.css("border", "");
-            }
-        }
-        function register() {
-            window.location = domain + "/register.html";
-        }
-    </script>
+  <title>登录</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="static/css/login.css"/>
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script> -->
+  <script src="static/js/jquery-3.4.1.min.js"></script>
+  <script src="static/js/jsencrypt.min.js"></script>
+  <script src="static/js/axios.js"></script>
 </head>
 <body>
-<div id="login-div">
-    <div>
-        <p style="font-size: 50px; color: #00b0ff;">登录</p>
-        <p id="errorMsg" style="color: #ffd74000;text-align: center">s</p>
-    </div>
-    <div>
-        <form id="loginForm" method="post">
-            <table>
-                <tr>
-                    <td><label>邮箱:</label></td>
-                    <td><input type="text" id="name_input" name="username" onfocus="changeStyle($(this), 2);" required/><br/></td>
-                </tr>
-                <tr>
-                    <td><label>密码:</label></td>
-                    <td><input type="password" id="password_input" name="password" onfocus="changeStyle($(this), 2);" required/><br/></td>
-                </tr>
-            </table>
-            <input type="submit" class="btn" value="登录"/>
-            <input type="hidden" id="pub_key" value="" />
-        </form>
-        <button class="btn" onclick="register();">注册</button>
-    </div>
+<div id="app">
+  <div>
+    <p style="font-size: 50px; color: #00b0ff;">登录</p>
+    <p id="error_msg" style="color: #ff0000;text-align: center;height: 30px;margin: 0">{{error_msg}}</p>
+  </div>
+  <div>
+    <form id="login-form" method="post" @submit.prevent="to_login">
+      <table>
+        <tr>
+          <td><label for="name_input">用户名:</label></td>
+          <td><input type="text" id="name_input" v-model="user_name" :class="get_class(1)"
+                     @focus="remove_class(0)"
+                     required/><br/></td>
+        </tr>
+        <tr>
+          <td><label for="password_input">密码:</label></td>
+          <td><input type="password" id="password_input" v-model="password"
+                     :class="get_class(1)"
+                     @focus="remove_class(1)"
+                     required/><br/></td>
+        </tr>
+      </table>
+      <input type="hidden" id="pub_key" v-model="pub_key" />
+      <input type="submit" class="btn" value="登录" />
+    </form>
+    <button class="btn" @click="to_register">注册</button>
+  </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+<script src="static/js/vue.js"></script>
 <script>
-	
+  const app = new Vue({
+    el: '#app',
+    data: {
+      domain: '',
+      user_name: '',
+      password: '',
+      pub_key: '',
+      error_msg: '',
+      is_error: [false, false]
+    },
+    methods: {
+      remove_class(e) {
+        Vue.set(this.is_error, e, false);
+      },
+      to_register() {
+        window.location = domain.concat('/register.html');
+      },
+      to_login() {
+        axios.post(this.domain.concat('/login'), {
+          username: this.user_name,
+          password: this.password
+          // username: this.encrypt(this.user_name),
+          // password: this.encrypt(this.password)
+        })
+        .then((msg) => {
+          if (msg.data.retCode === 0) {
+            alert('登录成功');
+            window.location = domain.concat('/mainPage.html');
+          } else {
+            this.error_msg = msg.data.message;
+            console.log(this.error_msg);
+            console.log(msg);
+          }
+        })
+        .catch((err) => {
+          alert('未知错误');
+        })
+      },
+      encrypt(s) {
+        let encrypt = new JSEncrypt();
+        encrypt.setPublicKey(this.pub_key);
+        return encrypt.encrypt(s);
+      },
+      get_class(e) {
+        return {
+          normal: !this.is_error[e],
+          error: this.is_error[e]
+        };
+      }
+    },
+    mounted() {
+      this.domain = 'http://'.concat(document.domain);
+    }
+  })
 </script>
 </body>
 </html>

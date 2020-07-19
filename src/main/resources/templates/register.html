@@ -1,190 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
-    <link rel="stylesheet" href="./static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="./static/css/register.css"/>
-    <script src="./static/js/jquery-3.4.1.min.js"></script>
-    <script src="./static/js/jsencrypt.min.js"></script>
-    <script>
-        var domain = 123;
-        $(function () {
-            domain = 'http://' + document.domain + '/YuSchool';
-            var img = document.getElementById("checkCode");
-            img.src = domain + "/tool/getCheckCode?" + new Date().getTime();
-            get_pub_key();
-            $("#registerForm").submit(function () {
-                let password = encrypt_password($("#passwordInput").val());
-                let email = encrypt_password($("#emailInput").val());
-                if (check()) {
-                    $.ajax({
-                    url:domain + "/users",
-                    type:"POST",
-                    data:{'email': email, 'password': password},
-                    success:function (data) {
-                        if (data.flag) {
-                            let check_code =  window.prompt("已向邮箱发送验证码,请输入:")
-                            verify_check_code(check_code);
-                        } else {
-                            x = $("#errorMsg");
-                            x.css("color", "red");
-                            x.html(data.errorMsg);
-                        }
-                    },
-                    error:function (data) {
-                        alert("未知错误!请重试或反馈");
-                    },
-                    dataType:"json"
-                    });
-                }
-                return false;
-            });
-        });
-        function flashChackCode() {
-            var img = document.getElementById("checkCode");
-            img.src = domain + "/tool/getCheckCode?" + new Date().getTime();
-        }
-        function checkCheckCode() {
-            var flag = false;
-            $.get(domain + "/tool/checkCheckCode", {'checkCode':$("#checkCodeInput").val()}, function (data) {
-                flag = data.flag;
-                if (flag) {
-                    set(1);
-                } else {
-                    set(2);
-                    flashChackCode();
-                }
-            });
-            return flag;
-        }
-        function check(){
-            if($("#emailInput").val() == ""){
-                changeStyle($("#emailInput"), 1);
-                alert("用户名不能为空");
-                return false;
-            } else if($("#passwordInput").val() == ""){
-                changeStyle($("#passwordInput"), 1);
-                alert("密码不能为空");
-                return false;
-            } else if($("#passwordInput").val() != $("#repeatPasswordInput").val()){
-                changeStyle($("#repeatPasswordInput"), 1);
-                alert("两次输入的密码不一致");
-                return false;
-            // } else if($("#checkCodeInput").val() == ""){
-            //     changeStyle($("#checkCodeInput"), 1);
-            //     alert("验证码不能为空");
-            //     return false;
-            } else {
-                return true;
-            }
-        }
-        function changeStyle(o, t){
-            if (t === 1) {
-                o.css("border", "2px solid red");
-            } else if (t === 2) {
-                o.css("border", "");
-            }
-        }
-        function set(t) {
-            var $icon = $("#icon");
-            var $checkInput = $("#checkCodeInput");
-            if (t === 1) {
-                $icon.attr("class", "fa fa-check");
-                $icon.css("color", "green");
-            } else if (t === 2) {
-                $icon.attr("class", "fa fa-close");
-                $icon.css("color", "red");
-                $checkInput.css("border", "2px solid red");
-            } else if (t === 3) {
-                $icon.attr("class", "1");
-                $icon.css("color", "");
-                $checkInput.css("border", "");
-            }
-        }
-        function verify_check_code(s) {
-            $.ajax({
-                url:domain + "/users/verify",
-                type:"POST",
-                data:{'check_code': s},
-                success:function(data) {
-                    if(data.flag) {
-                        alert("注册成功");
-                        window.location = domain + "/mainPage.jsp";
-                    }else {
-                        alert("注册失败");
-                        window.location = window.location;
-                    }
-                },
-                error:function(data) {
-                    alert("未知错误");
-                }
-            })
-        }
-        function get_pub_key() {
-            $.ajax({
-                url:domain + "/pub_key",
-                type:"POST",
-                data:{},
-                success:function (data) {
-                    if (data.flag) {
-                        $("#pub_key").val(data.data);
-                    }
-                }
-            });
-        }
-        function encrypt_password(s) {
-            let encrypt = new JSEncrypt();
-            encrypt.setPublicKey($("#pub_key").val());
-            let encrypted = encrypt.encrypt(s);
-            return encrypted;
-        }
-    </script>
+  <meta charset="UTF-8">
+  <title>注册</title>
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="static/css/register.css"/>
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script> -->
+  <script src="static/js/jquery-3.4.1.min.js"></script>
+  <script src="static/js/jsencrypt.min.js"></script>
+  <script src="static/js/axios.js"></script>
 </head>
 <body>
-<div id="register-box">
-    <p style="font-size: 50px; color: #00b0ff;">注册</p>
-    <form id="registerForm" method="post">
-        <table>
-            <tr>
-                <td>
-                    <label>邮箱:</label>
-                </td>
-                <td>
-                    <input type="email" onfocus="changeStyle($(this), 2);" class="input" name="email" id="emailInput" required/><br/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>密码:</label>
-                </td>
-                <td>
-                    <input type="password" maxlength="16" onfocus="changeStyle($(this), 2);" class="input" name="password" id="passwordInput" onpaste="return false" ondragenter="return false" required/><br/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>重复密码:</label>
-                </td>
-                <td>
-                    <input type="password" maxlength="16" onfocus="changeStyle($(this), 2);" class="input" name="r_password" id="repeatPasswordInput" onpaste="return false" ondragenter="return false" required/><br/>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>验证码:</label>
-                </td>
-                <td style="float: left;">
-                    <input type="text" maxlength="4" onfocus="set(3)" onblur="checkCheckCode();" class="input" id="checkCodeInput" name="checkCode"/><img id="checkCode" onclick="flashChackCode()">
-                </td>
-                <td>
-                    <i class="" id="icon" aria-hidden="true"></i>
-                </td>
-            </tr>
-        </table>
-        <input type="hidden" class="input" id="pub_key" name="token">
-        <input type="submit" class="input" id="submit" value="确认"/>
-    </form>
+<div id="app">
+  <div>
+    <p style="font-size: 50px; color: #00b0ff; margin: 10px 0">注册</p>
+    <p id="error_msg" style="color: #ff0000;text-align: center;height: 30px;margin: 0">{{error_msg}}</p>
+  </div>
+  <form id="register_form" method="post" @submit.prevent="to_register">
+    <table>
+      <tr>
+        <td><label for="name_input">用户名:</label></td>
+        <td><input type="text" @focus="remove_class(0)" :class="get_class(0)" name="username" id="name_input"
+                   v-model="user_name"
+                   required/><br/></td>
+      </tr>
+      <tr>
+        <td><label for="password_input">密码:</label></td>
+        <td><input type="password" maxlength="16" @focus="remove_class(1)" @input="check_repeat" :class="get_class(1)" name="password"
+                   v-model="password"
+                   id="password_input" onpaste="return false" ondragenter="return false" required/><br/></td>
+      </tr>
+      <tr>
+        <td><label for="repeat_input">重复密码:</label></td>
+        <td><input type="password" maxlength="16" @focus="remove_class(2)" @input="check_repeat" :class="get_class(2)"
+                   name="r_password"
+                   v-model="repeat_password"
+                   id="repeat_input" onpaste="return false" ondragenter="return false" required/><br/></td>
+      </tr>
+      <tr v-if="false">
+        <td><label for="check_input">验证码:</label></td>
+        <td style="float: left;">
+          <input type="text" maxlength="4" onfocus="set(3)" onblur="checkCheckCode();"
+                 class="input normal" id="check_input" name="checkCode" v-model="check_code" />
+          <img id="check_code" onclick="flashCheckCode()" :src="check_code_src"/>
+        </td>
+        <td><i class="" id="icon" aria-hidden="true"></i></td>
+      </tr>
+    </table>
+    <input type="submit" class="input normal submit" value="注册" />
+  </form>
+  <button class="input normal submit" @click="to_login">转到登录</button>
 </div>
+
+<script src="static/js/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: '#app',
+    data: {
+      domain: '',
+      user_name: '',
+      password: '',
+      repeat_password: '',
+      error_msg: '',
+      check_code: '',
+      check_code_src: '',
+      is_error: [false, false, false]
+    },
+    methods: {
+      remove_class(e) {
+        Vue.set(this.is_error, e, false);
+      },
+      check_repeat() {
+        if (this.password !== this.repeat_password) {
+          Vue.set(this.is_error, 2, true);
+          this.error_msg = '密码不匹配!';
+        } else {
+          Vue.set(this.is_error, 2, false);
+          this.error_msg = '';
+        }
+      },
+      to_register() {
+        if (this.user_name === '') {
+          Vue.set(this.is_error, 0, true);
+          this.error_msg = '用户名为空!';
+        }
+        if (this.password !== this.repeat_password) {
+          Vue.set(this.is_error, 2, true);
+          this.error_msg = '密码不匹配!';
+        }
+        axios.post(this.domain.concat('/users'), {
+          username: this.user_name,
+          password: this.password,
+          admin: false
+          // username: this.encrypt(this.user_name),
+          // password: this.encrypt(this.password)
+        })
+        .then((msg) => {
+          if (msg.data.retCode === 0) {
+            alert('注册成功');
+            this.to_login();
+          } else {
+            this.error_msg = msg.data.message;
+            alert(msg.data.message);
+          }
+        })
+        .catch((err) => {
+
+        })
+      },
+      to_login() {
+        window.location = domain.concat('/login.html');
+      },
+      get_class(e) {
+        return {
+          input: true,
+          normal: !this.is_error[e],
+          error: this.is_error[e]
+        }
+      },
+      encrypt(s) {
+        let encrypt = new JSEncrypt();
+        encrypt.setPublicKey(this.pub_key);
+        return encrypt.encrypt(s);
+      }
+    },
+    computed: {
+
+    },
+    mounted() {
+      this.domain = 'http://'.concat(document.domain);
+    }
+  })
+</script>
 </body>
 </html>
