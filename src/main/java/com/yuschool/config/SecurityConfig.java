@@ -17,11 +17,21 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
@@ -30,10 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    DataSource dataSource;
 
     /**
      * 添加{@link BCryptPasswordEncoder}组件
-     * @return {@link BCryptPasswordEncoder}
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -42,25 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 在这里放行静态资源
-     * @param web web安全验证链
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/**");
     }
 
-    /**
-     * Override this method to configure the {@link HttpSecurity}. Typically subclasses
-     * should not invoke this method by calling super as it may override their
-     * configuration. The default configuration is:
-     *
-     * <pre>
-     * http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();
-     * </pre>
-     *
-     * @param http the {@link HttpSecurity} to modify
-     * @throws Exception if an error occurs
-     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -76,24 +74,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .successHandler((httpServletRequest, httpServletResponse, authentication) -> {
-                    // 成功会返回登录用户的User对象
-                    org.springframework.security.core.userdetails.User account = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-                    User user = userMapper.selectByUsername(account.getUsername());
-                    HttpSession session = httpServletRequest.getSession();
-                    session.setAttribute("user", user);
-                    ResUtil.writeObjectToResp(httpServletResponse, Result.builder().message("登录成功").build());
-                })
-                .failureHandler((httpServletRequest, httpServletResponse, e) -> {
-                    ResUtil.writeObjectToResp(httpServletResponse, Result.withRetCode(RetCode.FAIL_OP).message("登录验证失败").build());
-                })
-                .permitAll()
-                .and()
-                .logout()
+                .successHandler(authenticationSuccessHandler())
+                .failureHandler((httpServletRequest, httpServletResponse, e) -> ResUtil.writeObjectToResp(httpServletResponse, Result.withRetCode(RetCode.FAIL_OP).message("登录验证失败").build()))
                 .permitAll();
         http
                 .csrf()
                 .disable();
+        http
+                .logout()
+                .clearAuthentication(true)
+                .permitAll();
+        http
+                .rememberMe()
+                .alwaysRemember(true)
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(36000)
+                .authenticationSuccessHandler(authenticationSuccessHandler());
     }
 
     /**
@@ -103,6 +99,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserDetailsService userDetailsService() {
         return new AccountServiceImpl();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            // 成功会返回登录用户的User对象
+            org.springframework.security.core.userdetails.User account = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+            User user = userMapper.selectByUsername(account.getUsername());
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            ResUtil.writeObjectToResp(response, Result.builder().message("登录成功").build());
+        };
+    }
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(this.dataSource);
+        return jdbcTokenRepository;
     }
 
     @Override
