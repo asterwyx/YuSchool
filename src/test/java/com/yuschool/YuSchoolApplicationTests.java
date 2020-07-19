@@ -61,12 +61,12 @@ class YuSchoolApplicationTests {
 
     @Test
     void testUserMapperUpdate() {
-        User user = new User("aster");
+        User user = new User(null);
         user.setId(1);
-        user.setAge(DefaultValue.AGE_NULL);
-        user.setDetail(null);
-        user.setGender(null);
-        user.setHeadFilePath(null);
+        user.setAge(20);
+        user.setDetail("交个朋友吧!");
+        user.setGender("男");
+        user.setHeadFilePath(DefaultValue.DEFAULT_USER_HEAD_PATH);
         assert userMapper.updateSelective(user) > 0;
         System.out.println(user);
     }
@@ -123,6 +123,8 @@ class YuSchoolApplicationTests {
 
     @Test
     void testChangeUsername() {
-        assert accountMapper.updateUsername(1, "cecil") > 0;
+        int infNum = accountMapper.updateUsername(1, "asterwyx");
+        assert infNum > 0;
+        System.out.println(infNum);
     }
 }

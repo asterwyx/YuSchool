@@ -45,11 +45,9 @@ public class UserServiceImpl implements UserService {
         int infNum = userMapper.updateSelective(prepUser);
         if (infNum <= 0) {
             return FAIL_OP;
+        } else {
+            return SUCCESS;
         }
-        User user = userMapper.selectById(prepUser.getId());
-        assert user != null;
-        prepUser.clone(user);
-        return SUCCESS;
     }
 
     @Override

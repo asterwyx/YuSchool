@@ -128,23 +128,30 @@ public class UserController {
             @RequestParam(value = P_HEAD_FILE_PATH, required = false) String headFilePath,
             @RequestParam(value = P_DETAIL, required = false) String detail
             ) {
-        Result result = new Result();
-        User user = new User(userId, username, gender, age, headFilePath, detail);
+        RetCode rc;
+        User user = new User(userId, null, gender, age, headFilePath, detail);
         System.out.println(user);
         if (username != null) {
             if (userService.checkExistence(username)) {
-                return result.setRetCode(DUP_VALUE)
-                        .setMessage("用户名已存在");
+                return Result
+                        .withRetCode(DUP_VALUE)
+                        .message("用户名已存在")
+                        .build();
             } else {
-                RetCode rc = accountService.changeUsername(userId, username);
+                rc = accountService.changeUsername(userId, username);
                 if (rc != SUCCESS) {
-                    result.setRetCode(rc).setMessage("更改用户名失败");
-                    return result;
+                    return Result
+                            .withRetCode(rc)
+                            .message("更改用户名失败")
+                            .build();
                 }
             }
         }
-        RetCode rc = userService.updateUserInfo(user);
-        return result;
+        rc = userService.updateUserInfo(user);
+        return Result
+                .withRetCode(rc)
+                .message(rc == SUCCESS ? null : "更新用户基本信息失败")
+                .build();
     }
 
     @PreAuthorize("hasAnyRole('USER')")

@@ -17,6 +17,10 @@ public interface UserMapper {
     @Update("UPDATE users SET username=#{username}, gender=#{gender}, age=#{age}, head_file_path=#{headFilePath}, detail=#{detail}, last_updated_time=#{lastUpdatedTime} WHERE id=#{id};")
     int update(User user);
 
+    /**
+     * 根据参数是否为指定的空来判别是否需要更新该用户
+     * @param user 经过设置的user对象，不需要更新的域设为null，如果是整数设为-1
+     */
     int updateSelective(User user);
 
     @Delete("DELETE FROM users WHERE id=#{id}")
