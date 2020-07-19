@@ -1,10 +1,7 @@
 package com.yuschool.mapper;
 
 import com.yuschool.bean.Account;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,8 +25,7 @@ public interface AccountMapper {
     @Update("UPDATE accounts SET enabled=0 WHERE user_id=#{userId}")
     int disableAccountByUserId(int userId);
 
-    @Update("UPDATE accounts SET username=#{username} WHERE user_id=#{userId};")
-    int updateUsername(int userId, String username);
+    int updateUsername(@Param("userId") int userId, @Param("username") String username);
 
     @Update("UPDATE accounts users SET password=#{password} WHERE user_id=#{userId};")
     int updatePassword(int userId, String password);

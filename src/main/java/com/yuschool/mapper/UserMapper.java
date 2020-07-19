@@ -1,7 +1,6 @@
 package com.yuschool.mapper;
 
 import com.yuschool.bean.User;
-import com.yuschool.mapper.provider.UserMapperProvider;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +17,7 @@ public interface UserMapper {
     @Update("UPDATE users SET username=#{username}, gender=#{gender}, age=#{age}, head_file_path=#{headFilePath}, detail=#{detail}, last_updated_time=#{lastUpdatedTime} WHERE id=#{id};")
     int update(User user);
 
-    @UpdateProvider(type = UserMapperProvider.class, method = "updateSelective")
-    int updateSelective(@Param("user") User user);
+    int updateSelective(User user);
 
     @Delete("DELETE FROM users WHERE id=#{id}")
     int deleteById(int id);

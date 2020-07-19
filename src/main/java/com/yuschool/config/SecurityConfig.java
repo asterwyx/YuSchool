@@ -21,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.servlet.http.HttpSession;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启全局方法权限验证
@@ -78,7 +80,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     // 成功会返回登录用户的User对象
                     org.springframework.security.core.userdetails.User account = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
                     User user = userMapper.selectByUsername(account.getUsername());
-                    ResUtil.writeObjectToResp(httpServletResponse, Result.builder().data(user).message("登录成功").build());
+                    HttpSession session = httpServletRequest.getSession();
+                    session.setAttribute("user", user);
+                    ResUtil.writeObjectToResp(httpServletResponse, Result.builder().message("登录成功").build());
                 })
                 .failureHandler((httpServletRequest, httpServletResponse, e) -> {
                     ResUtil.writeObjectToResp(httpServletResponse, Result.withRetCode(RetCode.FAIL_OP).message("登录验证失败").build());

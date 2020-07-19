@@ -1,6 +1,7 @@
 package com.yuschool.config;
 
 import com.yuschool.utils.interceptor.GenerateTimeInterceptor;
+import org.apache.ibatis.session.AutoMappingBehavior;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 

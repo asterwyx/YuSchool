@@ -123,6 +123,6 @@ class YuSchoolApplicationTests {
 
     @Test
     void testChangeUsername() {
-        assert accountMapper.updateUsername(1, "aster") > 0;
+        assert accountMapper.updateUsername(1, "cecil") > 0;
     }
 }

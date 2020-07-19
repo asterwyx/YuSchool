@@ -2,7 +2,7 @@ spring:
   datasource:
     username: tomcat
     password: Mysql36383246@
-    url: jdbc:mysql://ys.asterwyx.cn:3306/YuSchool?useUnicode=true;characterEncoding=UTF8;useSSL=false;allowPublicKeyRetrieval=true;serverTimezone=UTC
+    url: jdbc:mysql://ys.asterwyx.cn:3306/YuSchool?useUnicode=true&characterEncoding=UTF8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&allowMultiQueries=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     initial-size: 10
@@ -10,14 +10,9 @@ spring:
     max-active: 50
     max-wait: 60000
 
-#      filter:
-#        stat: # 配置 StatFilter ，对应文档 https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_StatFilter
-#          log-slow-sql: true # 开启慢查询记录
-#          slow-sql-millis: 5000 # 慢 SQL 的标准，单位：毫秒
-#          merge-sql: true # SQL合并配置
-#      stat-view-servlet: # 配置 StatViewServlet ，对应文档 https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_StatViewServlet%E9%85%8D%E7%BD%AE
-#        enabled: true # 是否开启 StatViewServlet
-#        login-username: admin # 账号
-#        login-password: 123456 # 密码
 server:
   port: 80
+
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.yuschool.bean

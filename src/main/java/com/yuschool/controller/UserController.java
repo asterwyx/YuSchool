@@ -8,8 +8,10 @@ import com.yuschool.service.UserService;
 import com.yuschool.utils.ListUtil;
 import com.yuschool.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static com.yuschool.constants.ParamKey.*;
@@ -73,6 +75,7 @@ public class UserController {
         return password;
     }
 
+    @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/{user_id}/follows")
     public Result getAllFollows(@PathVariable(value = "user_id") int userId) {
         return Result.builder()
@@ -80,6 +83,7 @@ public class UserController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/{user_id}/fans")
     public Result getAllFans(@PathVariable(value = "user_id") int userId) {
         return Result.builder()
@@ -87,6 +91,7 @@ public class UserController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('USER')")
     @PostMapping("/{user_id}/follows/{follow_id}")
     public Result addFollow(@PathVariable(value = "user_id") int userId, @PathVariable(value = "follow_id") int followId) {
         RetCode rc = userService.updateFollow(userId, followId, OP_ADD);
@@ -94,6 +99,7 @@ public class UserController {
                 .build();
     }
 
+    @PreAuthorize("hasAnyRole('USER')")
     @DeleteMapping("/{user_id}/follows")
     public Result cancelFollow(@PathVariable(value = "user_id") int userId, @RequestParam(value = P_LIST) String list) {
         Result result = new Result();
@@ -112,6 +118,7 @@ public class UserController {
         return result;
     }
 
+    @PreAuthorize("hasAnyRole('USER')")
     @PutMapping("/{user_id}")
     public Result updateUserInfo(
             @PathVariable("user_id") int userId,
@@ -138,5 +145,20 @@ public class UserController {
         }
         RetCode rc = userService.updateUserInfo(user);
         return result;
+    }
+
+    @PreAuthorize("hasAnyRole('USER')")
+    @GetMapping("/id")
+    public Result getCurrentUserId(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return Result.withRetCode(WRONG_OP)
+                    .message("用户未登录")
+                    .build();
+        } else {
+            return Result.withRetCode(SUCCESS)
+                    .data(user.getId())
+                    .build();
+        }
     }
 }
