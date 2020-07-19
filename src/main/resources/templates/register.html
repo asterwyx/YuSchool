@@ -84,17 +84,21 @@
         if (this.user_name === '') {
           Vue.set(this.is_error, 0, true);
           this.error_msg = '用户名为空!';
+          return;
         }
         if (this.password !== this.repeat_password) {
           Vue.set(this.is_error, 2, true);
           this.error_msg = '密码不匹配!';
+          return;
         }
-        axios.post(this.domain.concat('/users'), {
-          username: this.user_name,
-          password: this.password,
-          admin: false
-          // username: this.encrypt(this.user_name),
-          // password: this.encrypt(this.password)
+        let params = new FormData();
+        params.append('username', this.user_name);
+        params.append('password', this.password);
+        params.append('admin', false);
+        axios.post(this.domain.concat('/users'), params, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
         })
         .then((msg) => {
           if (msg.data.retCode === 0) {
@@ -106,11 +110,11 @@
           }
         })
         .catch((err) => {
-
+          alert('未知错误');
         })
       },
       to_login() {
-        window.location = domain.concat('/login.html');
+        window.location = this.domain.concat('/login.html');
       },
       get_class(e) {
         return {

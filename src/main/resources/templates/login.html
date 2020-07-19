@@ -57,23 +57,23 @@
         Vue.set(this.is_error, e, false);
       },
       to_register() {
-        window.location = domain.concat('/register.html');
+        window.location = this.domain.concat('/register.html');
       },
       to_login() {
-        axios.post(this.domain.concat('/login'), {
-          username: this.user_name,
-          password: this.password
-          // username: this.encrypt(this.user_name),
-          // password: this.encrypt(this.password)
+        let params = new FormData();
+        params.append('username', this.user_name);
+        params.append('password', this.password);
+        axios.post(this.domain.concat('/login'), params, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
         })
         .then((msg) => {
           if (msg.data.retCode === 0) {
             alert('登录成功');
-            window.location = domain.concat('/mainPage.html');
+            window.location = this.domain.concat('/mainPage.html');
           } else {
             this.error_msg = msg.data.message;
-            console.log(this.error_msg);
-            console.log(msg);
           }
         })
         .catch((err) => {
