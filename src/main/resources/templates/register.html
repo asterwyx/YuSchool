@@ -99,17 +99,15 @@
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
-        })
-        .then((msg) => {
-          if (msg.data.retCode === 0) {
+        }).then((res) => {
+          if (res.data.retCode === 0) {
             alert('注册成功');
             this.to_login();
           } else {
-            this.error_msg = msg.data.message;
-            alert(msg.data.message);
+            this.error_msg = res.data.message;
+            alert(res.data.message);
           }
-        })
-        .catch((err) => {
+        }).catch((err) => {
           alert('未知错误');
         })
       },

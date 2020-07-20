@@ -67,16 +67,14 @@
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           }
-        })
-        .then((msg) => {
-          if (msg.data.retCode === 0) {
+        }).then((res) => {
+          if (res.data.retCode === 0) {
             alert('登录成功');
             window.location = this.domain.concat('/mainPage.html');
           } else {
-            this.error_msg = msg.data.message;
+            this.error_msg = res.data.message;
           }
-        })
-        .catch((err) => {
+        }).catch((err) => {
           alert('未知错误');
         })
       },
