@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuschool.mapper.MessageMapper">
+    <select id="selectMsg">
+        SELECT * FROM messages WHERE id=#{id};
+    </select>
+    <select id="selectMsgBySenderId">
+        SELECT * FROM messages WHERE sender_id=#{senderId};
+    </select>
+    <select id="selectRecord">
+        SELECT * FROM message_boxes WHERE id=#{id};
+    </select>
+    <select id="selectRecordByMsgId">
+        SELECT * FROM message_boxes WHERE message_id=#{msgId};
+    </select>
+    <select id="selectMsgs" parameterType="List">
+        SELECT * FROM messages WHERE id IN (
+            <foreach collection="list" item="id" index="index" separator=",">
+                #{id}
+            </foreach>
+            );
+    </select>
+    <select id="selectMsgsByReceiverId">
+        SELECT * FROM messages WHERE id IN (
+            SELECT message_id FROM message_boxes WHERE receiver_id=#{receiverId}
+            );
+    </select>
+    <insert id="insertMsg" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO messages (sender_id, detail, sent_time, last_updated_time, ref_cnt) VALUES (#{senderId}, #{detail}, #{sentTime}, #{lastUpdatedTime}, #{refCnt});
+    </insert>
+    <insert id="insertMsgRecord" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO message_boxes (message_id, receiver_id, is_read, last_updated_time) VALUES (#{messageId}, #{receiverId}, #{isRead}, #{lastUpdatedTime});
+    </insert>
+    <update id="updateMsg">
+        UPDATE messages SET sender_id=#{senderId}, detail=#{detail}, sent_time=#{sentTime}, last_updated_time=#{lastUpdatedTime}, ref_cnt=#{refCnt} WHERE id=#{id};
+    </update>
+    <update id="addRefCnt">
+        UPDATE messages SET ref_cnt=ref_cnt+#{step} WHERE id=#{id};
+    </update>
+    <update id="delRefCnt">
+        UPDATE messages SET ref_cnt=ref_cnt-#{step} WHERE id=#{id};
+    </update>
+</mapper>

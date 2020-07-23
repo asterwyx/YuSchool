@@ -7,6 +7,9 @@ import com.yuschool.service.AccountService;
 import com.yuschool.service.UserService;
 import com.yuschool.utils.ListUtil;
 import com.yuschool.utils.Result;
+import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,18 +26,16 @@ import static com.yuschool.constants.enums.Operation.*;
 @RestController
 public class UserController {
 
+    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     UserService userService;
-
     @Autowired
     AccountService accountService;
 
     /**
-     * 根据传入的参数
      * @param username 用户名
      * @param password 密码，可能经过加密
      * @param admin 是否是管理员
-     * @return json数据串
      */
     @PostMapping
     public Result register(@RequestParam(name = ParamKey.P_USERNAME) String username, @RequestParam(name = ParamKey.P_PASSWORD) String password, @RequestParam(name = ParamKey.P_ADMIN) boolean admin) {
@@ -156,7 +157,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/id")
-    public Result getCurrentUserId(HttpServletRequest request) {
+    public Result getCurrentUserId(@NotNull HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             return Result.withRetCode(WRONG_OP)

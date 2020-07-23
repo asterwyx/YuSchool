@@ -1,28 +1,26 @@
 package com.yuschool.bean;
 
+import com.yuschool.annotation.CreatedTime;
 import com.yuschool.annotation.UpdatedTime;
 
 import java.sql.Timestamp;
+import java.util.StringJoiner;
 
 
 public class Message {
 
     private int id;
     private int senderId;
-    private int receiverId;
-    private Timestamp sentTime;
     private String detail;
-    private int isRead;
+    private int refCnt;
+    @CreatedTime
+    private Timestamp sentTime;
     @UpdatedTime
     private Timestamp lastUpdatedTime;
 
     public int getSenderId() { return senderId; }
 
     public void setSenderId(int senderId) { this.senderId = senderId; }
-
-    public int getReceiverId() { return receiverId; }
-
-    public void setReceiverId(int receiverId) { this.receiverId = receiverId; }
 
     public Timestamp getSentTime() { return sentTime; }
 
@@ -32,12 +30,12 @@ public class Message {
 
     public void setDetail(String detail) { this.detail = detail; }
 
-    public int getIsRead() {
-        return isRead;
+    public int getRefCnt() {
+        return refCnt;
     }
 
-    public void setIsRead(int isRead) {
-        this.isRead = isRead;
+    public void setRefCnt(int refCnt) {
+        this.refCnt = refCnt;
     }
 
     public int getId() {
@@ -58,14 +56,13 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "id=" + id +
-                ", senderId=" + senderId +
-                ", receiverId=" + receiverId +
-                ", sentTime=" + sentTime +
-                ", detail='" + detail + '\'' +
-                ", is_read=" + isRead +
-                ", lastUpdatedTime=" + lastUpdatedTime +
-                '}';
+        return new StringJoiner(", ", Message.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("senderId=" + senderId)
+                .add("detail=" + detail)
+                .add("refCnt=" + refCnt)
+                .add("sentTime=" + sentTime)
+                .add("lastUpdatedTime=" + lastUpdatedTime)
+                .toString();
     }
 }

@@ -17,26 +17,20 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import java.io.IOException;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // 会使springboot的自动配置失效
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启全局方法权限验证
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserMapper userMapper;
@@ -55,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 在这里放行静态资源
      */
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/static/**");
     }
 
@@ -70,21 +64,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/open/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll() // 允许所有人注册
                 .antMatchers("/static/**").permitAll() // 静态资源允许任何人访问
+                .antMatchers("/mapping/**").denyAll()
+                .antMatchers("/data/**").denyAll()
                 .anyRequest().hasRole(Authority.USER)
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .successHandler(authenticationSuccessHandler())
                 .failureHandler((httpServletRequest, httpServletResponse, e) -> ResUtil.writeObjectToResp(httpServletResponse, Result.withRetCode(RetCode.FAIL_OP).message("登录验证失败").build()))
-                .permitAll();
-        http
+                .permitAll()
+                .and()
                 .csrf()
-                .disable();
-        http
+                .disable()
                 .logout()
                 .clearAuthentication(true)
-                .permitAll();
-        http
+                .logoutSuccessUrl("/mainPage.html") // 返回主页
+                .permitAll()
+                .and()
                 .rememberMe()
                 .alwaysRemember(true)
                 .tokenRepository(persistentTokenRepository())
@@ -104,7 +100,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return (request, response, authentication) -> {
-            // 成功会返回登录用户的User对象
             org.springframework.security.core.userdetails.User account = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
             User user = userMapper.selectByUsername(account.getUsername());
             HttpSession session = request.getSession();

@@ -5,10 +5,7 @@ import com.yuschool.bean.Course;
 import com.yuschool.bean.FanRelation;
 import com.yuschool.bean.User;
 import com.yuschool.constants.DefaultValue;
-import com.yuschool.mapper.AccountMapper;
-import com.yuschool.mapper.CourseMapper;
-import com.yuschool.mapper.FanMapper;
-import com.yuschool.mapper.UserMapper;
+import com.yuschool.mapper.*;
 import com.yuschool.service.AccountService;
 import com.yuschool.service.impl.AccountServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -22,19 +19,16 @@ class YuSchoolApplicationTests {
 
     @Autowired
     UserMapper userMapper;
-
     @Autowired
     AccountService accountService;
-
     @Autowired
     AccountMapper accountMapper;
-
     @Autowired
     CourseMapper courseMapper;
-
     @Autowired
     FanMapper fanMapper;
-
+    @Autowired
+    MessageMapper messageMapper;
     @Test
     void contextLoads() {
         testSelectCourse();

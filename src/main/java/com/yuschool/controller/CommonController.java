@@ -8,6 +8,6 @@ public class CommonController {
 
     @GetMapping("/login")
     public String getLoginPage() {
-        return "/login.html";
+        return "login.html";
     }
 }
