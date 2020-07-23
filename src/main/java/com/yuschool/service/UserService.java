@@ -36,5 +36,7 @@ public interface UserService {
      * @return 是否关注
      */
     boolean checkFollow(int userId, int toCheckId);
-
+    List<User> getAllUsers();
+    List<User> getUsersByPage(int page, int size);
+    User getUserInfo(int id);
 }

@@ -23,4 +23,10 @@
             </if>
         last_updated_time=#{lastUpdatedTime} WHERE id=#{id};
     </update>
+    <select id="selectByPage" resultType="com.yuschool.bean.User">
+        SELECT * FROM users LIMIT #{off},#{size};
+    </select>
+    <select id="selectAll" resultType="com.yuschool.bean.User">
+        SELECT * FROM users;
+    </select>
 </mapper>

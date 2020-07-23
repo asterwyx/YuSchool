@@ -9,7 +9,6 @@ import com.yuschool.mapper.*;
 import com.yuschool.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,14 +20,17 @@ import static com.yuschool.constants.enums.RetCode.*;
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    @Autowired
-    private UserMapper userMapper;
-    @Autowired
-    private AccountMapper accountMapper;
-    @Autowired
-    private FanMapper fanMapper;
-    @Autowired
-    private FollowMapper followMapper;
+    private final UserMapper userMapper;
+    private final AccountMapper accountMapper;
+    private final FanMapper fanMapper;
+    private final FollowMapper followMapper;
+
+    public UserServiceImpl(UserMapper userMapper, AccountMapper accountMapper, FanMapper fanMapper, FollowMapper followMapper) {
+        this.userMapper = userMapper;
+        this.accountMapper = accountMapper;
+        this.fanMapper = fanMapper;
+        this.followMapper = followMapper;
+    }
 
     @Override
     public boolean addUser(User prepUser) {
@@ -133,6 +135,23 @@ public class UserServiceImpl implements UserService {
         FollowRelation relation = followMapper.selectBy2Id(userId, toCheckId);
         return relation != null;
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userMapper.selectAll();
+    }
+
+    @Override
+    public List<User> getUsersByPage(int page, int size) {
+        return userMapper.selectByPage((page - 1) * size, size);
+    }
+
+    @Override
+    public User getUserInfo(int id) {
+        return userMapper.selectById(id);
+    }
+
+
 
     private List<User> getUsersByIds(List<Integer> ids) {
         List<User> users = new ArrayList<>();

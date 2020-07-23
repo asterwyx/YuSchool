@@ -5,7 +5,6 @@ import com.yuschool.service.CourseService;
 import com.yuschool.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import static com.yuschool.constants.DefaultValue.PK_NULL;
@@ -17,14 +16,32 @@ import static com.yuschool.constants.enums.RetCode.*;
 public class CourseController {
 
     public static final Logger logger = LoggerFactory.getLogger(CourseController.class);
-    @Autowired
-    CourseService courseService;
+    private final CourseService courseService;
+
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     @GetMapping
-    public Result getAllCourses() {
-        return Result.builder()
-                .data(courseService.getAllCourses())
-                .build();
+    public Result getAllCourses(
+            @RequestParam(value = P_PAGE, required = false, defaultValue = "-1") int page,
+            @RequestParam(value = P_SIZE, required = false, defaultValue = "-1") int size
+    ) {
+        if (page == -1 || size == -1) {
+            if (page == -1 && size == -1) {
+                return Result.builder()
+                        .data(courseService.getAllCourses())
+                        .build();
+            } else {
+                return Result.withRetCode(WRONG_OP)
+                        .message("参数必须同时有效或者不传参数")
+                        .build();
+            }
+        } else {
+            return Result.withRetCode(SUCCESS)
+                    .data(courseService.getCoursesByPage(page, size))
+                    .build();
+        }
     }
 
     @PostMapping
@@ -36,9 +53,15 @@ public class CourseController {
         course.setIntroduction(introduction);
         course.setStarNum(0);
         boolean status = courseService.addCourse(course);
-        return Result.builder()
-                .retCode(status ? SUCCESS : FAIL_OP)
-                .data(course.getId())
-                .build();
+        if (status) {
+            return Result.withRetCode(SUCCESS)
+                    .data(course.getId())
+                    .build();
+        } else {
+            logger.error("上传课程失败");
+            return Result.withRetCode(FAIL_OP)
+                    .message("上传课程失败")
+                    .build();
+        }
     }
 }

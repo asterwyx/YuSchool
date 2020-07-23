@@ -206,6 +206,11 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.selectAll();
     }
 
+    @Override
+    public List<Course> getCoursesByPage(int page, int size) {
+        return courseMapper.selectByPage((page - 1) * size, size);
+    }
+
     List<Course> getCoursesByIds(List<Integer> ids) {
         List<Course> courses = new ArrayList<>();
         for (int id : ids) {

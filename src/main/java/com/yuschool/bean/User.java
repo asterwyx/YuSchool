@@ -4,8 +4,8 @@ import com.yuschool.annotation.CreatedTime;
 import com.yuschool.annotation.UpdatedTime;
 import com.yuschool.constants.DefaultValue;
 
-import java.lang.reflect.Field;
 import java.sql.Timestamp;
+import java.util.StringJoiner;
 
 import static com.yuschool.constants.DefaultValue.AGE_NULL;
 import static com.yuschool.constants.DefaultValue.PK_NULL;
@@ -38,7 +38,7 @@ public class User {
         this.headFilePath = headFilePath;
         this.detail = detail;
         this.registerTime = new Timestamp(System.currentTimeMillis());
-        this.lastUpdatedTime = new Timestamp(System.currentTimeMillis()); // 这两个字段会被拦截，这里的时间在插入或者更新的时候会被更新
+        this.lastUpdatedTime = new Timestamp(System.currentTimeMillis());
     }
 
     public User(String username) {
@@ -106,20 +106,6 @@ public class User {
         this.lastUpdatedTime = lastUpdatedTime;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", gender='" + gender + '\'' +
-                ", age=" + age +
-                ", headFilePath='" + headFilePath + '\'' +
-                ", detail='" + detail + '\'' +
-                ", registerTime=" + registerTime +
-                ", lastUpdatedTime=" + lastUpdatedTime +
-                '}';
-    }
-
     public int getId() {
         return id;
     }
@@ -137,5 +123,19 @@ public class User {
         this.detail = user.detail;
         this.registerTime = user.registerTime;
         this.lastUpdatedTime = user.lastUpdatedTime;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", User.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("username=" + username)
+                .add("gender=" + gender)
+                .add("age=" + age)
+                .add("headFilePath=" + headFilePath)
+                .add("detail=" + detail)
+                .add("registerTime=" + registerTime)
+                .add("lastUpdatedTime=" + lastUpdatedTime)
+                .toString();
     }
 }

@@ -7,7 +7,6 @@ import com.yuschool.utils.FileUtil;
 import com.yuschool.utils.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yuschool.constants.ParamKey.P_FILE;
+import static com.yuschool.constants.ParamKey.*;
 import static com.yuschool.constants.enums.RetCode.*;
 
 @RequestMapping("/resources")
@@ -27,8 +26,11 @@ import static com.yuschool.constants.enums.RetCode.*;
 public class ResourceController {
 
     public static final Logger logger = LoggerFactory.getLogger(ResourceController.class);
-    @Autowired
-    ResourceService resourceService;
+    private final ResourceService resourceService;
+
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     @PostMapping
     public Result uploadResource(@RequestParam(value = P_FILE) MultipartFile[] files) {

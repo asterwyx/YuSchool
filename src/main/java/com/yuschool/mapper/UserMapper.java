@@ -4,11 +4,15 @@ import com.yuschool.bean.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface UserMapper {
 
     @Select("SELECT * FROM users WHERE id=#{id}")
     User selectById(int id);
+    List<User> selectAll();
+    List<User> selectByPage(int off, int size);
 
     @Options(useGeneratedKeys = true, keyProperty = "id")
     @Insert("INSERT INTO users (username, gender, age, head_file_path, detail, register_time, last_updated_time) VALUES (#{username}, #{gender}, #{age}, #{headFilePath}, #{detail}, #{registerTime}, #{lastUpdatedTime});")

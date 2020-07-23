@@ -1,17 +1,19 @@
 package com.yuschool.controller;
 
+import com.yuschool.bean.Account;
 import com.yuschool.bean.User;
-import com.yuschool.constants.ParamKey;
 import com.yuschool.constants.enums.RetCode;
 import com.yuschool.service.AccountService;
 import com.yuschool.service.UserService;
+import com.yuschool.service.VerifyService;
 import com.yuschool.utils.ListUtil;
 import com.yuschool.utils.Result;
+import org.apache.ibatis.annotations.Param;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,43 +29,99 @@ import static com.yuschool.constants.enums.Operation.*;
 public class UserController {
 
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
-    @Autowired
-    UserService userService;
-    @Autowired
-    AccountService accountService;
+    private final UserService userService;
+    private final AccountService accountService;
+    private final VerifyService verifyService;
+    private final PasswordEncoder encoder;
 
-    /**
-     * @param username 用户名
-     * @param password 密码，可能经过加密
-     * @param admin 是否是管理员
-     */
+    public UserController(UserService userService, AccountService accountService, VerifyService verifyService, PasswordEncoder encoder) {
+        this.userService = userService;
+        this.accountService = accountService;
+        this.verifyService = verifyService;
+        this.encoder = encoder;
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping
+    public Result getAllUsers(
+            @RequestParam(value = P_PAGE, required = false, defaultValue = "-1") int page,
+            @RequestParam(value = P_SIZE, required = false, defaultValue = "-1") int size
+    ) {
+       if (page == -1 || size == -1) {
+           if(page == -1 && size == -1) {
+               return Result.withRetCode(SUCCESS)
+                       .data(userService.getAllUsers())
+                       .build();
+           } else {
+               return Result.withRetCode(WRONG_OP)
+                       .message("参数必须同时有效或者不传参数")
+                       .build();
+           }
+       } else {
+           return Result.withRetCode(SUCCESS)
+                   .data(userService.getUsersByPage(page, size))
+                   .build();
+       }
+    }
+
+    @PostMapping("/admin")
+    public Result registerAdmin(@RequestParam(P_USERNAME) String username, @RequestParam(P_PASSWORD) String password, @RequestParam(P_INVITATION_CODE) String invitationCode) {
+        Result result = new Result();
+        boolean valid = verifyService.checkInvitationCode(invitationCode);
+        if (valid) {
+            boolean find = userService.checkExistence(username);
+            password = decryptPassword(password);
+            if (find) {
+                result.setRetCode(DUP_VALUE)
+                        .setMessage("该用户名已经被注册");
+            } else {
+                User user = new User(username);
+                boolean status = userService.addUser(user);
+                if (status) {
+                    status = accountService.addAdminAccount(user, password);
+                    if (status) {
+                        result.setRetCode(SUCCESS)
+                                .setData(user);
+                    } else {
+                        result.setRetCode(FAIL_OP)
+                                .setMessage("添加新用户账号失败");
+                    }
+                } else {
+                    result.setRetCode(FAIL_OP)
+                            .setMessage("添加新用户失败");
+                }
+            }
+        } else {
+            logger.error("邀请码错误");
+            result.setData(WRONG_OP)
+                    .setMessage("邀请码错误");
+        }
+        return result;
+    }
+
     @PostMapping
-    public Result register(@RequestParam(name = ParamKey.P_USERNAME) String username, @RequestParam(name = ParamKey.P_PASSWORD) String password, @RequestParam(name = ParamKey.P_ADMIN) boolean admin) {
+    public Result register(@Param(P_USERNAME) String username, @Param(P_PASSWORD) String password) {
         Result result = new Result();
         boolean find = userService.checkExistence(username);
         password = decryptPassword(password);
         if (find) {
-            result.setRetCode(DUP_VALUE);
-            result.setMessage("该用户名已经被注册");
+            result.setRetCode(DUP_VALUE)
+                    .setMessage("该用户名已经被注册");
         } else {
             User user = new User(username);
             boolean status = userService.addUser(user);
             if (status) {
-                if (admin) {
-                    status = accountService.addAdminAccount(user, password);
-                } else {
-                    status = accountService.addNormalAccount(user, password);
-                }
+                status = accountService.addNormalAccount(user, password);
                 if (status) {
-                    result.setRetCode(SUCCESS);
-                    result.setData(user);
+                    result.setRetCode(SUCCESS)
+                            .setData(user);
                 } else {
-                    result.setRetCode(FAIL_OP);
-                    result.setMessage("添加新用户账号失败");
+                    result.setRetCode(FAIL_OP)
+                            .setMessage("添加新用户账号失败");
                 }
             } else {
-                result.setRetCode(FAIL_OP);
-                result.setMessage("添加新用户失败");
+                result.setRetCode(FAIL_OP)
+                        .setMessage("添加新用户失败");
             }
         }
         return result;
@@ -102,7 +160,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('USER')")
     @DeleteMapping("/{user_id}/follows")
-    public Result cancelFollow(@PathVariable(value = "user_id") int userId, @RequestParam(value = P_LIST) String list) {
+    public Result cancelFollow(@PathVariable("user_id") int userId, @RequestParam(P_LIST) String list) {
         Result result = new Result();
         List<Integer> idList = ListUtil.parseIntList(list);
         int succeedNum = 0;
@@ -156,6 +214,21 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyRole('USER')")
+    @GetMapping("/{user_id}")
+    public Result getUserInfo(@PathVariable("user_id") int userId) {
+        User user = userService.getUserInfo(userId);
+        if (user == null) {
+            return Result.withRetCode(WRONG_OP)
+                    .message("用户不存在")
+                    .build();
+        } else {
+            return Result.withRetCode(SUCCESS)
+                    .data(user)
+                    .build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('USER')")
     @GetMapping("/id")
     public Result getCurrentUserId(@NotNull HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
@@ -167,6 +240,37 @@ public class UserController {
             return Result.withRetCode(SUCCESS)
                     .data(user.getId())
                     .build();
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('USER')")
+    @PutMapping("/{user_id}/account")
+    public Result changePassword(
+            @PathVariable("user_id") int userId,
+            @RequestParam(P_OLD_PASSWORD) String oldPassword,
+            @RequestParam(P_PASSWORD) String password
+    ) {
+        Account account = accountService.getAccount(userId);
+        if (account == null) {
+            return Result.withRetCode(WRONG_OP)
+                    .message("用户不存在")
+                    .build();
+        } else {
+            if (encoder.encode(oldPassword).equals(account.getPassword())) {
+                boolean status = accountService.changePassword(userId, password);
+                if (status) {
+                    return Result.withRetCode(SUCCESS)
+                            .build();
+                } else {
+                    return Result.withRetCode(FAIL_OP)
+                            .message("修改密码失败")
+                            .build();
+                }
+            } else {
+                return Result.withRetCode(WRONG_OP)
+                        .message("密码验证错误")
+                        .build();
+            }
         }
     }
 }

@@ -100,4 +100,21 @@ public class AccountServiceImpl implements AccountService {
             return SUCCESS;
         }
     }
+
+    @Override
+    public boolean changePassword(int userId, String password) {
+        password = encoder.encode(password);
+        int infNum = accountMapper.updatePassword(userId, password);
+        if (infNum <= 0) {
+            logger.error("用户" + userId + "修改密码失败");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public Account getAccount(int userId) {
+        return accountMapper.selectByUserId(userId);
+    }
 }

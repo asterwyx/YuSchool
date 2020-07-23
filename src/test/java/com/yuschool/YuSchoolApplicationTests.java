@@ -121,4 +121,10 @@ class YuSchoolApplicationTests {
         assert infNum > 0;
         System.out.println(infNum);
     }
+
+    @Test
+    void testSelectByPage() {
+        List<User> users = userMapper.selectByPage(10, 5);
+        System.out.println(users);
+    }
 }
