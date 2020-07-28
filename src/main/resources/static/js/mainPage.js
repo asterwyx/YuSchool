@@ -1,4 +1,66 @@
 var domain = '';
+const recommend_classes = [{
+      class_id: 1,
+      class_cover: 'static/image/classes/1.jpg',
+      class_name: '操作系统原理'
+    }, {
+      class_id: 2,
+      class_cover: 'static/image/classes/1.jpg',
+      class_name: '操作系统原理'
+    }];
+const announcement = [{
+      notice_id: 1,
+      notice_name: '2020.6.25停机维护公告'
+    }, {
+      notice_id: 2,
+      notice_name: '2020.6.19停机维护公告'
+    }];
+const rank_classes = [{
+  class_id: 1,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 2,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 3,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 4,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}];
+const all_classes = [[{
+  class_id: 1,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 2,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 3,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 4,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}], [{
+  class_id: 5,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 6,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}, {
+  class_id: 7,
+  class_cover: 'static/image/classes/1.jpg',
+  class_name: '操作系统原理'
+}]];
 const t_header = {
   template: `#header_temp`,
   props: {
@@ -136,68 +198,10 @@ const app = new Vue({
   data: {
     user_name: '',
     is_login: false,
-    recommend_classes: [{
-      class_id: 1,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 2,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }],
-    announcement: [{
-      notice_id: 1,
-      notice_name: '2020.6.25停机维护公告'
-    }, {
-      notice_id: 2,
-      notice_name: '2020.6.19停机维护公告'
-    }],
-    rank_classes: [{
-      class_id: 1,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 2,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 3,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 4,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }],
-    all_classes: [[{
-      class_id: 1,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 2,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 3,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 4,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }], [{
-      class_id: 5,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 6,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }, {
-      class_id: 7,
-      class_cover: 'static/image/classes/1.jpg',
-      class_name: '操作系统原理'
-    }]]
+    recommend_classes: recommend_classes,
+    announcement: announcement,
+    rank_classes: rank_classes,
+    all_classes: all_classes
   },
   methods: {
     // get_splice_classes() {

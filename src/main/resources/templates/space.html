@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>个人中心</title>
+  <link rel="stylesheet" href="static/css/userPage.css"/>
+  <link rel="stylesheet" href="static/css/common.css"/>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
+  <link rel="stylesheet" href="static/css/font-awesome.min.css">
+  <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script> -->
+  <script src="static/js/jquery-3.4.1.min.js"></script>
+  <script src="static/js/jsencrypt.min.js"></script>
+  <script src="static/js/axios.js"></script>
+</head>
+<body>
+<div id="app">
+  <t_header :user_name="a_user_name" :is_login="is_login"></t_header>
+  <div id="img" style="margin-top: 80px;">
+    <img src="static/image/head_1.jpg">
+  </div>
+  <div class="located" style="width: 80%; margin: 0 auto;">
+    <div class="left_list float">
+      <t_left_head :user_name="user_name" :head_file_path="head_file_path"
+                   :follower_num="follower_num"
+                   :follow_num="follow_num"
+                   @show_fans_panel="show_fans_panel"
+                   @show_follow_panel="show_follow_panel">
+      </t_left_head>
+      <div class="lists">
+        <t_left_list v-for="(e, index) in left_list_data" :panel_id="index" :list_name="e.name"
+                     :icon="e.icon" :my_style="e.style"></t_left_list>
+        <div class="list" @click="everyday_check_in" ondrag="yes">
+          <i class="fa fa-circle"></i>
+          <label class="color-black float">每日签到</label>
+        </div>
+        <div class="list" @click="user_logout">
+          <i class="fa fa-share-square-o"></i>
+          <label class="color-black float">退出登录</label>
+        </div>
+      </div>
+    </div>
+    <div id="right" class="float">
+      <div class="located panel" v-show="$store.state.current_panel === 0">
+        <t_panel_head :head_name="['我收藏的课程', '我管理的课程']"
+                      @switch_sub_panel="switch_sub_panel"></t_panel_head>
+        <div class="sub-panel" v-show="current_sub_panel === 0">
+          <t_select_bar :option="'取消收藏'"
+                        :select_id="0"
+                        @handle_option="handle_option"></t_select_bar>
+          <div class="classes" v-for="(e, index) in all_classes" :key="e + index">
+            <t_cover_class v-for="(i, k) in e" :class_id="i.class_id" :class_cover="i.class_cover"
+                     :class_name="i.class_name" :key="i + k" :select_id="0" ref="cover_class"></t_cover_class>
+          </div>
+        </div>
+        <div class="sub-panel" v-show="current_sub_panel === 1">
+          <div class="classes" v-for="(e, index) in edit_classes" :key="e + index">
+            <t_warning_class v-for="(i, k) in e" :class_id="i.class_id" :class_cover="i.class_cover"
+                           :class_name="i.class_name" :key="i + k" :is_examine="i.is_examine"></t_warning_class>
+          </div>
+          <div class="classes">
+            <div class="class located class-plus" @click="release_new_class">
+              <div style="width: 270px;height: 190px;border: 2px solid black;line-height: 190px;">
+                <i class="fa fa-plus-square-o" style="font-size: 70px;margin-top: 60px;"></i>
+              </div>
+              <div>添加课程</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="located panel" v-show="$store.state.current_panel === 1">
+        <t_panel_head :head_name="['学习计划表']"
+                      @switch_sub_panel="switch_sub_panel"></t_panel_head>
+        <div class="sub-panel" v-show="current_sub_panel === 0"></div>
+      </div>
+      <div class="located panel" v-show="$store.state.current_panel === 2">
+        <t_panel_head :head_name="['动态', '系统消息']"
+                      @switch_sub_panel="switch_sub_panel"></t_panel_head>
+        <div class="sub-panel" v-show="current_sub_panel === 0">
+          <t_select_bar :option="'标记为已读'"
+                        :select_id="1"
+                        @handle_option="handle_option"></t_select_bar>
+          <div class="massages">
+            <t_message v-for="(e, index) in all_message" :message_id="e.message_id"
+                       :message_detail="e.message_detail"
+                       :sender_id="e.sender_id"
+                       :is_read="e.is_read"
+                       :select_id="1"
+                       :key="e + index"></t_message>
+          </div>
+        </div>
+        <div class="sub-panel" v-show="current_sub_panel === 1">
+          <t_select_bar :option="'标记为已读'"
+                        :select_id="2"
+                        @handle_option="handle_option"></t_select_bar>
+          <div class="massages">
+            <t_message v-for="(e, index) in sys_message" :message_id="e.message_id"
+                       :message_detail="e.message_detail"
+                       :sender_id="e.sender_id"
+                       :is_read="e.is_read"
+                       :select_id="2"
+                       :key="e + index"></t_message>
+          </div>
+        </div>
+      </div>
+      <div class="located panel" v-show="$store.state.current_panel === 3">
+        <t_panel_head :head_name="['基本资料', '修改头像', '密码安全', '其他设置']"
+                      @switch_sub_panel="switch_sub_panel"></t_panel_head>
+          <div class="sub-panel" v-show="current_sub_panel === 0" style="">
+            <div style="width: 100%; height: 500px;">
+              <form id="user-info-form" @submit.prevent="update_basic_info">
+                <table class="user-table">
+                  <tr>
+                    <td><label for="user_name_input">用户名</label></td>
+                    <td>
+                      <input type="text" name="user_name" id="user_name_input" class="input"
+                             v-model="basic_info.user_name" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>性别</td>
+                    <td>
+                      <input type="radio" name="gender" value="男" v-model="basic_info.gender"/>男
+                      <input type="radio" name="gender" value="女" v-model="basic_info.gender"/>女
+                      <input type="radio" name="gender" value="其他" v-model="basic_info.gender"/>其他
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label for="user_age_input">年龄</label></td>
+                    <td><input type="text" name="age" id="user_age_input" class="input" v-model.number="basic_info.age"/></td>
+                  </tr>
+                  <tr>
+                    <td><label for="user_qq_input">QQ</label></td>
+                    <td><input type="text" name="qq_num" id="user_qq_input" class="input"
+                               v-model.number="basic_info.qq"/></td>
+                  </tr>
+                  <tr style="height: 100px;">
+                    <td style="vertical-align: top;"><label for="user_detail_input">个人简介</label></td>
+                    <td style="vertical-align: middle;">
+                      <textarea class="input" name="detail" id="user_detail_input"
+                                  v-model="basic_info.profile"
+                                  style="resize: none;"></textarea>
+                    </td>
+                  </tr>
+                  <tr style="height: 30px;">
+                    <td></td>
+                    <td><input type="submit" class="submit" value="提交"/></td>
+                  </tr>
+                </table>
+                <input type="hidden" value="PUT" name="method">
+              </form>
+            </div>
+          </div>
+          <div class="sub-panel" v-show="current_sub_panel === 1" style="float: left; display: none;">
+            <div class="font-20">当前我的头像</div>
+            <div>
+              <img :src="basic_info.head_file_path" style="width: 200px; height: 200px;"/>
+            </div>
+            <div style="height: 30px;">
+              <form id="head_url">
+                <label for="head_url_input">外链地址:<input type="text" name="head_url"
+                                   id="head_url_input"
+                                   v-model.lazy="basic_info.head_file_path"
+                                   style="width: 300px; margin-left: 10px;"/>
+                </label>
+                <input type="submit" class="submit" value="更新">
+              </form>
+            </div>
+            <div class="color-red font-25 flow">由于服务器压力,本站暂时不支持上传用户头像,请使用外链!</div>
+          </div>
+          <div class="sub-panel" v-show="current_sub_panel === 2" style="display: none;">
+            <div style="width: 100%; height: 500px;">
+              <form id="user-password-form" @submit,prevent="update_important_info">
+                <table class="user-table">
+                  <tr>
+                    <td>旧密码</td>
+                    <td><input type="password" name="old_password" minlength="8" maxlength="16" class="input"
+                               placeholder="您必须先填入此项才能进行下列修改"
+                               v-model.lazy="important_info.pre_password"
+                               required/></td>
+                  </tr>
+                  <tr>
+                    <td>新密码</td>
+                    <td><input type="password" name="new_password" minlength="8" maxlength="16" class="input"
+                               placeholder="如不修改请留空"
+                               v-model.lazy="important_info.new_password"
+                               required/></td>
+                  </tr>
+                  <tr>
+                    <td>重复密码</td>
+                    <td><input type="password" name="repeat_password" minlength="8" maxlength="16" class="input"
+                               placeholder="如不修改请留空"
+                               v-model.lazy="important_info.re_password"
+                               required/></td>
+                  </tr>
+                  <tr>
+                    <td>qq</td>
+                    <td><input type="text" name="qq" class="input"
+                               v-model.lazy="important_info.qq"
+                               required/></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><input type="submit" value="提交" class="submit" /></td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+          </div>
+          <div class="sub-panel" v-show="current_sub_panel === 3" style="display: none;">
+            <div style="width: 100%; height: 500px;">
+              <form id="user-setting-form">
+                <table id="user-setting-table" class="user-table">
+                  <tr>
+                    <td style="width: 220px;">允许通过搜索找到我</td>
+                    <td>
+                      <label for="search_setting_yes">
+                      <input type="radio" name="search_setting" value="是" id="search_setting_yes"
+                             v-model="settings.search_setting"/>是
+                      </label>
+                      <label for="search_setting_no">
+                      <input type="radio" name="search_setting" value="否" id="search_setting_no"
+                             v-model="settings.search_setting"/>否
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>允许他人查看我发布的课程</td>
+                    <td>
+                      <label for="class_setting_yes">
+                        <input type="radio" name="class_setting" id="class_setting_yes" value="是"
+                               v-model="settings.my_class_setting"/>是
+                      </label>
+                      <label for="class_setting_no">
+                        <input type="radio" name="class_setting" id="class_setting_no" value="否"
+                                v-model="settings.my_class_setting"/>否
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>允许他人查看我的关注</td>
+                    <td>
+                      <label for="follow_setting_yes">
+                        <input type="radio" name="follow_setting"
+                               id="follow_setting_yes"
+                               v-model="settings.my_follow_setting" value="是"/>是
+                      </label>
+                      <label for="follow_setting_no">
+                        <input type="radio" name="follow_setting"
+                               id="follow_setting_no"
+                               v-model="settings.my_follow_setting" value="否"/>否
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>允许他人查看我参与的课程</td>
+                    <td>
+                      <label for="star_setting_yes">
+                        <input type="radio" name="star_setting"
+                               id="star_setting_yes"
+                               value="是"
+                               v-model="settings.my_star_setting"/>是
+                      </label>
+                      <label for="star_setting_no">
+                      <input type="radio" name="star_setting"
+                             id="star_setting_no"
+                             value="否"
+                             v-model="settings.my_star_setting"/>否
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td><input type="submit" value="提交" class="submit" /></td>
+                  </tr>
+                </table>
+              </form>
+            </div>
+          </div>
+        </div>
+      <div class="located panel" v-show="$store.state.current_panel === 4">
+        <t_panel_head :head_name="['粉丝']"
+                      @switch_sub_panel="switch_sub_panel">
+        </t_panel_head>
+        <div class="sub-panel" v-show="current_sub_panel === 0">
+          <div class="users">
+            <t_user_info v-for="(e, index) in fans" :user_id="e.user_id"
+                         :head_file_path="e.head_file_path"
+                         :user_name="e.user_name"
+                         :user_profile="e.user_profile"
+                         :key="e + index">
+            </t_user_info>
+          </div>
+        </div>
+      </div>
+      <div class="located panel" v-show="$store.state.current_panel === 5">
+        <t_panel_head :head_name="['我的关注']"
+                      @switch_sub_panel="switch_sub_panel">
+        </t_panel_head>
+        <div class="sub-panel" v-show="current_sub_panel === 0">
+          <t_select_bar :option="'取消关注'"
+                        :select_id="3"
+                        @handle_option="handle_option">
+          </t_select_bar>
+          <div class="users">
+            <t_cover_info v-for="(e, index) in follow" :user_id="e.user_id"
+                         :head_file_path="e.head_file_path"
+                         :user_name="e.user_name"
+                         :user_profile="e.user_profile"
+                         :select_id="3"
+                         :key="e + index">
+            </t_cover_info>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<template id="header_temp">
+  <div id="header" class="located font-20">
+    <div id="header_left" class="flow">
+      <table cellspacing="0" cellpadding="0" style="height: 80px;">
+        <tr>
+          <td><div class="table_cell bgc-d-blue" @click="to_main_page"><a href="javascript:void(0)"
+                                                                          class="bgc-black">首页</a></div></td>
+          <td><div class="table_cell"><a href="javascript:void(0)" class="bgc-black">我的课程</a></div></td>
+          <td><div class="table_cell"><a href="javascript:void(0)" class="bgc-black">社区</a></div></td>
+        </tr>
+      </table>
+    </div>
+    <div id="header_right" class="flow">
+      <table cellspacing="0" cellpadding="0" style="height: 80px;">
+        <tr>
+          <td><div class="table_cell"
+                   @click="to_action"><a href="javascript:void(0)" class="bgc-black">{{user_name}}</a></div></td>
+          <td v-if="is_login"><div class="table_cell" @click="to_action"><a href="javascript:void(0)"
+                                                                            class="bgc-black"><i
+                  class="fa fa-cog fa-fw"></i>我的</a></div></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</template>
+<template id="class_temp">
+  <div class="class" @click.self.stop="to_over_view">
+    <div><img :src="class_cover"/></div>
+    <div>{{class_name}}</div>
+  </div>
+</template>
+<template id="cover_class_temp">
+  <div class="class located" @click="handle_click">
+    <div><img :src="class_cover"/></div>
+    <div>{{class_name}}</div>
+    <div class="select" v-show="select_active" :ondrag="select_style"><i class="fa fa-check-square-o"></i></div>
+  </div>
+</template>
+<template id="warning_class_temp">
+  <div class="class located" @click="handle_click">
+    <div><img :src="class_cover"/></div>
+    <div>{{class_name}}</div>
+    <div class="warming" v-show="is_examine">审核中</div>
+  </div>
+</template>
+<template id="left_head_temp">
+  <div class="head">
+    <div><img class="head_img" :src="head_file_path" style="width: 80px; height: 80px; border-radius: 50%"/></div>
+    <div class="font-20">{{user_name}}</div>
+    <div class="located" style="justify-content: center;">
+      <div class="color-black font-20 follow_btn" style="display: inline; margin: 5px; cursor: pointer"
+           @click="show_fans_panel">粉丝{{follower_num}}
+      </div>
+      <div class="color-black font-20 follow_btn" style="display: inline; margin: 5px; cursor: pointer"
+           @click="show_follow_panel">关注{{follow_num}}
+      </div>
+    </div>
+  </div>
+</template>
+<template id="left_list_temp">
+  <div class="list" :class="my_class" @click="show_panel" :ondrag="my_css_style">
+    <i :class="icon" :style="my_style"></i>
+    <label class="color-black float">{{list_name}}</label>
+  </div>
+</template>
+<template id="panel_head_temp">
+  <div class="head located">
+    <div v-for="(e, index) in head_name" class="flow font-20 table" :style="text_left(index)"
+         @click="handle_click(index)"
+         :ondrag="ondrags[index]">{{e}}</div>
+    <div v-for="(e, index) in head_name" class="divider flow bgc-l-blue-2" :style="divider_left(index)"></div>
+    <div class="divider-flat flow"></div>
+    <slot name="main_body"></slot>
+  </div>
+</template>
+<template id="select_bar_temp">
+  <div class="sub-head">
+    <div class="font-15 table" v-show="!is_select_mode" @click="switch_mode">批量操作</div>
+    <div class="font-15 table" v-for="(e, index) in options" v-show="is_select_mode" @click="handle_click(index)">{{e}}</div>
+    <div class="font-15 table" v-show="is_select_mode" @click="switch_mode">返回</div>
+  </div>
+</template>
+<template id="user_info_temp">
+  <div class="user" @click="to_other_page">
+    <div class="u-head"><img class="normal-user-head" :src="head_file_path"/></div>
+    <div class="u-body">
+      <div style="text-align: left;">{{user_name}}</div>
+      <div>{{user_profile}}</div>
+    </div>
+  </div>
+</template>
+<template id="cover_info_temp">
+  <div class="user" @click="handle_click" :ondrag="select_style">
+    <div class="checke-box" v-show="select_active"><i class="fa fa-check-square-o"></i></div>
+    <div class="u-head"><img class="normal-user-head" :src="head_file_path"/></div>
+    <div class="u-body">
+      <div style="text-align: left;">{{user_name}}</div>
+      <div>{{user_profile}}</div>
+    </div>
+  </div>
+</template>
+<template id="message_temp">
+  <div class="massage" :ondrag="select_style">
+    <div>
+      <input type="checkbox" class="massage-check"
+             :disabled="!select_active"
+             @click="handle_click"
+             :checked="is_select"/>
+    </div>
+    <div class="flow massage-body">
+      {{message_detail}}
+      <!--      <label>用户</label>-->
+      <!--      <a class="remote-url">第一个mt</a>-->
+      <!--      <label>给您的视频</label>-->
+      <!--      <a class="remote-url">第二个mt的观察日记</a>-->
+      <!--      <label>点了个赞</label>-->
+      <div class="new" v-show="!is_read">新</div>
+    </div>
+  </div>
+  </div>
+</template>
+<script src="static/js/vue.js"></script>
+<script src="static/js/vuex.js"></script>
+<!--<script src="https://unpkg.com/vuex"></script>-->
+<script src="static/js/userPage.js"></script>
+</body>
+</html>
