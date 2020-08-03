@@ -7,7 +7,6 @@ import com.yuschool.bean.User;
 import com.yuschool.constants.DefaultValue;
 import com.yuschool.mapper.*;
 import com.yuschool.service.AccountService;
-import com.yuschool.service.impl.AccountServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,10 +31,8 @@ class YuSchoolApplicationTests {
     @Test
     void contextLoads() {
         testSelectCourse();
-        testUpdateCourse();
     }
 
-    @Test
     void testUserMapperInsert() {
         User user = new User("asterwyx");
         user.setAge(20);
@@ -45,7 +42,6 @@ class YuSchoolApplicationTests {
         System.out.println(user);
     }
 
-    @Test
     void testUserMapperSelect() {
         User user = userMapper.selectById(1);
         System.out.println(user);
@@ -53,7 +49,6 @@ class YuSchoolApplicationTests {
         System.out.println(user);
     }
 
-    @Test
     void testUserMapperUpdate() {
         User user = new User(null);
         user.setId(1);
@@ -65,7 +60,6 @@ class YuSchoolApplicationTests {
         System.out.println(user);
     }
 
-    @Test
     void testAddAccount() {
         User user = userMapper.selectById(1);
         System.out.println(user);
@@ -81,7 +75,6 @@ class YuSchoolApplicationTests {
         System.out.println(account);
     }
 
-    @Test
     void testInsertCourse() {
         Course course = new Course();
         course.setCourseName("操作系统原理");
@@ -100,7 +93,6 @@ class YuSchoolApplicationTests {
         System.out.println(courses);
     }
 
-    @Test
     void testUpdateCourse() {
         Course course = courseMapper.selectById(2);
         course.setStarNum(5);
@@ -115,7 +107,6 @@ class YuSchoolApplicationTests {
         System.out.println(fanRelations);
     }
 
-    @Test
     void testChangeUsername() {
         int infNum = accountMapper.updateUsername(1, "asterwyx");
         assert infNum > 0;
