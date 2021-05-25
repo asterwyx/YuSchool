@@ -6,7 +6,6 @@ import com.yuschool.mapper.PlanMapper;
 import com.yuschool.service.PlanService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.yuschool.constants.enums.RetCode.*;
@@ -15,9 +14,11 @@ import static com.yuschool.constants.enums.RetCode.*;
 public class PlanServiceImpl implements PlanService {
 
     public static final Logger logger = LoggerFactory.getLogger(PlanServiceImpl.class);
+    private final PlanMapper planMapper;
 
-    @Autowired
-    PlanMapper planMapper;
+    public PlanServiceImpl(PlanMapper planMapper) {
+        this.planMapper = planMapper;
+    }
 
     @Override
     public RetCode addPlan(int courseId, String plan) {
@@ -53,6 +54,11 @@ public class PlanServiceImpl implements PlanService {
                 return SUCCESS;
             }
         }
+    }
+
+    @Override
+    public Plan getPlanByCourseId(int courseId) {
+        return planMapper.selectByCourseId(courseId);
     }
 
     @Override

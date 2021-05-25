@@ -1,9 +1,11 @@
 package com.yuschool.controller;
 
 import com.yuschool.bean.Account;
+import com.yuschool.bean.Course;
 import com.yuschool.bean.User;
 import com.yuschool.constants.enums.RetCode;
 import com.yuschool.service.AccountService;
+import com.yuschool.service.CourseService;
 import com.yuschool.service.UserService;
 import com.yuschool.service.VerifyService;
 import com.yuschool.utils.ListUtil;
@@ -33,12 +35,14 @@ public class UserController {
     private final AccountService accountService;
     private final VerifyService verifyService;
     private final PasswordEncoder encoder;
+    private final CourseService courseService;
 
-    public UserController(UserService userService, AccountService accountService, VerifyService verifyService, PasswordEncoder encoder) {
+    public UserController(UserService userService, AccountService accountService, VerifyService verifyService, PasswordEncoder encoder, CourseService courseService) {
         this.userService = userService;
         this.accountService = accountService;
         this.verifyService = verifyService;
         this.encoder = encoder;
+        this.courseService = courseService;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -272,5 +276,37 @@ public class UserController {
                         .build();
             }
         }
+    }
+
+    @PreAuthorize("hasAnyRole('USER')")
+    @GetMapping("/{user_id}/courses")
+    public Result getPubCourses(
+            @PathVariable("user_id") Integer userId,
+            @RequestParam(P_PAGE) Integer page,
+            @RequestParam(P_SIZE) Integer size
+    ) {
+        List<Integer> courseIds = userService.getPubCourses(userId, page, size);
+        List<Course> courses = courseService.getCoursesByIds(courseIds);
+        return Result.withRetCode(SUCCESS)
+                .data(courses)
+                .build();
+    }
+
+    @DeleteMapping("/{user_id}/courses")
+    public Result deletePubCourses(
+            @PathVariable("user_id") Integer userId,
+            @RequestParam(P_LIST) List<Integer> list
+    ) {
+        // 删除所属关系
+        Runnable deleteOwn = () -> {
+            for (Integer courseId : list) {
+                courseService.updateOwnCourse(userId, courseId, OP_DEL);
+            }
+        };
+        Thread del = new Thread(deleteOwn);
+        del.start();
+        // 删除课程
+
+        return Result.withRetCode(SUCCESS).build();
     }
 }

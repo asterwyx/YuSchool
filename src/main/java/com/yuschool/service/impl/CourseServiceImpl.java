@@ -9,7 +9,6 @@ import com.yuschool.mapper.UserCourseRelationMapper;
 import com.yuschool.service.CourseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,19 +20,44 @@ import static com.yuschool.constants.enums.RetCode.*;
 public class CourseServiceImpl implements CourseService {
 
     public static final Logger logger = LoggerFactory.getLogger(CourseServiceImpl.class);
-    @Autowired
-    CourseMapper courseMapper;
-    @Autowired
-    UserCourseRelationMapper userCourseRelationMapper;
+    private final CourseMapper courseMapper;
+    private final UserCourseRelationMapper userCourseRelationMapper;
+
+    public CourseServiceImpl(CourseMapper courseMapper, UserCourseRelationMapper userCourseRelationMapper) {
+        this.courseMapper = courseMapper;
+        this.userCourseRelationMapper = userCourseRelationMapper;
+    }
 
     @Override
-    public boolean addCourse(Course prepCourse) {
+    public boolean addCourseRecord(Course prepCourse) {
         int infNum = courseMapper.insert(prepCourse);
         if (infNum <= 0) {
-            logger.error("插入用户失败");
+            logger.error("插入课程失败");
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean deleteCourseRecord(int courseId) {
+        int infNum = courseMapper.deleteCourseById(courseId);
+        if (infNum <= 0) {
+            logger.error("删除课程记录失败");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean commitCourse(int courseId) {
+        int infNum = courseMapper.updateReviewStatus(courseId, false);
+        if (infNum <= 0) {
+            logger.error("设置课程未审批失败");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -106,9 +130,9 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public RetCode deletePubCourse(int userId, int courseId) {
-        // TODO
-        return null;
+    public boolean deleteCourse(int courseId) {
+        int infNum = courseMapper.deleteCourseById(courseId);
+        return false;
     }
 
     @Override
@@ -170,6 +194,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public RetCode updateOwnCourse(int userId, int courseId, Operation operation) {
+        return null;
+    }
+
+    @Override
     public boolean checkStar(int userId, int courseId) {
         UserCourseRelation relation = userCourseRelationMapper.selectBy2Id(userId, courseId);
         if (relation == null) {
@@ -211,7 +240,8 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.selectByPage((page - 1) * size, size);
     }
 
-    List<Course> getCoursesByIds(List<Integer> ids) {
+    @Override
+    public List<Course> getCoursesByIds(List<Integer> ids) {
         List<Course> courses = new ArrayList<>();
         for (int id : ids) {
             Course course = courseMapper.selectById(id);
@@ -220,5 +250,33 @@ public class CourseServiceImpl implements CourseService {
             }
         }
         return courses;
+    }
+
+    @Override
+    public RetCode deleteCoursesByIds(List<Integer> ids) {
+        int infNum = courseMapper.deleteCoursesByIds(ids);
+        if (infNum == ids.size()) {
+            return SUCCESS;
+        } else if (infNum < ids.size()) {
+            return INCOMPLETE_OP;
+        } else {
+            return WRONG_OP;
+        }
+    }
+
+    @Override
+    public RetCode deletePubCourses(List<Integer> ids) {
+        int delCnter = 0;
+        for (int id : ids) {
+            boolean status = this.deleteCourse(id);
+            if (status) {
+                ++delCnter;
+            }
+        }
+        if (delCnter == ids.size()) {
+            return SUCCESS;
+        } else {
+            return INCOMPLETE_OP;
+        }
     }
 }

@@ -24,6 +24,8 @@ public interface CourseMapper {
     @Update("UPDATE courses SET course_name=#{courseName}, introduction=#{introduction}, cover_file_path=#{coverFilePath}, star_num=#{starNum}, is_reviewed=#{isReviewed}, is_locked=#{isLocked}, last_updated_time=#{lastUpdatedTime} WHERE id=#{id};")
     int update(@Param("course") Course course);
 
-    @Delete("DELETE FROM courses WHERE id=#{id};")
-    int deleteById(@Param("id") int id);
+    int deleteCourseById(@Param("id") int id);
+    int deleteCoursesByIds(@Param("ids") List<Integer> ids);
+    int updateReviewStatus(@Param("courseId") int courseId, @Param("status") boolean status);
+    int updateLockStatus(@Param("courseId") int courseId, @Param("status") boolean status);
 }

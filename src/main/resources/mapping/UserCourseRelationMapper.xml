@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yuschool.mapper.UserCourseRelationMapper">
+    <update id="cancleStarBy2Id">
+        UPDATE user_course_relations SET has_starred=0 WHERE user_id=#{userId} AND course_id=#{courseId};
+    </update>
+    <update id="cancleManageBy2Id">
+        UPDATE user_course_relations SET manages=0 WHERE user_id=#{userId} AND course_id=#{courseId};
+    </update>
+    <update id="cancleOwnBy2Id">
+        UPDATE user_course_relations SET owns=0 WHERE user_id=#{userId} AND course_id=#{courseId};
+    </update>
+    <delete id="deleteBy2Id">
+        DELETE FROM user_course_relations WHERE user_id=#{userId} AND course_id=#{courseId};
+    </delete>
+    <delete id="deleteById">
+        DELETE FROM user_course_relations WHERE id=#{id};
+    </delete>
+    <select id="selectOwnsByUserIdInPage" resultType="java.lang.Integer">
+        SELECT course_id FROM user_course_relations WHERE user_id=#{userId} AND owns=1 LIMIT #{off},#{size};
+    </select>
+    <select id="selectStarsByUserIdInPage" resultType="java.lang.Integer">
+        SELECT course_id FROM user_course_relations WHERE user_id=#{userId} AND has_starred=1 LIMIT #{off},#{size};
+    </select>
+</mapper>

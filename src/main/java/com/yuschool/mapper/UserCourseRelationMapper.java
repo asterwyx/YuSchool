@@ -2,6 +2,7 @@ package com.yuschool.mapper;
 
 import com.yuschool.bean.UserCourseRelation;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public interface UserCourseRelationMapper {
     @Select("SELECT course_id FROM user_course_relations WHERE user_id=#{userId} AND has_starred=1;")
     List<Integer> selectAllStarsByUserId(int userId);
 
+    List<Integer> selectOwnsByUserIdInPage(@Param("userId") int userId, @Param("off") int off, @Param("size") int size);
+    List<Integer> selectStarsByUserIdInPage(@Param("userId") int userId, @Param("off") int off, @Param("size") int size);
     @Select("SELECT course_id FROM user_course_relations WHERE user_id=#{userId} AND owns=1;")
     List<Integer> selectAllOwnsByUserId(int userId);
 
@@ -34,6 +37,9 @@ public interface UserCourseRelationMapper {
     @Update("UPDATE user_course_relations SET user_id=#{userId}, course_id=#{courseId}, has_starred=#{hasStarred}, owns=#{owns}, manages=#{manages}, created_time=#{createdTime}, last_updated_time=#{lastUpdatedTime} WHERE id=#{id};")
     int update(UserCourseRelation userCourseRelation);
 
-    @Delete("DELETE FROM user_course_relations WHERE id=#{id};")
-    int deleteById(int id);
+    int cancleStarBy2Id(@Param("userId") int userId, @Param("courseId") int courseId);
+    int cancleManageBy2Id(@Param("userId") int userId, @Param("courseId") int courseId);
+    int cancleOwnBy2Id(@Param("userId") int userId, @Param("courseId") int courseId);
+    int deleteById(@Param("id") int id);
+    int deleteBy2Id(@Param("userId") int userId, @Param("courseId") int courseId);
 }

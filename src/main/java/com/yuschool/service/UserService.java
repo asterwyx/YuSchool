@@ -1,5 +1,6 @@
 package com.yuschool.service;
 
+import com.yuschool.bean.Course;
 import com.yuschool.bean.User;
 import com.yuschool.constants.enums.Operation;
 import com.yuschool.constants.enums.RetCode;
@@ -16,6 +17,7 @@ public interface UserService {
     boolean addUser(User prepUser);
 
     RetCode updateUserInfo(User prepUser);
+
     /**
      * 检查用户名是否已经被注册
      * @param username 要检查的用户名
@@ -39,4 +41,7 @@ public interface UserService {
     List<User> getAllUsers();
     List<User> getUsersByPage(int page, int size);
     User getUserInfo(int id);
+    List<Integer> getPubCourses(int userId, int page, int size);
+
+    List<User> getUsersByIds(List<Integer> ids);
 }

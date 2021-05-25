@@ -21,15 +21,15 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserMapper userMapper;
-    private final AccountMapper accountMapper;
     private final FanMapper fanMapper;
     private final FollowMapper followMapper;
+    private final UserCourseRelationMapper userCourseRelationMapper;
 
-    public UserServiceImpl(UserMapper userMapper, AccountMapper accountMapper, FanMapper fanMapper, FollowMapper followMapper) {
+    public UserServiceImpl(UserMapper userMapper, FanMapper fanMapper, FollowMapper followMapper, UserCourseRelationMapper userCourseRelationMapper) {
         this.userMapper = userMapper;
-        this.accountMapper = accountMapper;
         this.fanMapper = fanMapper;
         this.followMapper = followMapper;
+        this.userCourseRelationMapper = userCourseRelationMapper;
     }
 
     @Override
@@ -151,9 +151,13 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectById(id);
     }
 
+    @Override
+    public List<Integer> getPubCourses(int userId, int page, int size) {
+        return userCourseRelationMapper.selectOwnsByUserIdInPage(userId, (page - 1) * size, size);
+    }
 
-
-    private List<User> getUsersByIds(List<Integer> ids) {
+    @Override
+    public List<User> getUsersByIds(List<Integer> ids) {
         List<User> users = new ArrayList<>();
         for (int id : ids) {
             User user = userMapper.selectById(id);
@@ -163,4 +167,5 @@ public class UserServiceImpl implements UserService {
         }
         return users;
     }
+
 }
